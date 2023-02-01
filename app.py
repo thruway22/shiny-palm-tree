@@ -104,11 +104,11 @@ if submitted:
         algo_list = []
         if allow_selling == True: 
             for i in df.index:
-                value = max((contribution + cash + df['market_value'].sum()) * (df['target_weight'][i]/100) - df['market_value'][i], 0)
+                value = (contribution + cash + df['market_value'].sum()) * (df['target_weight'][i]/100) - df['market_value'][i]
                 algo_list.append(value)
         else:
             for i in df.index:
-                value = (contribution + cash + df['market_value'].sum()) * (df['target_weight'][i]/100) - df['market_value'][i]
+                value = max((contribution + cash + df['market_value'].sum()) * (df['target_weight'][i]/100) - df['market_value'][i], 0)
                 algo_list.append(value)
         df['algo'] = algo_list
         
