@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import yfinance as yf
+import plotly.express as px
 from ccy_dict import ccy_dict
 
 def display_input_widgets(stride, values_df=None):
@@ -124,6 +125,10 @@ if submitted:
             plan_df.loc[j] = [i, df['possible_unit'][i], df['price'][i], df['possible_value'][i]]
             
         st.table(plan_df.style.format(precision=2, na_rep='', thousands=','))
+        
+        fig = px.histogram(df, x=df.index, y=['pre_trade_weight', 'target_weight', 'post_trade_weight'],
+                           barmode='group')
+        st.plotly_chart(fig, use_container_width=True)
                     
             
    
