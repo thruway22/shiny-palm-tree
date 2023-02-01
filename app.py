@@ -37,8 +37,9 @@ if csv_file is None:
     ticker_count = st.number_input('or choose number of stocks to input manually', value=0, min_value=0)
 
 form = st.form('manual_ticker_form')
-form.checkbox('Allow Selling', value=False)
-form.checkbox('Allow fractional shares', value=False)
+cola, colb = form.columns(2)
+cola.checkbox('Allow selling', value=False)
+colb.checkbox('Allow fractional shares', value=False)
 cola, colb, colc = form.columns(3)
 contribution = cola.number_input('Contribution', min_value=0.0, step=0.1, format='%.1f')
 cash = colb.number_input('In-Account Cash', min_value=0.0, step=0.1, format='%.1f')
