@@ -34,7 +34,6 @@ csv_file = st.file_uploader('upload a file', type='CSV')
 ticker_count = 0
 
 if csv_file is None:
-    #with st.expander('or input manually'):
     ticker_count = st.number_input('or choose number of stocks to input manually', value=0, min_value=0)
 
 form = st.form('manual_ticker_form')
@@ -57,9 +56,10 @@ if csv_file is not None or ticker_count > 0:
         items_length = ticker_count
         for step in range(ticker_count):
             display_input_widgets(step) 
-#cola, colb = form.columns(2)
+
 allow_selling = form.checkbox('Allow selling of current shares to rebalance', value=False)
 allow_fractional = form.checkbox('Allow fractional shares', value=False)
+
 submitted = form.form_submit_button("Submit")
 
 if submitted:
@@ -109,10 +109,18 @@ if submitted:
         df['algo'] = algo_list
         
         df['allocated_value'] = (contribution + cash) * (df['algo'] / df['algo'].sum())
+        df['allocated_unit'] = df['allocated_value'] / df['price']
         df['possible_unit'] = df['allocated_value'] // df['price']
         df['possible_value'] = df['possible_unit'] * df['price']
         
-        df['post_trade_weight'] = 100 * (df['market_value'] + df['possible_value']) / (df['market_value'].sum() + df['possible_value'].sum())
+        if allow_fractional == True:
+            output_value = 'allocated_value'
+            output_unit = 'allocated_unit'
+        else:
+            output_value = 'possible_value'
+            output_unit = 'possible_unit'
+            
+        df['post_trade_weight'] = 100 * (df['market_value'] + df[output_value]) / (df['market_value'].sum() + df[output_value].sum())
         
         st.header('Plan:')
         
@@ -121,7 +129,7 @@ if submitted:
         })
         
         for i, j in zip(df[df['possible_unit'] != 0].index, range(len(df))):
-            plan_df.loc[j] = [i, df['price'][i], df['possible_unit'][i], df['possible_value'][i]]
+            plan_df.loc[j] = [i, df['price'][i], df[output_unit][i], df[output_value][i]]
         
         plan_df.index += 1
         st.table(plan_df.style.format(precision=2, na_rep='', thousands=','))
