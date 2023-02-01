@@ -14,7 +14,19 @@ def display_input_widgets(stride, values_df=None):
     locals()['share%s' % stride] = locals()['col%s1' % stride].number_input('share%s' % stride, value=shares_value, min_value=0, step=1, format='%d', label_visibility='collapsed')
     locals()['target%s' % stride] = locals()['col%s2' % stride].number_input('target%s' % stride, value=target_value, min_value=0.0, step=0.1, format='%.1f', label_visibility='collapsed')
     
-    globals().update(locals()) 
+    globals().update(locals())
+    
+def get_currency_rate(base, bypass=False):
+    
+    if bypass == False:
+        base = yf.Ticker(ticker)
+        base_currency = '' if base.fast_info['currency'] == 'USD' else base.fast_info['currency']
+    else:
+        base_currency = base
+        
+    rate = yf.Ticker('{}USD=X'.format(base_currency)).fast_info['last_price']
+        
+    return rate 
 
 st.title('NextTrade')
 csv_file = st.file_uploader('upload a file', type='CSV')
@@ -26,8 +38,8 @@ if csv_file is None:
 
 form = st.form('manual_ticker_form')
 cola, colb, colc = form.columns(3)
-contribution = cola.number_input('Contribution ($)', min_value=0.0, step=0.1, format='%.1f')
-cash_sar = colb.number_input('In-Account Cash ($)', min_value=0.0, step=0.1, format='%.1f')
+contribution = cola.number_input('Contribution', min_value=0.0, step=0.1, format='%.1f')
+cash = colb.number_input('In-Account Cash', min_value=0.0, step=0.1, format='%.1f')
 ccy = colc.selectbox('Currency', ccy_dict.keys(), index=list(ccy_dict).index('USD'))
 if csv_file is not None or ticker_count > 0:
     cola, colb, colc = form.columns(3)
@@ -74,8 +86,8 @@ if submitted:
 
         st.table(df)
 
-        to_usd = yf.Ticker('SAR=X').history()['Close'][-1]
-        to_sar = yf.Ticker('SARUSD=X').history()['Close'][-1]
+        cash_sar = cash_sar / to_usd
+        contribution = contribution / to_usd
             
    
     
