@@ -102,7 +102,7 @@ if submitted:
         df['pre_trade_weight'] = 100 * df['market_value'] / (df['market_value'].sum() + cash)
         
         algo_list = []
-        if allow_selling: 
+        if allow_selling == True: 
             for i in df.index:
                 value = max((contribution + cash + df['market_value'].sum()) * (df['target_weight'][i]/100) - df['market_value'][i], 0)
                 algo_list.append(value)
