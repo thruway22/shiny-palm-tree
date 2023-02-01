@@ -18,6 +18,7 @@ def display_input_widgets2(stride):
 
 st.title('NextTrade')
 csv_file = st.file_uploader('upload a file', type='CSV')
+ticker_count = 0
 
 if csv_file is None:
     #with st.expander('or input manually'):
@@ -35,7 +36,7 @@ if csv_file is not None or ticker_count > 0:
         items_length = len(df)
         for step in range(len(df)):
             display_input_widgets(df, step)
-    if ticker_count in globals():
+    if ticker_count > 0:
         for step in range(ticker_count):
             display_input_widgets2(step)    
     submitted = form.form_submit_button("Submit")
