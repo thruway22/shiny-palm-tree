@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-from io import StringIO
 
 def display_input_widgets(stride, values_df=None):
     
@@ -49,9 +48,10 @@ if csv_file is not None or ticker_count > 0:
         if sum_target == 100:
             st.success('Setting target weights successful!')
             st.write('Number of stocks:', items_length, 'Sum of target weights:', sum_target)
+            st.stop()
         else:
             st.error('Sum of target weights must equal 100%')
-            st.write('Number of stocks:', items_length, 'Sum of target weights:', sum_target, 'test')
+            st.write('Number of stocks:', items_length, 'Sum of target weights:', sum_target, 'test2')
             
             tickers_list = []
             shares_list = []
