@@ -52,7 +52,6 @@ if csv_file is not None or ticker_count > 0:
         else:
             st.success('Setting target weights successful!')
             st.write('Number of stocks:', items_length, 'Sum of target weights:', sum_target, 'test3')
-            st.stop()
             
             tickers_list = []
             shares_list = []
