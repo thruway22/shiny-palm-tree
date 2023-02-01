@@ -102,9 +102,14 @@ if submitted:
         df['pre_trade_weight'] = 100 * df['market_value'] / (df['market_value'].sum() + cash)
         
         algo_list = []
-        for i in df.index:
-            value = max((contribution + cash + df['market_value'].sum()) * (df['target_weight'][i]/100) - df['market_value'][i], 0)
-            algo_list.append(value)
+        if allow_selling: 
+            for i in df.index:
+                value = max((contribution + cash + df['market_value'].sum()) * (df['target_weight'][i]/100) - df['market_value'][i], 0)
+                algo_list.append(value)
+        else:
+            for i in df.index:
+                value = (contribution + cash + df['market_value'].sum()) * (df['target_weight'][i]/100) - df['market_value'][i]
+                algo_list.append(value)
         df['algo'] = algo_list
         
         df['allocated_value'] = (contribution + cash) * (df['algo'] / df['algo'].sum())
