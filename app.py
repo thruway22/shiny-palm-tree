@@ -28,8 +28,15 @@ if csv_file is None:
         
 else:
     df = pd.read_csv(csv_file, names=['ticker', 'current_shares', 'target_weight'])
-    #df = df.set_index('ticker')
-    st.table(df)
+    df = df.set_index('ticker')
+    form = st.form('ticker_form')
+    cola, colb, colc = form.columns(3)
+    cola.write('Ticker')
+    colb.write('Current Shares (x)')
+    colc.write('Target Weight (%)')
+    for step in range(len(df)):
+            display_input_widgets(df, step)
+    submitted = form.form_submit_button("Submit")
     
 
 
