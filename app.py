@@ -2,16 +2,21 @@ import streamlit as st
 import pandas as pd
 from io import StringIO
 
-def display_input_widgets(df, stride):
+def display_input_widgets(stride, values_df=None):
+    
+    ticker_value = '' if values_df is None else df.index[stride] if values_df 
+    shares_value = 0 if values_df is None else df['current_shares'][stride]
+    target_value = 0.0 if values_df is None else df['target_weight'][stride]
+    
     locals()['col%s0' % stride], locals()['col%s1' % stride], locals()['col%s2' % stride] = form.columns(3)
-    locals()['ticker%s' % stride] = locals()['col%s0' % stride].text_input('ticker%s' % stride, value=df.index[stride], label_visibility='collapsed')
-    locals()['share%s' % stride] = locals()['col%s1' % stride].number_input('share%s' % stride, value=df['current_shares'][stride], min_value=0, step=1, format='%d', label_visibility='collapsed')
-    locals()['target%s' % stride] = locals()['col%s2' % stride].number_input('target%s' % stride, value=df['target_weight'][stride], min_value=0.0, step=0.1, format='%.1f', label_visibility='collapsed')
+    locals()['ticker%s' % stride] = locals()['col%s0' % stride].text_input('ticker%s' % stride, value=ticker_value, label_visibility='collapsed')
+    locals()['share%s' % stride] = locals()['col%s1' % stride].number_input('share%s' % stride, value=shares_value, min_value=0, step=1, format='%d', label_visibility='collapsed')
+    locals()['target%s' % stride] = locals()['col%s2' % stride].number_input('target%s' % stride, value=target_value, min_value=0.0, step=0.1, format='%.1f', label_visibility='collapsed')
     globals().update(locals()) 
     
 def display_input_widgets2(stride):
     locals()['col%s0' % stride], locals()['col%s1' % stride], locals()['col%s2' % stride] = form.columns(3)
-    locals()['ticker%s' % stride] = locals()['col%s0' % stride].text_input('ticker%s' % stride, label_visibility='collapsed')
+    locals()['ticker%s' % stride] = locals()['col%s0' % stride].text_input('ticker%s' % stride, value='',label_visibility='collapsed')
     locals()['share%s' % stride] = locals()['col%s1' % stride].number_input('share%s' % stride, min_value=0, step=1, format='%d', label_visibility='collapsed')
     locals()['target%s' % stride] = locals()['col%s2' % stride].number_input('target%s' % stride, min_value=0.0, step=0.1, format='%.1f', label_visibility='collapsed')
     globals().update(locals())
@@ -35,11 +40,11 @@ if csv_file is not None or ticker_count > 0:
         df = df.set_index('ticker')
         items_length = len(df)
         for step in range(len(df)):
-            display_input_widgets(df, step)
+            display_input_widgets(step, df)
     if ticker_count > 0:
         items_length = ticker_count
         for step in range(ticker_count):
-            display_input_widgets2(step)    
+            display_input_widgets(step)    
     submitted = form.form_submit_button("Submit")
 
     if submitted:
