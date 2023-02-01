@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import yfinance as yf
 
 def display_input_widgets(stride, values_df=None):
     
@@ -24,6 +25,9 @@ if csv_file is None:
 
 if csv_file is not None or ticker_count > 0:
     form = st.form('manual_ticker_form')
+    cola, colb = form.columns(2)
+    contribution = cola.number_input('Contribution ($)', min_value=0.0, step=0.1, format='%.1f')
+    cash_sar = colb.number_input('In-Account Cash ($)', min_value=0.0, step=0.1, format='%.1f')
     cola, colb, colc = form.columns(3)
     cola.write('Ticker')
     colb.write('Current Shares (x)')
@@ -67,6 +71,10 @@ if csv_file is not None or ticker_count > 0:
             }).set_index('ticker')
             
             st.table(df)
+            
+            to_usd = yf.Ticker('SAR=X').history()['Close'][-1]
+            to_sar = yf.Ticker('SARUSD=X').history()['Close'][-1]
+            
    
     
     
