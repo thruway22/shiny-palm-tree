@@ -26,6 +26,7 @@ if csv_file is None:
 else:
     df = pd.read_csv(csv_file, names=['ticker', 'current_shares', 'target_weight'])
     df = df.set_index('ticker')
+    items_length = len(df)
     form = st.form('read_ticker_form')
     cola, colb, colc = form.columns(3)
     cola.write('Ticker')
@@ -36,6 +37,7 @@ else:
     submitted = form.form_submit_button("Submit")
         
 if csv_file is None and ticker_count > 0:
+    items_length = ticker_count
     form = st.form('manual_ticker_form')
     cola, colb, colc = form.columns(3)
     cola.write('Ticker')
@@ -44,6 +46,14 @@ if csv_file is None and ticker_count > 0:
     for step in range(ticker_count):
         display_input_widgets2(step)
     submitted = form.form_submit_button("Submit")
+    
+if submitted or csv_file is not None:
+    sum_target = 0
+    for step in range(items_length):
+        sum_target += globals()['target%s' % step]
+        st.success('Setting target weights successful!')
+    if sum_target != 100:
+        st.error('Sum of target weights must equal 100%')
    
     
     
