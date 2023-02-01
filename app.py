@@ -12,12 +12,6 @@ def display_input_widgets(stride):
 st.title('NextTrade')
 uploaded_file = st.file_uploader('Choose a file', type='CSV')
 
-if uploaded_file is None:
-    csv_string_placeholder = 'VTI,14,65\nBND,5,15\nKSA,3,20'
-else:
-    df = pd.read_csv(uploaded_file, header=None)
-    csv_string_placeholder = df.to_csv(header=False, index=False)
-
 with st.expander('or manually input'):
     csv_form = st.form('csv_form')
     if uploaded_file is None:
