@@ -102,14 +102,10 @@ if submitted:
         df['pre_trade_weight'] = 100 * df['market_value'] / (df['market_value'].sum() + cash)
         
         algo_list = []
-        if allow_selling == True: 
-            for i in df.index:
-                value = (contribution + cash + df['market_value'].sum()) * (df['target_weight'][i]/100) - df['market_value'][i]
-                algo_list.append(value)
-        else:
-            for i in df.index:
-                value = max((contribution + cash + df['market_value'].sum()) * (df['target_weight'][i]/100) - df['market_value'][i], 0)
-                algo_list.append(value)
+        for i in df.index:
+            value = (contribution + cash + df['market_value'].sum()) * (df['target_weight'][i]/100) - df['market_value'][i]
+            value = value if allow_selling == True else max(value, 0)
+            algo_list.append(value)
         df['algo'] = algo_list
         
         df['allocated_value'] = (contribution + cash) * (df['algo'] / df['algo'].sum())
@@ -123,11 +119,11 @@ if submitted:
         st.header('Plan:')
         
         plan_df = pd.DataFrame({
-            'ticker': [], 'units':[], 'unit_price':[], 'trade_value':[]
+            'Ticker': [], 'Market Price':[], 'Trade Shares':[], 'Trade Value':[]
         })
         
         for i, j in zip(df[df['possible_unit'] != 0].index, range(len(df))):
-            plan_df.loc[j] = [i, df['possible_unit'][i], df['price'][i], df['possible_value'][i]]
+            plan_df.loc[j] = [i, df['price'][i], df['possible_unit'][i], df['possible_value'][i]]
             
         st.table(plan_df.style.format(precision=2, na_rep='', thousands=','))
         
