@@ -21,10 +21,7 @@ csv_file = st.file_uploader('Upload a file', type='CSV')
 
 if csv_file is None:
     with st.expander('or manually input'):
-        input_form = st.form('input_form')
-        csv_string_placeholder = 'VTI,14,65\nBND,5,15\nKSA,3,20'
-        csv_string = input_form.text_area('csv_string', height=150, placeholder=csv_string_placeholder, label_visibility='collapsed')
-        input_form_submitted = input_form.form_submit_button("Submit")
+        ticker_count = st.number_input('Enter number', value=0)
         
 else:
     df = pd.read_csv(csv_file, names=['ticker', 'current_shares', 'target_weight'])
