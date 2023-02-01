@@ -55,11 +55,3 @@ if csv_form_submitted:
   #      for step in range(ticker_count):
    #             display_input_widgets(step) 
     #    form2.form_submit_button("Submit")
-
-
-
-if uploaded_file is None:
-  pass
-else:
-  dataframe = pd.read_csv(uploaded_file)
-  st.write(dataframe)
