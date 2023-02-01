@@ -28,7 +28,7 @@ else:
     df = df.set_index('ticker')
     csv_string_value = df.to_csv(header=False)
     csv_string = csv_form.text_area('csv_string', height=150, value=csv_string_value, label_visibility='collapsed')
-main_form_submitted = main_form.form_submit_button("Submit")
+input_form_submitted = input_form.form_submit_button("Submit")
 
 
 
