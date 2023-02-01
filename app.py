@@ -49,8 +49,10 @@ if submitted or csv_file is not None:
     sum_target = 0
     for step in range(items_length):
         sum_target += globals()['target%s' % step]
+    
+    if sum_target == 100:
         st.success('Setting target weights successful!')
-    if sum_target != 100:
+    else:
         st.error('Sum of target weights must equal 100%')
    
     
