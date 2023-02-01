@@ -24,7 +24,7 @@ with st.expander('or manually input'):
     csv_form_submitted = csv_form.form_submit_button("Submit")
     
 if csv_form_submitted:
-    df = pd.read_csv(StringIO('VTI,14,65\nBND,5,15\nKSA,3,20'), sep=",", header=None)
+    #df = pd.read_csv(StringIO('VTI,14,65\nBND,5,15\nKSA,3,20'), sep=",", header=None)
     #st.table(df)
     
     form = st.form('ticker_form')
