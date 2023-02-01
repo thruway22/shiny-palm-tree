@@ -90,7 +90,10 @@ if submitted:
         prices_list = []
         with st.spinner('Getting ticker data from Yahoo! Finance...'):
             for i in df.index:
-                    prices_list.append(yf.Ticker(i).history()['Close'][-1])
+                    prices_list.append(
+                        yf.Ticker(i).history()['Close'][-1] * get_currency_rate(i))
+                    
+        df['price'] = prices_list
                     
         st.table(df)
                     
