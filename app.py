@@ -37,6 +37,7 @@ if csv_file is not None or ticker_count > 0:
         for step in range(len(df)):
             display_input_widgets(df, step)
     if ticker_count > 0:
+        items_length = ticker_count
         for step in range(ticker_count):
             display_input_widgets2(step)    
     submitted = form.form_submit_button("Submit")
