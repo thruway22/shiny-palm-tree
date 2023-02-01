@@ -56,7 +56,7 @@ if csv_file is not None or ticker_count > 0:
             tickers_list = []
             shares_list = []
             targets_list = []
-            for step in range(len(portfolio)):
+            for step in range(items_length):
                 tickers_list.append(globals()['ticker%s' % step])
                 shares_list.append(globals()['share%s' % step])
                 targets_list.append(globals()['target%s' % step])
