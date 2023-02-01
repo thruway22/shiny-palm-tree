@@ -20,7 +20,7 @@ else:
 
 with st.expander('or manually input'):
     csv_form = st.form('csv_form')
-    csv_string = csv_form.text_area('csv_string', placeholder=csv_string_placeholder, label_visibility='collapsed')
+    csv_string = csv_form.text_area('csv_string', height=300, placeholder=csv_string_placeholder, label_visibility='collapsed')
     csv_form_submitted = csv_form.form_submit_button("Submit")
     
 if csv_form_submitted:
