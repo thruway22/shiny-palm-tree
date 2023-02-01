@@ -52,6 +52,21 @@ if csv_file is not None or ticker_count > 0:
         else:
             st.error('Sum of target weights must equal 100%')
             st.write('Number of stocks:', items_length, 'Sum of target weights:', sum_target)
+            
+            tickers_list = []
+            shares_list = []
+            targets_list = []
+            for step in range(len(portfolio)):
+                tickers_list.append(globals()['ticker%s' % step])
+                shares_list.append(globals()['share%s' % step])
+                targets_list.append(globals()['target%s' % step])
+            df = pd.DataFrame({
+                'ticker': tickers_list,
+                'current_shares': shares_list,
+                'target_weight': targets_list
+            }).set_index('ticker')
+            
+            st.table(df)
    
     
     
