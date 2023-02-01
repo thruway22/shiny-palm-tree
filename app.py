@@ -113,8 +113,6 @@ if submitted:
         df['possible_value'] = df['possible_unit'] * df['price']
         
         df['post_trade_weight'] = 100 * (df['market_value'] + df['possible_value']) / (df['market_value'].sum() + df['possible_value'].sum())
-                    
-        st.table(df)
         
         st.header('Plan:')
         
@@ -124,7 +122,8 @@ if submitted:
         
         for i, j in zip(df[df['possible_unit'] != 0].index, range(len(df))):
             plan_df.loc[j] = [i, df['price'][i], df['possible_unit'][i], df['possible_value'][i]]
-            
+        
+        plan_df.index += 1
         st.table(plan_df.style.format(precision=2, na_rep='', thousands=','))
         
         fig = px.histogram(df, x=df.index, y=['pre_trade_weight', 'target_weight', 'post_trade_weight'],
