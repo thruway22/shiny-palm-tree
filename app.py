@@ -22,8 +22,8 @@ csv_file = st.file_uploader('Upload a file', type='CSV')
 if csv_file is None:
     with st.expander('or manually input'):
         ticker_count = st.number_input('Enter number', value=0)
-        
-else:
+       
+if csv_file is not None or ticker_count>0:
     df = pd.read_csv(csv_file, names=['ticker', 'current_shares', 'target_weight'])
     df = df.set_index('ticker')
     form = st.form('ticker_form')
