@@ -6,7 +6,7 @@ from ccy_dict import ccy_dict
 def display_input_widgets(stride, values_df=None):
     
     ticker_value = '' if values_df is None else df.index[stride]
-    shares_value = 0 if values_df is None else df['current_shares'][stride]
+    shares_value = 0.0 if values_df is None else df['current_shares'][stride]
     target_value = 0.0 if values_df is None else df['target_weight'][stride]
     
     locals()['col%s0' % stride], locals()['col%s1' % stride], locals()['col%s2' % stride] = form.columns(3)
