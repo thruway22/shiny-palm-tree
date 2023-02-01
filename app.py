@@ -88,7 +88,7 @@ if submitted:
         contribution = contribution * get_currency_rate(currency, True)
         
         prices_list = []
-        with st.spinner('Getting ticker data from {}...'.format(use_client)):
+        with st.spinner('Getting ticker data from Yahoo! Finance...'):
             for i in df.index:
                     prices_list.append(yf.Ticker(i).history()['Close'][-1])
                     
