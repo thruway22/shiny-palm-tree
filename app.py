@@ -86,8 +86,8 @@ if submitted:
 
         st.table(df)
 
-        cash = cash / get_currency_rate(currency, True)
-        contribution = contribution / get_currency_rate(currency, True)
+        cash = cash * get_currency_rate(currency, True)
+        contribution = contribution * get_currency_rate(currency, True)
         
         st.write(contribution, cash)
             
