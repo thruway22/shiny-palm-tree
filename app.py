@@ -28,7 +28,7 @@ if csv_file is None:
         
 else:
     df = pd.read_csv(csv_file, names=['ticker', 'current_shares', 'target_weight'])
-    df = df.set_index('ticker')
+    #df = df.set_index('ticker')
     st.table(df)
     
 
