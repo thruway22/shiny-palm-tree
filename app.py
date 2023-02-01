@@ -44,36 +44,36 @@ if csv_file is not None or ticker_count > 0:
             display_input_widgets(step)    
 submitted = form.form_submit_button("Submit")
 
-    if submitted:
-        sum_target = 0
-        for step in range(items_length):
-            sum_target += globals()['target%s' % step]
+if submitted:
+    sum_target = 0
+    for step in range(items_length):
+        sum_target += globals()['target%s' % step]
 
-        if sum_target != 100:
-            st.error('Sum of target weights must equal 100%')
-            st.write('Number of stocks:', items_length, 'Sum of target weights:', sum_target, 'test3')
-            
-        else:
-            st.success('Setting target weights successful!')
-            st.write('Number of stocks:', items_length, 'Sum of target weights:', sum_target, 'test3')
-            
-            tickers_list = []
-            shares_list = []
-            targets_list = []
-            for step in range(items_length):
-                tickers_list.append(globals()['ticker%s' % step])
-                shares_list.append(globals()['share%s' % step])
-                targets_list.append(globals()['target%s' % step])
-            df = pd.DataFrame({
-                'ticker': tickers_list,
-                'current_shares': shares_list,
-                'target_weight': targets_list
-            }).set_index('ticker')
-            
-            st.table(df)
-            
-            to_usd = yf.Ticker('SAR=X').history()['Close'][-1]
-            to_sar = yf.Ticker('SARUSD=X').history()['Close'][-1]
+    if sum_target != 100:
+        st.error('Sum of target weights must equal 100%')
+        st.write('Number of stocks:', items_length, 'Sum of target weights:', sum_target, 'test3')
+
+    else:
+        st.success('Setting target weights successful!')
+        st.write('Number of stocks:', items_length, 'Sum of target weights:', sum_target, 'test3')
+
+        tickers_list = []
+        shares_list = []
+        targets_list = []
+        for step in range(items_length):
+            tickers_list.append(globals()['ticker%s' % step])
+            shares_list.append(globals()['share%s' % step])
+            targets_list.append(globals()['target%s' % step])
+        df = pd.DataFrame({
+            'ticker': tickers_list,
+            'current_shares': shares_list,
+            'target_weight': targets_list
+        }).set_index('ticker')
+
+        st.table(df)
+
+        to_usd = yf.Ticker('SAR=X').history()['Close'][-1]
+        to_sar = yf.Ticker('SARUSD=X').history()['Close'][-1]
             
    
     
