@@ -17,18 +17,19 @@ def display_input_widgets2(stride):
     globals().update(locals())
 
 st.title('NextTrade')
-
-input_form = st.form('input_form')
 csv_file = input_form.file_uploader('Upload a file', type='CSV')
-if csv_file is None:
-    csv_string_placeholder = 'VTI,14,65\nBND,5,15\nKSA,3,20'
-    csv_string = input_form.text_area('csv_string', height=150, placeholder=csv_string_placeholder, label_visibility='collapsed')
-else:
-    df = pd.read_csv(csv_file, names=['ticker', 'current_shares', 'target_weight'])
-    df = df.set_index('ticker')
-    csv_string_value = df.to_csv(header=False)
-    csv_string = input_form.text_area('csv_string', height=150, value=csv_string_value, label_visibility='collapsed')
-input_form_submitted = input_form.form_submit_button("Submit")
+
+with st.expander('or manually input'):
+    input_form = st.form('input_form')
+    if csv_file is None:
+        csv_string_placeholder = 'VTI,14,65\nBND,5,15\nKSA,3,20'
+        csv_string = input_form.text_area('csv_string', height=150, placeholder=csv_string_placeholder, label_visibility='collapsed')
+    else:
+        df = pd.read_csv(csv_file, names=['ticker', 'current_shares', 'target_weight'])
+        df = df.set_index('ticker')
+        csv_string_value = df.to_csv(header=False)
+        csv_string = input_form.text_area('csv_string', height=150, value=csv_string_value, label_visibility='collapsed')
+    input_form_submitted = input_form.form_submit_button("Submit")
 
 
 
