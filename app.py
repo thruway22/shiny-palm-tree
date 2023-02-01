@@ -20,7 +20,7 @@ st.title('NextTrade')
 
 input_form = st.form('input_form')
 csv_file = input_form.file_uploader('Upload a file', type='CSV')
-if uploaded_file is None:
+if csv_file is None:
     csv_string_placeholder = 'VTI,14,65\nBND,5,15\nKSA,3,20'
     csv_string = input_form.text_area('csv_string', height=150, placeholder=csv_string_placeholder, label_visibility='collapsed')
 else:
