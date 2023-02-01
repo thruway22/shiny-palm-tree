@@ -84,12 +84,16 @@ if submitted:
             'target_weight': targets_list
         }).set_index('ticker')
 
-        st.table(df)
-
         cash = cash * get_currency_rate(currency, True)
         contribution = contribution * get_currency_rate(currency, True)
         
-        st.write(contribution, cash)
+        prices_list = []
+        with st.spinner('Getting ticker data from {}...'.format(use_client)):
+            for i in df.index:
+                    prices_list.append(yf.Ticker(i).history()['Close'][-1])
+                    
+        st.table(df)
+                    
             
    
     
