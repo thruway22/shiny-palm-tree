@@ -20,13 +20,13 @@ st.title('NextTrade')
 csv_file = st.file_uploader('Upload a file', type='CSV')
 
 if csv_file is None:
-    with st.expander('or manually input'):
+    with st.expander('or input manually'):
         ticker_count = st.number_input('Enter number', value=0)
-       
-if csv_file is not None or ticker_count>0:
+        
+else:
     df = pd.read_csv(csv_file, names=['ticker', 'current_shares', 'target_weight'])
     df = df.set_index('ticker')
-    form = st.form('ticker_form')
+    form = st.form('read_ticker_form')
     cola, colb, colc = form.columns(3)
     cola.write('Ticker')
     colb.write('Current Shares (x)')
@@ -34,6 +34,20 @@ if csv_file is not None or ticker_count>0:
     for step in range(len(df)):
             display_input_widgets(df, step)
     submitted = form.form_submit_button("Submit")
+        
+if csv_file is None and ticker_count > 0:
+    form = st.form('manual_ticker_form')
+    cola, colb, colc = form.columns(3)
+    cola.write('Ticker')
+    colb.write('Current Shares (x)')
+    colc.write('Target Weight (%)')
+    for step in range(ticker_count):
+        display_input_widgets2(step)
+    submitted = form.form_submit_button("Submit")
+    
+    
+       
+
     
 
 
