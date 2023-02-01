@@ -22,7 +22,7 @@ if csv_form_submitted:
     #st.table(df)
     
     form = st.form('ticker_form')
-    cola, colb, colc = ticker_form.columns(3)
+    cola, colb, colc = form.columns(3)
     cola.write('Ticker')
     colb.write('Current Shares (x)')
     colc.write('Target Weight (%)')
