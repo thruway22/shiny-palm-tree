@@ -45,13 +45,14 @@ if csv_file is not None or ticker_count > 0:
         for step in range(items_length):
             sum_target += globals()['target%s' % step]
 
-        if sum_target == 100:
-            st.success('Setting target weights successful!')
-            st.write('Number of stocks:', items_length, 'Sum of target weights:', sum_target)
-            st.stop()
-        else:
+        if sum_target != 100:
             st.error('Sum of target weights must equal 100%')
-            st.write('Number of stocks:', items_length, 'Sum of target weights:', sum_target, 'test2')
+            st.write('Number of stocks:', items_length, 'Sum of target weights:', sum_target, 'test3')
+            
+        else:
+            st.success('Setting target weights successful!')
+            st.write('Number of stocks:', items_length, 'Sum of target weights:', sum_target, 'test3')
+            st.stop()
             
             tickers_list = []
             shares_list = []
