@@ -126,7 +126,7 @@ if submitted:
             'ticker': [], 'units':[], 'unit_price':[], 'trade_value':[]
         })
         
-        for i, j in zip(df[df['possible_unit'] > 0].index, range(len(df))):
+        for i, j in zip(df[df['possible_unit'] != 0].index, range(len(df))):
             plan_df.loc[j] = [i, df['possible_unit'][i], df['price'][i], df['possible_value'][i]]
             
         st.table(plan_df.style.format(precision=2, na_rep='', thousands=','))
