@@ -27,7 +27,7 @@ else:
     df = pd.read_csv(csv_file, names=['ticker', 'current_shares', 'target_weight'])
     df = df.set_index('ticker')
     csv_string_value = df.to_csv(header=False)
-    csv_string = csv_form.text_area('csv_string', height=150, value=csv_string_value, label_visibility='collapsed')
+    csv_string = input_form.text_area('csv_string', height=150, value=csv_string_value, label_visibility='collapsed')
 input_form_submitted = input_form.form_submit_button("Submit")
 
 
