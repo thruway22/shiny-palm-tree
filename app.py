@@ -94,8 +94,33 @@ if submitted:
                         yf.Ticker(i).history()['Close'][-1] * get_currency_rate(i))
                     
         df['price'] = prices_list
+        df['market_value'] = df['current_shares'] * df['price']
+        df['pre_trade_weight'] = 100 * df['market_value'] / (df['market_value'].sum() + cash_sar + cash_usd)
+        
+        algo_list = []
+        for i in df.index:
+            value = max((contribution + cash + df['market_value'].sum()) * (df['target_weight'][i]/100) - df['market_value'][i], 0)
+            algo_list.append(value)
+        df['algo'] = algo_list
+        
+        df['allocated_value'] = (contribution + cash) * (df['algo'] / df['algo'].sum())
+        df['possible_unit'] = df['allocated_value'] // df['price']
+        df['possible_value'] = df['possible_unit'] * df['price']
+        
+        df['post_trade_weight'] = 100 * (df['market_value'] + df['possible_value']) / (df['market_value'].sum() + df['possible_value'].sum())
                     
         st.table(df)
+        
+        st.header('Plan:')
+        
+        plan_df = pd.DataFrame({
+            'ticker': [], 'units':[], 'unit_price':[], 'trade_value':[]
+        })
+        
+        for i, j in zip(df[df['possible_unit'] > 0].index, range(len(df))):
+            plan_df.loc[j] = [i, df['possible_unit'][i], df['price'][i], df['possible_value'][i]]
+            
+        st.table(plan_df.style.format(precision=2, na_rep='', thousands=','))
                     
             
    
