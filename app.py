@@ -17,7 +17,7 @@ def display_input_widgets2(stride):
     globals().update(locals())
 
 st.title('NextTrade')
-csv_file = st.file_uploader('Upload a file', type='CSV')
+csv_file = st.file_uploader('upload a file', type='CSV')
 
 if csv_file is None:
     #with st.expander('or input manually'):
