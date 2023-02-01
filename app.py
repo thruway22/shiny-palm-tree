@@ -12,14 +12,8 @@ def display_input_widgets(stride, values_df=None):
     locals()['ticker%s' % stride] = locals()['col%s0' % stride].text_input('ticker%s' % stride, value=ticker_value, label_visibility='collapsed')
     locals()['share%s' % stride] = locals()['col%s1' % stride].number_input('share%s' % stride, value=shares_value, min_value=0, step=1, format='%d', label_visibility='collapsed')
     locals()['target%s' % stride] = locals()['col%s2' % stride].number_input('target%s' % stride, value=target_value, min_value=0.0, step=0.1, format='%.1f', label_visibility='collapsed')
-    globals().update(locals()) 
     
-def display_input_widgets2(stride):
-    locals()['col%s0' % stride], locals()['col%s1' % stride], locals()['col%s2' % stride] = form.columns(3)
-    locals()['ticker%s' % stride] = locals()['col%s0' % stride].text_input('ticker%s' % stride, value='',label_visibility='collapsed')
-    locals()['share%s' % stride] = locals()['col%s1' % stride].number_input('share%s' % stride, min_value=0, step=1, format='%d', label_visibility='collapsed')
-    locals()['target%s' % stride] = locals()['col%s2' % stride].number_input('target%s' % stride, min_value=0.0, step=0.1, format='%.1f', label_visibility='collapsed')
-    globals().update(locals())
+    globals().update(locals()) 
 
 st.title('NextTrade')
 csv_file = st.file_uploader('upload a file', type='CSV')
@@ -54,8 +48,10 @@ if csv_file is not None or ticker_count > 0:
 
         if sum_target == 100:
             st.success('Setting target weights successful!')
+            st.write('Number of stocks:', items_length, 'Sum of target weights:', sum_target)
         else:
             st.error('Sum of target weights must equal 100%')
+            st.write('Number of stocks:', items_length, 'Sum of target weights:', sum_target)
    
     
     
