@@ -18,8 +18,9 @@ with st.expander('or manually input'):
         csv_string_placeholder = 'VTI,14,65\nBND,5,15\nKSA,3,20'
         csv_string = csv_form.text_area('csv_string', height=150, placeholder=csv_string_placeholder, label_visibility='collapsed')
     else:
-        df = pd.read_csv(uploaded_file, header=None)
-        csv_string_value = df.to_csv(header=False, index=False)
+        df = pd.read_csv(uploaded_file, names=['ticker', 'current_shares', 'target_weight'])
+        df = df.set_index('ticker')
+        csv_string_value = df.to_csv(header=False)
         csv_string = csv_form.text_area('csv_string', height=150, value=csv_string_value, label_visibility='collapsed')
     csv_form_submitted = csv_form.form_submit_button("Submit")
     
