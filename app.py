@@ -2,12 +2,12 @@ import streamlit as st
 import pandas as pd
 from io import StringIO
 
-def display_input_widgets(stride):
+def display_input_widgets(df, stride):
     locals()['col%s0' % stride], locals()['col%s1' % stride], locals()['col%s2' % stride] = form.columns(3)
-    locals()['ticker%s' % stride] = locals()['col%s0' % stride].text_input('ticker%s' % stride, label_visibility='collapsed')
-    locals()['share%s' % stride] = locals()['col%s1' % stride].number_input('share%s' % stride, min_value=0, step=1, format='%d', label_visibility='collapsed')
-    locals()['target%s' % stride] = locals()['col%s2' % stride].number_input('target%s' % stride, min_value=0.0, step=0.1, format='%.1f', label_visibility='collapsed')
-    globals().update(locals()) 
+    locals()['ticker%s' % stride] = locals()['col%s0' % stride].text_input('ticker%s' % stride, value=df.index[stride], label_visibility='collapsed')
+    locals()['share%s' % stride] = locals()['col%s1' % stride].number_input('share%s' % stride, value=df['current_shares'][stride], min_value=0, step=1, format='%d', label_visibility='collapsed')
+    locals()['target%s' % stride] = locals()['col%s2' % stride].number_input('target%s' % stride, value=df['target_weight'][stride], min_value=0.0, step=0.1, format='%.1f', label_visibility='collapsed')
+    globals().update(locals())  
 
 st.title('NextTrade')
 uploaded_file = st.file_uploader('Choose a file', type='CSV')
@@ -33,7 +33,7 @@ if csv_form_submitted:
     colb.write('Current Shares (x)')
     colc.write('Target Weight (%)')
     for step in range(len(df)):
-        display_input_widgets(step)
+        display_input_widgets(df, step)
     submitted = form.form_submit_button("Submit")
     
     
