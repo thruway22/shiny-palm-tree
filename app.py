@@ -40,7 +40,7 @@ form = st.form('manual_ticker_form')
 cola, colb, colc = form.columns(3)
 contribution = cola.number_input('Contribution', min_value=0.0, step=0.1, format='%.1f')
 cash = colb.number_input('In-Account Cash', min_value=0.0, step=0.1, format='%.1f')
-ccy = colc.selectbox('Currency', ccy_dict.keys(), index=list(ccy_dict).index('USD'))
+currency = colc.selectbox('Currency', ccy_dict.keys(), index=list(ccy_dict).index('USD'))
 if csv_file is not None or ticker_count > 0:
     cola, colb, colc = form.columns(3)
     cola.write('Ticker')
@@ -86,8 +86,10 @@ if submitted:
 
         st.table(df)
 
-        cash_sar = cash_sar / to_usd
-        contribution = contribution / to_usd
+        cash = cash / get_currency_rate(currency, True)
+        contribution = contribution / get_currency_rate(currency, True)
+        
+        st.write(contribution, cash)
             
    
     
