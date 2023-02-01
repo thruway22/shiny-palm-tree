@@ -62,16 +62,18 @@ allow_fractional = form.checkbox('Allow fractional shares', value=False)
 
 submitted = form.form_submit_button("Submit")
 
+placeholder = st.empty()
+
 if submitted:
     sum_target = 0
     for step in range(items_length):
         sum_target += globals()['target%s' % step]
 
     if sum_target != 100:
-        st.error('Sum of target weights must equal 100%')
+        placeholder.error('Sum of target weights must equal 100%')
 
     else:
-        st.success('Setting target weights successful!')
+        placeholder.success('Setting target weights successful!')
 
         tickers_list = []
         shares_list = []
@@ -95,7 +97,7 @@ if submitted:
                     prices_list.append(
                         yf.Ticker(i).history()['Close'][-1] * get_currency_rate(i))
                     
-        st.success('Getting financial data successful!')
+        placeholder.success('Getting financial data successful!')
         
         df['price'] = prices_list
         df['market_value'] = df['current_shares'] * df['price']
