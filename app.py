@@ -51,7 +51,7 @@ if csv_file is not None or ticker_count > 0:
             st.write('Number of stocks:', items_length, 'Sum of target weights:', sum_target)
         else:
             st.error('Sum of target weights must equal 100%')
-            st.write('Number of stocks:', items_length, 'Sum of target weights:', sum_target)
+            st.write('Number of stocks:', items_length, 'Sum of target weights:', sum_target, 'test')
             
             tickers_list = []
             shares_list = []
