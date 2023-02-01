@@ -53,7 +53,7 @@ if csv_form_submitted:
         for step in range(ticker_count):
             display_input_widgets2(step)
     
-    if ticker_count = 0:
+    if ticker_count == 0:
         for step in range(len(df)):
             display_input_widgets(df, step)
     submitted = form.form_submit_button("Submit")
