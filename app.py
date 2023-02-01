@@ -57,8 +57,8 @@ if csv_file is not None or ticker_count > 0:
         for step in range(ticker_count):
             display_input_widgets(step) 
 
-allow_selling = form.checkbox('Allow selling of current shares to rebalance', value=False)
-allow_fractional = form.checkbox('Allow fractional shares', value=False, help='test')
+allow_selling = form.checkbox('Allow selling of current shares', value=False)
+allow_fractional = form.checkbox('Allow fractional shares', value=False)
 
 submitted = form.form_submit_button("Submit")
 
