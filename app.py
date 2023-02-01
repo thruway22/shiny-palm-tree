@@ -69,11 +69,9 @@ if submitted:
 
     if sum_target != 100:
         st.error('Sum of target weights must equal 100%')
-        st.write('Number of stocks:', items_length, 'Sum of target weights:', sum_target, 'test3')
 
     else:
         st.success('Setting target weights successful!')
-        st.write('Number of stocks:', items_length, 'Sum of target weights:', sum_target, 'test3')
 
         tickers_list = []
         shares_list = []
@@ -97,6 +95,8 @@ if submitted:
                     prices_list.append(
                         yf.Ticker(i).history()['Close'][-1] * get_currency_rate(i))
                     
+        st.success('Getting financial data successful!')
+        
         df['price'] = prices_list
         df['market_value'] = df['current_shares'] * df['price']
         df['pre_trade_weight'] = 100 * df['market_value'] / (df['market_value'].sum() + cash)
