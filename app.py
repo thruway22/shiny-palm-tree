@@ -22,7 +22,16 @@ csv_file = st.file_uploader('upload a file', type='CSV')
 if csv_file is None:
     #with st.expander('or input manually'):
     ticker_count = st.number_input('or choose number of stocks to input manually', value=0, min_value=0)
-        
+    items_length = ticker_count
+    form = st.form('manual_ticker_form')
+    cola, colb, colc = form.columns(3)
+    cola.write('Ticker')
+    colb.write('Current Shares (x)')
+    colc.write('Target Weight (%)')
+    for step in range(ticker_count):
+        display_input_widgets2(step)
+    submitted = form.form_submit_button("Submit")
+    
 else:
     df = pd.read_csv(csv_file, names=['ticker', 'current_shares', 'target_weight'])
     df = df.set_index('ticker')
@@ -35,18 +44,7 @@ else:
     for step in range(len(df)):
             display_input_widgets(df, step)
     submitted = form.form_submit_button("Submit")
-        
-if csv_file is None and ticker_count > 0:
-    items_length = ticker_count
-    form = st.form('manual_ticker_form')
-    cola, colb, colc = form.columns(3)
-    cola.write('Ticker')
-    colb.write('Current Shares (x)')
-    colc.write('Target Weight (%)')
-    for step in range(ticker_count):
-        display_input_widgets2(step)
-    submitted = form.form_submit_button("Submit")
-    
+
 if submitted or csv_file is not None:
     sum_target = 0
     for step in range(items_length):
