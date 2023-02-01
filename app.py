@@ -18,11 +18,19 @@ with st.expander('or manually input'):
         csv_string_placeholder = 'VTI,14,65\nBND,5,15\nKSA,3,20'
         csv_string = csv_form.text_area('csv_string', height=150, placeholder=csv_string_placeholder, label_visibility='collapsed')
     else:
-        df = pd.read_csv(uploaded_file, names=['ticker', 'current_shares', 'target_weight'])
-        df = df.set_index('ticker')
-        csv_string_value = df.to_csv(header=False)
-        csv_string = csv_form.text_area('csv_string', height=150, value=csv_string_value, label_visibility='collapsed')
+        ticker_count = st.number_input('Enter number', value=0)
+        #df = pd.read_csv(uploaded_file, names=['ticker', 'current_shares', 'target_weight'])
+        #df = df.set_index('ticker')
+        #csv_string_value = df.to_csv(header=False)
+        #csv_string = csv_form.text_area('csv_string', height=150, value=csv_string_value, label_visibility='collapsed')
     csv_form_submitted = csv_form.form_submit_button("Submit")
+    
+cola, colb, colc = form.columns(3)
+cola.write('Ticker')
+colb.write('Current Shares (x)')
+colc.write('Target Weight (%)')
+for step in range(ticker_count):
+    display_input_widgets(step)
     
 if csv_form_submitted:
     #df = pd.read_csv(StringIO('VTI,14,65\nBND,5,15\nKSA,3,20'), sep=",", header=None)
