@@ -16,10 +16,10 @@ def display_input_widgets(stride, values_df=None):
     
     globals().update(locals())
     
-def get_currency_rate(base, bypass=False):
+def get_currency_rate(input, bypass=False):
     
     if bypass == False:
-        base = yf.Ticker(ticker)
+        base = yf.Ticker(input)
         base_currency = '' if base.fast_info['currency'] == 'USD' else base.fast_info['currency']
     else:
         base_currency = base
