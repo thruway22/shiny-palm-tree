@@ -23,11 +23,11 @@ if csv_file is None:
     #with st.expander('or input manually'):
     ticker_count = st.number_input('or choose number of stocks to input manually', value=0, min_value=0)
 
+form = st.form('manual_ticker_form')
+cola, colb = form.columns(2)
+contribution = cola.number_input('Contribution ($)', min_value=0.0, step=0.1, format='%.1f')
+cash_sar = colb.number_input('In-Account Cash ($)', min_value=0.0, step=0.1, format='%.1f')
 if csv_file is not None or ticker_count > 0:
-    form = st.form('manual_ticker_form')
-    cola, colb = form.columns(2)
-    contribution = cola.number_input('Contribution ($)', min_value=0.0, step=0.1, format='%.1f')
-    cash_sar = colb.number_input('In-Account Cash ($)', min_value=0.0, step=0.1, format='%.1f')
     cola, colb, colc = form.columns(3)
     cola.write('Ticker')
     colb.write('Current Shares (x)')
@@ -42,7 +42,7 @@ if csv_file is not None or ticker_count > 0:
         items_length = ticker_count
         for step in range(ticker_count):
             display_input_widgets(step)    
-    submitted = form.form_submit_button("Submit")
+submitted = form.form_submit_button("Submit")
 
     if submitted:
         sum_target = 0
