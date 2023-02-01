@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import yfinance as yf
+from ccy_dict import ccy_dict
 
 def display_input_widgets(stride, values_df=None):
     
@@ -24,9 +25,10 @@ if csv_file is None:
     ticker_count = st.number_input('or choose number of stocks to input manually', value=0, min_value=0)
 
 form = st.form('manual_ticker_form')
-cola, colb = form.columns(2)
+cola, colb, colc = form.columns(3)
 contribution = cola.number_input('Contribution ($)', min_value=0.0, step=0.1, format='%.1f')
 cash_sar = colb.number_input('In-Account Cash ($)', min_value=0.0, step=0.1, format='%.1f')
+ccy = colc.selectbox('Currency', ccy_dict.keys())
 if csv_file is not None or ticker_count > 0:
     cola, colb, colc = form.columns(3)
     cola.write('Ticker')
