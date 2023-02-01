@@ -44,9 +44,7 @@ if csv_file is None and ticker_count > 0:
     for step in range(ticker_count):
         display_input_widgets2(step)
     submitted = form.form_submit_button("Submit")
-    
-if submitted:
-    total_target = 0
+   
     
     
        
