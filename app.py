@@ -63,9 +63,14 @@ allow_fractional = form.checkbox('Allow fractional shares', value=False)
 
 submitted = form.form_submit_button("Submit")
 
+info_msg = '''
+Please make sure that
+'''
+
 if submitted:
     if items_length == 0:
         st.error('No tickers were entered')
+        st.info(info_msg)
         st.stop()
     
     sum_target = 0
@@ -75,12 +80,14 @@ if submitted:
         
         if ticker == '':
             st.error('You cannot leave ticker empty')
+            st.info(info_msg)
             st.stop()
             
         try:
             ticker_recognized = yf.Ticker(ticker).fast_info['currency']
         except:
             st.error("Could not recognize ticker '{}'".format(ticker))
+            st.info(info_msg)
             st.stop()
            
         sum_target += globals()['target%s' % step]
@@ -88,6 +95,7 @@ if submitted:
         
     if sum_target != 100:
         st.error('Sum of target weights must equal 100%')
+        st.info(info_msg)
         st.stop()
 
     else:
