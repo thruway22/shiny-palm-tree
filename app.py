@@ -64,10 +64,9 @@ allow_fractional = form.checkbox('Allow fractional shares', value=False)
 submitted = form.form_submit_button("Submit")
 
 if submitted:
-    try:
-      items_length != 0
-    except:
-      st.error('No tickers were entered')
+    if items_length == 0:
+        st.error('No tickers were entered')
+        st.stop()
     
     sum_target = 0
     for step in range(items_length):
