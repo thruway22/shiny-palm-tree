@@ -37,9 +37,9 @@ if csv_file is None:
     ticker_count = st.number_input('or choose number of stocks to input manually', value=0, min_value=0)
 
 form = st.form('manual_ticker_form')
-cola, colb, colc = form.columns(3)
+cola, colb = form.columns([2, 1])
 contribution = cola.number_input('Contribution', min_value=0.0, step=0.1, format='%.1f')
-cash = colb.number_input('In-Account Cash', min_value=0.0, step=0.1, format='%.1f')
+#cash = colb.number_input('In-Account Cash', min_value=0.0, step=0.1, format='%.1f')
 currency = colc.selectbox('Currency', ccy_dict.keys(), index=list(ccy_dict).index('USD'))
 if csv_file is not None or ticker_count > 0:
     cola, colb, colc = form.columns(3)
