@@ -76,12 +76,21 @@ if submitted:
         if ticker == '':
             st.error('You cannot leave ticker empty')
             st.stop()
+
+        if ticker.startswith('$'):
+            try:
+                currency_recognized = get_currency_rate(ticker[1:], True)
+            except:
+                st.error("Could not recognize currency '{}'".format(ticker))
+                st.stop()
+        else:
+            try:
+                ticker_recognized = yf.Ticker(ticker).fast_info['currency']
+            except:
+                st.error("Could not recognize ticker '{}'".format(ticker))
+                st.stop()
             
-        try:
-            ticker_recognized = yf.Ticker(ticker).fast_info['currency']
-        except:
-            st.error("Could not recognize ticker '{}'".format(ticker))
-            st.stop()
+        
            
         sum_target += globals()['target%s' % step]
         
