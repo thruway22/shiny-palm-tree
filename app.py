@@ -76,9 +76,11 @@ if submitted:
         
     if '' in ticker_list:
         st.error('You cannot leave ticker empty')
+        st.stop()
         
     if sum_target != 100:
         st.error('Sum of target weights must equal 100%')
+        st.stop()
 
     else:
         st.success('Setting target weights successful!')
