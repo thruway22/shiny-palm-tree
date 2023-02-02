@@ -85,6 +85,10 @@ if submitted:
             'current_shares': shares_list,
             'target_weight': targets_list
         }).set_index('ticker')
+        
+        cash = 0
+        for i in df.index:
+            if 
 
         cash = cash * get_currency_rate(currency, True)
         contribution = contribution * get_currency_rate(currency, True)
@@ -92,14 +96,19 @@ if submitted:
         prices_list = []
         with st.spinner('Getting ticker data from Yahoo! Finance...'):
             for i in df.index:
-                    prices_list.append(
-                        yf.Ticker(i).history()['Close'][-1] * get_currency_rate(i))
+                if i.startswith('$'):
+                    price = get_currency_rate(i[1:], True)
+                else:
+                    price = yf.Ticker(i).history()['Close'][-1] * get_currency_rate(i)
+                prices_list.append(price)
                     
         st.success('Getting financial data successful!')
         
         df['price'] = prices_list
         df['market_value'] = df['current_shares'] * df['price']
         df['pre_trade_weight'] = 100 * df['market_value'] / (df['market_value'].sum() + cash)
+        
+        st.table(df)
         
         algo_list = []
         for i in df.index:
