@@ -78,7 +78,7 @@ if submitted:
             st.stop()
             
         try:
-            yf.Ticker(ticker).fast_info['currency']
+            ticker_recognized = yf.Ticker(ticker).fast_info['currency']
         except:
             st.error('Could not recognize ticker {}'.format(ticker))
             st.stop()
