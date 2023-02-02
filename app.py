@@ -69,14 +69,22 @@ if submitted:
         st.stop()
     
     sum_target = 0
-    ticker_list = []
-    for step in range(items_length): 
-        ticker_list.append(globals()['ticker%s' % step])
+    for step in range(items_length):
+        ticker = globals()['ticker%s' % step]
+        target = globals()['target%s' % step]
+        
+        if ticker == ''
+            st.error('You cannot leave ticker empty')
+            st.stop()
+            
+        try:
+            yf.Ticker(i).fast_info['currency']
+        except:
+            st.error('Could not recognize ticker {}'.format(ticker))
+            st.stop()
+           
         sum_target += globals()['target%s' % step]
         
-    if '' in ticker_list:
-        st.error('You cannot leave ticker empty')
-        st.stop()
         
     if sum_target != 100:
         st.error('Sum of target weights must equal 100%')
