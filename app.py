@@ -86,11 +86,7 @@ if submitted:
             'target_weight': targets_list
         }).set_index('ticker')
         
-        cash = 0
-        for i in df.index:
-            if 
-
-        cash = cash * get_currency_rate(currency, True)
+        #cash = cash * get_currency_rate(currency, True)
         contribution = contribution * get_currency_rate(currency, True)
         
         prices_list = []
@@ -98,8 +94,10 @@ if submitted:
             for i in df.index:
                 if i.startswith('$'):
                     price = get_currency_rate(i[1:], True)
+                    cash = df['current_shares'][i]
                 else:
                     price = yf.Ticker(i).history()['Close'][-1] * get_currency_rate(i)
+                    cash = 0
                 prices_list.append(price)
                     
         st.success('Getting financial data successful!')
