@@ -80,7 +80,7 @@ if submitted:
         try:
             ticker_recognized = yf.Ticker(ticker).fast_info['currency']
         except:
-            st.error('Could not recognize ticker {}'.format(ticker))
+            st.error("Could not recognize ticker '{}'".format(ticker))
             st.stop()
            
         sum_target += globals()['target%s' % step]
