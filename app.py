@@ -73,7 +73,7 @@ if submitted:
         ticker = globals()['ticker%s' % step]
         target = globals()['target%s' % step]
         
-        if ticker == ''
+        if ticker == '':
             st.error('You cannot leave ticker empty')
             st.stop()
             
