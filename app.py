@@ -69,9 +69,14 @@ if submitted:
         st.stop()
     
     sum_target = 0
-    for step in range(items_length):
+    ticker_list = []
+    for step in range(items_length): 
+        ticker_list.append(globals()['ticker%s' % step])
         sum_target += globals()['target%s' % step]
-
+        
+    if '' in ticker_list:
+        st.error('You cannot leave ticker empty')
+        
     if sum_target != 100:
         st.error('Sum of target weights must equal 100%')
 
