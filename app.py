@@ -32,6 +32,7 @@ def get_currency_rate(input, bypass=False):
 st.title('NextTrade')
 csv_file = st.file_uploader('upload a file', type='CSV')
 ticker_count = 0
+items_length = 0
 
 if csv_file is None:
     ticker_count = st.number_input('or choose number of stocks to input manually', value=0, min_value=0)
@@ -63,6 +64,11 @@ allow_fractional = form.checkbox('Allow fractional shares', value=False)
 submitted = form.form_submit_button("Submit")
 
 if submitted:
+    try:
+      items_length != 0
+    except:
+      st.error('No tickers were entered')
+    
     sum_target = 0
     for step in range(items_length):
         sum_target += globals()['target%s' % step]
