@@ -124,7 +124,7 @@ if submitted:
             for i in df.index:
                 if i.startswith('$'):
                     price = get_currency_rate(i[1:], True)
-                    cash = df['current_shares'][i]
+                    cash = df['current_shares'][i] * price
                 else:
                     price = yf.Ticker(i).history()['Close'][-1] * get_currency_rate(i)
                 prices_list.append(price)
@@ -152,7 +152,7 @@ if submitted:
         df_aux = df[df.index.str.startswith('$') == False]
         st.table(df_aux)
         
-        df['allocated_value'] = (df['algo'] / df['algo'].sum())
+        df['allocated_value'] = (contribution + cash) * (df['algo'] / df['algo'].sum())
         df['allocated_unit'] = df['allocated_value'] / df['price']
         df['possible_unit'] = df['allocated_value'] // df['price']
         df['possible_value'] = df['possible_unit'] * df['price']
