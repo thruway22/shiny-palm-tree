@@ -115,6 +115,7 @@ if submitted:
         
         #cash = cash * get_currency_rate(currency, True)
         contribution = contribution * get_currency_rate(currency, True)
+        cash = 0
         
         prices_list = []
         with st.spinner('Getting ticker data from Yahoo! Finance...'):
@@ -124,7 +125,6 @@ if submitted:
                     cash = df['current_shares'][i]
                 else:
                     price = yf.Ticker(i).history()['Close'][-1] * get_currency_rate(i)
-                    cash = 0
                 prices_list.append(price)
                     
         st.success('Getting financial data successful!')
