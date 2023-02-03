@@ -135,7 +135,7 @@ if submitted:
         
         df['price'] = prices_list
         df['market_value'] = df['current_shares'] * df['price']
-        df['pre_trade_weight'] = 100 * df['market_value'] / (df['market_value'].sum() + cash)
+        df['pre_trade_weight'] = 100 * df['market_value'] / df['market_value'].sum()
         
         st.table(df)
         
