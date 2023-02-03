@@ -141,7 +141,7 @@ if submitted:
         
         algo_list = []
         for i in df.index:
-            value = (contribution + df['market_value'].sum()) * (df['target_weight'][i]/100) - df['market_value'][i]
+            value = ((contribution + df['market_value'].sum()) * (df['target_weight'][i]/100)) - df['market_value'][i]
             if allow_selling == True or i.startswith('$'):
                 value = value
             else:
