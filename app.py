@@ -100,8 +100,6 @@ if submitted:
     else:
         st.success('Setting target weights successful!')
         
-        
-        
         with st.spinner('Getting ticker data from Yahoo! Finance...'):
             df = pd.DataFrame({'current_shares': [], 'target_weight': [], 'price': []})
             for step in range(items_length):
@@ -128,11 +126,7 @@ if submitted:
         st.table(df)
           
         st.success('Getting financial data successful!')
-        st.stop()
         
-        
-        
-        st.table(df)
         
         algo_list = []
         for i in df.index:
