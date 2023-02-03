@@ -115,7 +115,8 @@ if submitted:
                 else:
                     price = yf.Ticker(ticker).history()['Close'][-1] * get_currency_rate(ticker)
 
-            df.loc[ticker] = [shares, target, price]
+                df.loc[ticker] = [shares, target, price]
+                
             df['market_value'] = df['current_shares'] * df['price']
             df['pre_trade_weight'] = 100 * df['market_value'] / df['market_value'].sum()
         
