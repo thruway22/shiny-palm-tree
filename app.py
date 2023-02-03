@@ -152,7 +152,7 @@ if submitted:
         df_aux = df[df.index.str.startswith('$') == False]
         st.table(df_aux)
         
-        df['allocated_value'] = (contribution + cash) * (df_aux['algo'] / df_aux['algo'].sum())
+        df['allocated_value'] = (contribution + cash) * (df['algo'] / df['algo'].sum())
         df['allocated_unit'] = df['allocated_value'] / df['price']
         df['possible_unit'] = df['allocated_value'] // df['price']
         df['possible_value'] = df['possible_unit'] * df['price']
