@@ -99,43 +99,37 @@ if submitted:
 
     else:
         st.success('Setting target weights successful!')
+        
+        
+        
+        with st.spinner('Getting ticker data from Yahoo! Finance...'):
+            df = pd.DataFrame({'current_shares': [], 'target_weight': [], 'price': []})
+            for step in range(items_length):
+                ticker = globals()['ticker%s' % step]
+                shares = globals()['share%s' % step]
+                target = globals()['target%s' % step]
 
-        tickers_list = []
-        shares_list = []
-        targets_list = []
-        for step in range(items_length):
-            tickers_list.append(globals()['ticker%s' % step])
-            shares_list.append(globals()['share%s' % step])
-            targets_list.append(globals()['target%s' % step])
-        df = pd.DataFrame({
-            'ticker': tickers_list,
-            'current_shares': shares_list,
-            'target_weight': targets_list
-        }).set_index('ticker')
+                if ticker.startswith('$'):
+                    price = get_currency_rate(ticker[1:], True)
+                    #cash = df['current_shares'][i] * price
+                else:
+                    price = yf.Ticker(ticker).history()['Close'][-1] * get_currency_rate(ticker)
+
+            df.loc[ticker] = [shares, target, price]
+            df['market_value'] = df['current_shares'] * df['price']
+            df['pre_trade_weight'] = 100 * df['market_value'] / df['market_value'].sum()
+        
         
         #cash = cash * get_currency_rate(currency, True)
-        contribution = contribution * get_currency_rate(currency, True)
-        cash = 0
+        #contribution = contribution * get_currency_rate(currency, True)
+        #cash = 0
         
-        st.write(cash)
-        
-        prices_list = []
-        with st.spinner('Getting ticker data from Yahoo! Finance...'):
-            for i in df.index:
-                if i.startswith('$'):
-                    price = get_currency_rate(i[1:], True)
-                    cash = df['current_shares'][i] * price
-                else:
-                    price = yf.Ticker(i).history()['Close'][-1] * get_currency_rate(i)
-                prices_list.append(price)
-                    
+        st.table(df)
+          
         st.success('Getting financial data successful!')
+        st.stop()
         
-        st.write(cash)
         
-        df['price'] = prices_list
-        df['market_value'] = df['current_shares'] * df['price']
-        df['pre_trade_weight'] = 100 * df['market_value'] / df['market_value'].sum()
         
         st.table(df)
         
