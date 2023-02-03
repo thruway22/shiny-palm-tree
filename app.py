@@ -149,7 +149,7 @@ if submitted:
             algo_list.append(value)
         df['algo'] = algo_list
         
-        df_aux = df[df.index.startswith('$') == False]
+        df_aux = df[df.index.astype('str').startswith('$') == False]
         st.table(df_aux)
         
         df['allocated_value'] = (contribution + cash) * (df['algo'] / df['algo'].sum())
