@@ -117,6 +117,8 @@ if submitted:
         contribution = contribution * get_currency_rate(currency, True)
         cash = 0
         
+        st.write(cash)
+        
         prices_list = []
         with st.spinner('Getting ticker data from Yahoo! Finance...'):
             for i in df.index:
@@ -128,6 +130,8 @@ if submitted:
                 prices_list.append(price)
                     
         st.success('Getting financial data successful!')
+        
+        st.write(cash)
         
         df['price'] = prices_list
         df['market_value'] = df['current_shares'] * df['price']
