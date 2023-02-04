@@ -97,7 +97,7 @@ if submitted:
         sum_target += target
         ticker_list.append(ticker)
 
-    prohibit_duplicates = True    
+    prohibit_duplicates = False    
     if prohibit_duplicates and len(ticker_list) != len(set(ticker_list)):
         st.error('Duplicates are not allowed')
         st.stop()
