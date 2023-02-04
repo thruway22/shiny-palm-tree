@@ -166,6 +166,7 @@ if submitted:
         asset_df['post_trade_weight'] = 100 * (asset_df['market_value'] + asset_df[output_value]) / (asset_df['market_value'].sum() + asset_df[output_value].sum())
         
         st.dataframe(asset_df)
+        st.stop()
         
         st.header('Plan:')
         
