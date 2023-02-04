@@ -63,6 +63,7 @@ if csv_file is not None or ticker_count > 0:
 
 allow_selling = form.checkbox('Allow selling of current shares', value=False)
 allow_fractional = form.checkbox('Allow fractional shares', value=False)
+allow_accounts = form.checkbox('Allow assumption of separate accounts based on currency', Value=False)
 
 submitted = form.form_submit_button("Submit")
 
