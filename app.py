@@ -183,6 +183,7 @@ if submitted:
         }, inplace=True)
         plan_df.index += 1
         
+        st.tabel(df)
         st.table(plan_df.style.format(precision=2, na_rep='', thousands=','))
         
         # fig = px.bar(df, x=df.index, y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], barmode='group')
@@ -193,7 +194,7 @@ if submitted:
         #         ticktext = df.index))
         # st.plotly_chart(fig, use_container_width=True)
 
-        st.tabel(df)
+        
 
         fig, ax = plt.subplots()
         ax = df.plot(x=df.index, y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], kind="bar", rot=0)
