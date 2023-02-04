@@ -180,7 +180,7 @@ if submitted:
         plan_df.reset_index(inplace=True)
         plan_df.rename(columns={
             'ticker': 'Ticker',
-            'price': 'Market Price'
+            'price': 'Market Price',
             output_unit: 'Trade Sahres',
             output_value: 'Trade Value',
         }, inplace=True)
@@ -197,11 +197,10 @@ if submitted:
         #     plan_df.loc[j] = [i, df['price'][i], df[output_unit][i], df[output_value][i]]
         
         # plan_df.index += 1
-        # st.table(plan_df.style.format(precision=2, na_rep='', thousands=','))
+        st.table(plan_df.style.format(precision=2, na_rep='', thousands=','))
         
-        # fig = px.histogram(df, x=df.index, y=['pre_trade_weight', 'target_weight', 'post_trade_weight'],
-        #                    barmode='group')
-        # st.plotly_chart(fig, use_container_width=True)
+        fig = px.histogram(df, x=df.index, y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], barmode='group')
+        st.plotly_chart(fig, use_container_width=True)
                     
             
    
