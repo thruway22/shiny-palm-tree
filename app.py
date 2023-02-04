@@ -72,6 +72,7 @@ if submitted:
         st.stop()
     
     sum_target = 0
+    ticker_list = []
     for step in range(items_length):
         ticker = globals()['ticker%s' % step]
         target = globals()['target%s' % step]
@@ -93,10 +94,13 @@ if submitted:
                 st.error("Could not recognize ticker '{}'".format(ticker))
                 st.stop()        
            
-        sum_target += globals()['target%s' % step]
+        sum_target += target
+        ticker_list.append(ticker)
         
-        
-    if sum_target != 100:
+    if len(ticker_list) != len(set(ticker_list)):
+        st.error('Duplicates are not allowed')
+
+    elif sum_target != 100:
         st.error('Sum of target weights must equal 100%')
         st.stop()
 
