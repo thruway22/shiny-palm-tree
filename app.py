@@ -150,7 +150,6 @@ if submitted:
         df['post_trade_weight'] = 100 * (df['market_value'] + df[output_value]) / (df['market_value'].sum() + df[output_value].sum())
         
         st.dataframe(df)
-        st.stop()
         
         st.header('Plan:')
         
