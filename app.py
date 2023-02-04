@@ -63,7 +63,6 @@ if csv_file is not None or ticker_count > 0:
 
 allow_selling = form.checkbox('Allow selling of current shares', value=False)
 allow_fractional = form.checkbox('Allow fractional shares', value=False)
-allow_accounts = form.checkbox('Allow assumption of separate accounts based on currency', value=False)
 
 submitted = form.form_submit_button("Submit")
 
@@ -75,7 +74,7 @@ if submitted:
     sum_target = 0
     ticker_list = []
     for step in range(items_length):
-        ticker = globals()['ticker%s' % step]
+        ticker = globals()['ticker%s' % step] #.upper()
         target = globals()['target%s' % step]
         
         if ticker == '':
@@ -98,7 +97,7 @@ if submitted:
         sum_target += target
         ticker_list.append(ticker)
 
-    prohibit_duplicates = False    
+    prohibit_duplicates = True    
     if prohibit_duplicates and len(ticker_list) != len(set(ticker_list)):
         st.error('Duplicates are not allowed')
         st.stop()
