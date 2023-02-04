@@ -144,23 +144,17 @@ if submitted:
         
         
         algo_list = []
-        for i in df.index:
-            value = ((contribution + df['market_value'].sum()) * (df['target_weight'][i]/100)) - df['market_value'][i]
+        for i in asset_df.index:
+            value = total_assets * (asset_df['target_weight'][i]/100)) - asset_df['market_value'][i]
             #value = value if allow_selling else max(value, 0)
-            if allow_selling == True or i.startswith('$'):
-                value = value
-            else:
-                value = max(value, 0)
+            value = value if allow_selling else max(value, 0)
             algo_list.append(value)
-        df['algo'] = algo_list
+        asset_df['algo'] = algo_list
         
-        df_aux = df[df.index.str.startswith('$') == False]
-        st.table(df_aux)
-        
-        df['allocated_value'] = contribution * (df['algo'] / df['algo'].sum())
-        df['allocated_unit'] = df['allocated_value'] / df['price']
-        df['possible_unit'] = df['allocated_value'] // df['price']
-        df['possible_value'] = df['possible_unit'] * df['price']
+        asset_df['allocated_value'] = contribution * (asset_df['algo'] / asset_df['algo'].sum())
+        asset_df['allocated_unit'] = asset_df['allocated_value'] / asset_df['price']
+        asset_df['possible_unit'] = asset_df['allocated_value'] // asset_df['price']
+        asset_df['possible_value'] = asset_df['possible_unit'] * asset_df['price']
         
         if allow_fractional == True:
             output_value = 'allocated_value'
@@ -169,9 +163,9 @@ if submitted:
             output_value = 'possible_value'
             output_unit = 'possible_unit'
             
-        df['post_trade_weight'] = 100 * (df['market_value'] + df[output_value]) / (df['market_value'].sum() + df[output_value].sum())
+        asset_df['post_trade_weight'] = 100 * (asset_df['market_value'] + asset_df[output_value]) / (asset_df['market_value'].sum() + asset_df[output_value].sum())
         
-        st.dataframe(df)
+        st.dataframe(asset_df)
         
         st.header('Plan:')
         
