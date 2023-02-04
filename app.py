@@ -188,7 +188,7 @@ if submitted:
         fig.update_layout(
             xaxis = dict(
                 tickmode = 'array',
-                tickvals = df.index,
+                tickvals = df['pre_trade_weight', 'target_weight', 'post_trade_weight'],
                 ticktext = df.index))
         st.plotly_chart(fig, use_container_width=True)
                     
