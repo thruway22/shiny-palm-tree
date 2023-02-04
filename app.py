@@ -174,20 +174,24 @@ if submitted:
         st.dataframe(df)
         
         st.header('Plan:')
+
+        plan_df = df[df[output_unit] != 0]
+
+        st.table(plan_df)
         
-        plan_df = pd.DataFrame({
-            'Ticker': [], 'Market Price':[], 'Trade Shares':[], 'Trade Value':[]
-        })
+        # plan_df = pd.DataFrame({
+        #     'Ticker': [], 'Market Price':[], 'Trade Shares':[], 'Trade Value':[]
+        # })
         
-        for i, j in zip(df[df[output_unit] != 0].index, range(len(df))):
-            plan_df.loc[j] = [i, df['price'][i], df[output_unit][i], df[output_value][i]]
+        # for i, j in zip(df[df[output_unit] != 0].index, range(len(df))):
+        #     plan_df.loc[j] = [i, df['price'][i], df[output_unit][i], df[output_value][i]]
         
-        plan_df.index += 1
-        st.table(plan_df.style.format(precision=2, na_rep='', thousands=','))
+        # plan_df.index += 1
+        # st.table(plan_df.style.format(precision=2, na_rep='', thousands=','))
         
-        fig = px.histogram(df, x=df.index, y=['pre_trade_weight', 'target_weight', 'post_trade_weight'],
-                           barmode='group')
-        st.plotly_chart(fig, use_container_width=True)
+        # fig = px.histogram(df, x=df.index, y=['pre_trade_weight', 'target_weight', 'post_trade_weight'],
+        #                    barmode='group')
+        # st.plotly_chart(fig, use_container_width=True)
                     
             
    
