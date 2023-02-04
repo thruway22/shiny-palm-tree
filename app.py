@@ -122,6 +122,9 @@ if submitted:
           
         st.success('Getting financial data successful!')
         
+        '''
+        Test
+        '''
         contribution = contribution * get_currency_rate(currency, True)
         cash = df[df.index.str.startswith('$')]['market_value'][0] # .sum()for mulitple
         for i in df.index:
