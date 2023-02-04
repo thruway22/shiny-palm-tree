@@ -99,8 +99,8 @@ if submitted:
         
     if len(ticker_list) != len(set(ticker_list)):
         pass
-        st.error('Duplicates are not allowed')
-        st.stop()
+        #st.error('Duplicates are not allowed')
+        #st.stop()
 
     elif sum_target != 100:
         st.error('Sum of target weights must equal 100%')
