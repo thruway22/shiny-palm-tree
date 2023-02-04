@@ -125,7 +125,7 @@ if submitted:
         contribution = contribution * get_currency_rate(currency, True)
         cash = df[df.index.str.startswith('$')]['market_value'][0] # .sum()for mulitple
         for i in df.index:
-            if i.str.startswith('$'): df.loc[i][2] = 0
+            if i.startswith('$'): df.loc[i][2] = 0
         liquidity = contribution + cash
         
         algo_list = []
