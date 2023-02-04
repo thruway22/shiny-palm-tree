@@ -185,13 +185,17 @@ if submitted:
         
         st.table(plan_df.style.format(precision=2, na_rep='', thousands=','))
         
-        fig = px.bar(df, x=df.index, y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], barmode='group')
+        # fig = px.bar(df, x=df.index, y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], barmode='group')
         # fig.update_layout(
         #     xaxis = dict(
         #         tickmode = 'array',
         #         tickvals = ['pre_trade_weight', 'target_weight', 'post_trade_weight'],
         #         ticktext = df.index))
-        st.plotly_chart(fig, use_container_width=True)
+        # st.plotly_chart(fig, use_container_width=True)
+
+        fig, ax = plt.subplots()
+        ax = df.plot(x=df.index, y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], kind="bar", rot=0)
+        st.pyplot(fig)
                     
             
    
