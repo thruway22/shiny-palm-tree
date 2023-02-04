@@ -116,8 +116,6 @@ if submitted:
                 else:
                     price = yf.Ticker(ticker).history()['Close'][-1] * get_currency_rate(ticker)
 
-                # using iloc instead of loc to allow for duplicate values 
-                # df.iloc[step] = [ticker, shares, target, price]
                 df = pd.concat([df, pd.DataFrame([{
                     'ticker': ticker, 'current_shares': shares, 'target_weight': target, 'price': price
                 }])])
