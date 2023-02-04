@@ -135,7 +135,7 @@ if submitted:
             idx_name = df.iloc[i].name
             if idx_name.startswith('$'):
                 col_loc = df.columns.get_loc('market_value')
-                x = df.iat(i, col_loc)
+                x = df.iat[i, col_loc]
                 account_cash += x
                 account_cash_dict[i_name].append(x)
                 df.iat[i, col_loc] = 0
