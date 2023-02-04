@@ -125,7 +125,7 @@ if submitted:
         contribution_cash = contribution_amount * get_currency_rate(contribution_currency, True)
         for i in df.index:
             if i.startswith('$'):
-                account_cash = df[i]['market_value']
+                account_cash = df.loc[i]['market_value']
                 df.loc[i]['market_value'] = 0
             else:
                 account_cash = 0
