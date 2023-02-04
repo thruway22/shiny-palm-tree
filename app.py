@@ -153,7 +153,7 @@ if submitted:
             value = (total_cash + df['market_value'].sum()) * (
                 df.iat[i, df.columns.get_loc('target_weight')]/100
                 ) - df.iat[i, df.columns.get_loc('market_value')]
-            value = value if allow_selling else max(value, 0)
+            #value = value if allow_selling else max(value, 0)
             algo_list.append(value)
         df['algo'] = algo_list
         
