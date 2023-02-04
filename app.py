@@ -122,13 +122,8 @@ if submitted:
             df['pre_trade_weight'] = 100 * df['market_value'] / df['market_value'].sum()
           
         st.success('Getting financial data successful!')
-        
+    
 
-        for i in range(len(df.index)):
-            i_name = df.iloc[i].name
-            if i_name.startswith('$'):
-                #my_list.append(df.iloc[i][2])
-                print(i_name)
 
         contribution_cash = contribution_amount * get_currency_rate(contribution_currency, True)
         account_cash_dict = defaultdict(list)
@@ -141,6 +136,7 @@ if submitted:
                 df.iloc[i]['market_value'] = 0
         total_cash = contribution_cash + account_cash
 
+        st.write('test')
         st.write(account_cash_dict)
         st.write(account_cash)
         
