@@ -4,3 +4,4 @@ eod==0.2.1
 yfinance==0.2.9
 streamlit==1.16.0
 plotly==5.13.0
+matplotlib==3.6.2
