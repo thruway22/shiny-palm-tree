@@ -151,7 +151,7 @@ if submitted:
             algo_list.append(value)
         asset_df['algo'] = algo_list
         
-        asset_df['allocated_value'] = contribution * (asset_df['algo'] / asset_df['algo'].sum())
+        asset_df['allocated_value'] = liquidity * (asset_df['algo'] / asset_df['algo'].sum())
         asset_df['allocated_unit'] = asset_df['allocated_value'] / asset_df['price']
         asset_df['possible_unit'] = asset_df['allocated_value'] // asset_df['price']
         asset_df['possible_value'] = asset_df['possible_unit'] * asset_df['price']
