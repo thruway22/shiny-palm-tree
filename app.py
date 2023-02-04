@@ -119,44 +119,27 @@ if submitted:
                 
             df['market_value'] = df['current_shares'] * df['price']
             df['pre_trade_weight'] = 100 * df['market_value'] / df['market_value'].sum()
-        
-        
-        #cash = cash * get_currency_rate(currency, True)
-        
-        #cash = 0
-        
-        st.table(df)
           
         st.success('Getting financial data successful!')
         
         contribution = contribution * get_currency_rate(currency, True)
-        total_assets = contribution + df['market_value'].sum()
-        
-        cash_df = df[df.index.str.startswith('$') == True]
-        cash = cash_df['market_value'].sum()
-        cash_df['cash_adjustment'] = total_assets * (cash_df['target_weight']/100) - cash_df['market_value'] #algo
-        cash_df['excess_cash'] = -1 * cash_df['cash_adjustment']
-        liquidity = contribution + cash_df['excess_cash'].sum()
-        
-        st.write(liquidity)
-        st.table(cash_df)
-        
-        asset_df = df[df.index.str.startswith('$') == False]
-        
-        
+        cash_adjustment = 0
+        liquidity = contribution + cash_adjustment
         
         algo_list = []
-        for i in asset_df.index:
-            value = liquidity * (asset_df['target_weight'][i]/100) - asset_df['market_value'][i]
-            #value = value if allow_selling else max(value, 0)
-            value = value if allow_selling else max(value, 0)
+        for i in df.index:
+            value = liquidity * (df['target_weight'][i]/100) - df['market_value'][i]
+            if allow_selling == True or i.startswith('$'):
+                value = value
+            else:
+                value = max(value, 0)
             algo_list.append(value)
         asset_df['algo'] = algo_list
         
-        asset_df['allocated_value'] = liquidity * (asset_df['algo'] / asset_df['algo'].sum())
-        asset_df['allocated_unit'] = asset_df['allocated_value'] / asset_df['price']
-        asset_df['possible_unit'] = asset_df['allocated_value'] // asset_df['price']
-        asset_df['possible_value'] = asset_df['possible_unit'] * asset_df['price']
+        df['allocated_value'] = liquidity * (df['algo'] / df['algo'].sum())
+        asset_df['allocated_unit'] = df['allocated_value'] / df['price']
+        asset_df['possible_unit'] = df['allocated_value'] // df['price']
+        asset_df['possible_value'] = df['possible_unit'] * df['price']
         
         if allow_fractional == True:
             output_value = 'allocated_value'
@@ -165,9 +148,9 @@ if submitted:
             output_value = 'possible_value'
             output_unit = 'possible_unit'
             
-        asset_df['post_trade_weight'] = 100 * (asset_df['market_value'] + asset_df[output_value]) / (asset_df['market_value'].sum() + asset_df[output_value].sum())
+        df['post_trade_weight'] = 100 * (df['market_value'] + df[output_value]) / (df['market_value'].sum() + df[output_value].sum())
         
-        st.dataframe(asset_df)
+        st.dataframe(df)
         st.stop()
         
         st.header('Plan:')
