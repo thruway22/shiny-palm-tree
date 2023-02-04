@@ -160,7 +160,7 @@ if submitted:
             'Ticker': [], 'Market Price':[], 'Trade Shares':[], 'Trade Value':[]
         })
         
-        for i, j in zip(df[df['possible_unit'] != 0].index, range(len(df))):
+        for i, j in zip(df[df[output_unit] != 0].index, range(len(df))):
             plan_df.loc[j] = [i, df['price'][i], df[output_unit][i], df[output_value][i]]
         
         plan_df.index += 1
