@@ -134,7 +134,9 @@ if submitted:
         cash = cash_df['market_value'].sum()
         cash_df['cash_adjustment'] = total_assets * (cash_df['target_weight']/100) - cash_df['market_value'] #algo
         cash_df['excess_cash'] = -1 * cash_df['cash_adjustment']
+        liquidity = contribution + cash_df['excess_cash'].sum()
         
+        st.write(liquidity)
         st.table(cash_df)
         
         asset_df = df[df.index.str.startswith('$') == False]
