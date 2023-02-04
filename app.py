@@ -104,7 +104,7 @@ if submitted:
         st.success('Setting target weights successful!')
         
         with st.spinner('Getting ticker data from Yahoo! Finance...'):
-            df = pd.DataFrame({'ticker', 'current_shares': [], 'target_weight': [], 'price': []})
+            df = pd.DataFrame({'ticker': [], 'current_shares': [], 'target_weight': [], 'price': []})
             for step in range(items_length):
                 ticker = globals()['ticker%s' % step]
                 shares = globals()['share%s' % step]
