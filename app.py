@@ -129,7 +129,7 @@ if submitted:
         for i in df.index:
             if i.startswith('$'):
                 account_cash += df.loc[i]['market_value']
-                account_cash_dict[i].append(df[i]['market_value'])
+                account_cash_dict[i].append(df.loc[i]['market_value'])
                 df.loc[i]['market_value'] = 0
         total_cash = contribution_cash + account_cash
 
