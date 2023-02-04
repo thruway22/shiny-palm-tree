@@ -132,12 +132,13 @@ if submitted:
         account_cash_dict = defaultdict(list)
         account_cash = 0
         for i in range(len(df)):
-            i_name = df.iloc[i].name
-            if i_name.startswith('$'):
-                account_cash += df.iloc[i]['market_value']
-                account_cash_dict[i_name].append(df.iloc[i]['market_value'])
-                #df.iloc[i]['market_value'] = 0
-                df.iat[i, df.columns.get_loc('market_value')] = 0
+            idx_name = df.iloc[i].name
+            if idx_name.startswith('$'):
+                col_loc = df.columns.get_loc('market_value')
+                x = df.iat(i, col_loc)
+                account_cash += x
+                account_cash_dict[i_name].append(x)
+                df.iat[i, col_loc] = 0
         total_cash = contribution_cash + account_cash
 
         st.table(df)
