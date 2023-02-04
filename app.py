@@ -123,7 +123,7 @@ if submitted:
           
         st.success('Getting financial data successful!')
     
-
+        st.table(df)
 
         contribution_cash = contribution_amount * get_currency_rate(contribution_currency, True)
         account_cash_dict = defaultdict(list)
