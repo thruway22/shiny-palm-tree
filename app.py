@@ -176,6 +176,7 @@ if submitted:
         st.header('Plan:')
 
         plan_df = df[df[output_unit] != 0]
+        plan_df = [['ticker', 'price', output_unit, output_value]]
 
         st.table(plan_df)
         
