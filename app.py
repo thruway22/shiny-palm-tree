@@ -123,14 +123,22 @@ if submitted:
           
         st.success('Getting financial data successful!')
         
+
+        for i in range(len(df.index)):
+            i_name = df.iloc[i].name
+            if i_name.startswith('$'):
+                #my_list.append(df.iloc[i][2])
+                print(i_name)
+
         contribution_cash = contribution_amount * get_currency_rate(contribution_currency, True)
         account_cash_dict = defaultdict(list)
         account_cash = 0
-        for i in df.index:
-            if i.startswith('$'):
-                account_cash += df.loc[i]['market_value']
-                account_cash_dict[i].append(df.loc[i]['market_value'])
-                df.loc[i]['market_value'] = 0
+        for i in range(len(df)):
+            i_name = df.iloc[i].name
+            if i_name.startswith('$'):
+                account_cash += df.iloc[i]['market_value']
+                account_cash_dict[i_name].append(df.iloc[i]['market_value'])
+                df.iloc[i]['market_value'] = 0
         total_cash = contribution_cash + account_cash
 
         st.write(account_cash_dict)
