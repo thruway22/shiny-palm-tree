@@ -134,12 +134,12 @@ if submitted:
             else:
                 value = max(value, 0)
             algo_list.append(value)
-        asset_df['algo'] = algo_list
+        df['algo'] = algo_list
         
         df['allocated_value'] = liquidity * (df['algo'] / df['algo'].sum())
-        asset_df['allocated_unit'] = df['allocated_value'] / df['price']
-        asset_df['possible_unit'] = df['allocated_value'] // df['price']
-        asset_df['possible_value'] = df['possible_unit'] * df['price']
+        df['allocated_unit'] = df['allocated_value'] / df['price']
+        df['possible_unit'] = df['allocated_value'] // df['price']
+        df['possible_value'] = df['possible_unit'] * df['price']
         
         if allow_fractional == True:
             output_value = 'allocated_value'
