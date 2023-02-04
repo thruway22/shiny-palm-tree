@@ -118,9 +118,9 @@ if submitted:
 
                 # using iloc instead of loc to allow for duplicate values 
                 # df.iloc[step] = [ticker, shares, target, price]
-                df = pd.concat([df, pd.DataFrame({
+                df = pd.concat([df, pd.DataFrame([{
                     'ticker': ticker, 'current_shares': shares, 'target_weight': target, 'price': price
-                })])
+                }])])
 
             df.set_index('ticker', inplace=True)    
             df['market_value'] = df['current_shares'] * df['price']
