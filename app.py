@@ -104,7 +104,7 @@ if submitted:
         st.success('Setting target weights successful!')
         
         with st.spinner('Getting ticker data from Yahoo! Finance...'):
-            df = pd.DataFrame({'current_shares': [], 'target_weight': [], 'price': []})
+            df = pd.DataFrame({'ticker', 'current_shares': [], 'target_weight': [], 'price': []})
             for step in range(items_length):
                 ticker = globals()['ticker%s' % step]
                 shares = globals()['share%s' % step]
@@ -116,8 +116,10 @@ if submitted:
                 else:
                     price = yf.Ticker(ticker).history()['Close'][-1] * get_currency_rate(ticker)
 
-                df.loc[ticker] = [shares, target, price]
-                
+                # using iloc instead of loc to allow for duplicate values 
+                df.iloc[step] = [ticker, shares, target, price]
+
+            df.set_index('ticker', inplace=True)    
             df['market_value'] = df['current_shares'] * df['price']
             df['pre_trade_weight'] = 100 * df['market_value'] / df['market_value'].sum()
           
