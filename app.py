@@ -133,8 +133,6 @@ if submitted:
           
         st.success('Getting financial data successful!')
     
-        st.table(df)
-
         contribution_cash = contribution_amount * get_currency_rate(contribution_currency, True)
         account_cash_dict = defaultdict(list)
         account_cash = 0
@@ -147,12 +145,6 @@ if submitted:
                 account_cash_dict[idx_name].append(x)
                 df.iat[i, col_loc] = 0
         total_cash = contribution_cash + account_cash
-
-        st.table(df)
-
-        st.write('test2')
-        st.write(account_cash_dict)
-        st.write(account_cash)
         
         algo_list = []
         for i in range(len(df)): 
@@ -176,9 +168,7 @@ if submitted:
             output_unit = 'possible_unit'
             
         df['post_trade_weight'] = 100 * (df['market_value'] + df[output_value]) / (df['market_value'].sum() + df[output_value].sum())
-        
-        st.dataframe(df)
-        
+                
         st.header('Plan:')
 
         plan_df = df.copy()
