@@ -133,7 +133,7 @@ if submitted:
             if i_name.startswith('$'):
                 account_cash += df.iloc[i]['market_value']
                 account_cash_dict[i_name].append(df.iloc[i]['market_value'])
-                df.iloc[i]['market_value'] = 0
+                #df.iloc[i]['market_value'] = 0
         total_cash = contribution_cash + account_cash
 
         st.write('test')
