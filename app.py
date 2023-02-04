@@ -39,10 +39,10 @@ if csv_file is None:
 
 form = st.form('input_form')
 
-right, middle, left = form.columns(3)
-contribution = right.number_input('Contribution', min_value=0.0, step=0.1, format='%.1f')
-cash = middle.number_input('In-Account Cash', min_value=0.0, step=0.1, format='%.1f')
-currency = left.selectbox('Currency', ccy_dict.keys(), index=list(ccy_dict).index('USD'))
+right, left = form.columns([3, 1])
+contribution_amount = right.number_input('Contribution', min_value=0.0, step=0.1, format='%.1f')
+#cash = middle.number_input('In-Account Cash', min_value=0.0, step=0.1, format='%.1f')
+contribution_currency = left.selectbox('Currency', ccy_dict.keys(), index=list(ccy_dict).index('USD'))
 
 if csv_file is not None or ticker_count > 0:
     cola, colb, colc = form.columns(3)
@@ -122,20 +122,23 @@ if submitted:
           
         st.success('Getting financial data successful!')
         
-        contribution = contribution * get_currency_rate(currency, True)
-        cash = df[df.index.str.startswith('$')]['market_value'][0] # .sum()for mulitple
+        contribution_cash = contribution_amount * get_currency_rate(contribution_currency, True)
         for i in df.index:
-            if i.startswith('$'): df.loc[i]['market_value'] = 0
-        liquidity = contribution + cash
+            if i.startswith('$'):
+                account_cash = df[i]['market_value']
+                df.loc[i]['market_value'] = 0
+            else:
+                account_cash = 0
+        total_cash = contribution_cash + account_cash
         
         algo_list = []
         for i in df.index:
-            value = liquidity * (df['target_weight'][i]/100) - df['market_value'][i]
+            value = total_cash * (df['target_weight'][i]/100) - df['market_value'][i]
             value = value if allow_selling else max(value, 0)
             algo_list.append(value)
         df['algo'] = algo_list
         
-        df['allocated_value'] = liquidity * (df['algo'] / df['algo'].sum())
+        df['allocated_value'] = total_cash * (df['algo'] / df['algo'].sum())
         df['allocated_unit'] = df['allocated_value'] / df['price']
         df['possible_unit'] = df['allocated_value'] // df['price']
         df['possible_value'] = df['possible_unit'] * df['price']
