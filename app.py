@@ -120,12 +120,25 @@ if submitted:
         
         
         #cash = cash * get_currency_rate(currency, True)
-        #contribution = contribution * get_currency_rate(currency, True)
+        
         #cash = 0
         
         st.table(df)
           
         st.success('Getting financial data successful!')
+        
+        contribution = contribution * get_currency_rate(currency, True)
+        total_assets = contribution + df['market_value'].sum()
+        
+        cash_df = df[df.index.str.startswith('$') == True]
+        cash = cash_df['market_value'].sum()
+        cash_df['cash_adjustment'] = total_assets * (cash_df['target_weight']/100) - cash_df['market_value'] #algo
+        cash_df['excess_cash'] = -1 * cash_df['cash_adjustment']
+        
+        st.table(cash_df)
+        
+        asset_df = df[df.index.str.startswith('$') == False]
+        
         
         
         algo_list = []
