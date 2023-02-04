@@ -131,14 +131,11 @@ if submitted:
         algo_list = []
         for i in df.index:
             value = liquidity * (df['target_weight'][i]/100) - df['market_value'][i]
-            if allow_selling == True or i.startswith('$'):
-                value = value
-            else:
-                value = max(value, 0)
+            value = value if allow_selling else max(value, 0)
             algo_list.append(value)
         df['algo'] = algo_list
         
-        df['allocated_value'] = liquidity * (df['algo'] / df[df.index.str.startswith('$')==False]['algo'].sum())
+        df['allocated_value'] = liquidity * (df['algo'] / df['algo'].sum())
         df['allocated_unit'] = df['allocated_value'] / df['price']
         df['possible_unit'] = df['allocated_value'] // df['price']
         df['possible_value'] = df['possible_unit'] * df['price']
