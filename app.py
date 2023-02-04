@@ -145,7 +145,7 @@ if submitted:
         
         algo_list = []
         for i in asset_df.index:
-            value = total_assets * (asset_df['target_weight'][i]/100)) - asset_df['market_value'][i]
+            value = total_assets * (asset_df['target_weight'][i]/100) - asset_df['market_value'][i]
             #value = value if allow_selling else max(value, 0)
             value = value if allow_selling else max(value, 0)
             algo_list.append(value)
