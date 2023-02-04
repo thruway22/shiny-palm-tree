@@ -137,7 +137,7 @@ if submitted:
                 col_loc = df.columns.get_loc('market_value')
                 x = df.iat[i, col_loc]
                 account_cash += x
-                account_cash_dict[i_name].append(x)
+                account_cash_dict[idx_name].append(x)
                 df.iat[i, col_loc] = 0
         total_cash = contribution_cash + account_cash
 
