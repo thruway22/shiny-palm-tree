@@ -139,7 +139,7 @@ if submitted:
                 df.iloc[i]['market_value'] = 0
         total_cash = contribution_cash + account_cash
 
-        st.write('test')
+        st.write('test2')
         st.write(account_cash_dict)
         st.write(account_cash)
         
