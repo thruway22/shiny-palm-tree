@@ -120,6 +120,7 @@ if submitted:
                     'ticker': ticker, 'current_shares': shares, 'target_weight': target, 'price': price
                 }])])
 
+            df['ticker'] = df['ticker'].str.upper()
             df.set_index('ticker', inplace=True)    
             df['market_value'] = df['current_shares'] * df['price']
             df['pre_trade_weight'] = 100 * df['market_value'] / df['market_value'].sum()
@@ -150,7 +151,7 @@ if submitted:
         algo_list = []
         for i in df.index:
             value = (total_cash + df['market_value'].sum()) * (df['target_weight'][i]/100) - df['market_value'][i]
-            value = value if allow_selling == True else max(value, 0)
+            value = value if allow_selling else max(value, 0)
             algo_list.append(value)
         df['algo'] = algo_list
         
