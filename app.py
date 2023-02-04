@@ -3,6 +3,7 @@ import pandas as pd
 import yfinance as yf
 from collections import defaultdict
 import plotly.express as px
+import matplotlib.pyplot as plt
 from ccy_dict import ccy_dict
 
 def display_input_widgets(stride, values_df=None):
