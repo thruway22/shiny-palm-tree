@@ -178,7 +178,14 @@ if submitted:
         plan_df = df[df[output_unit] != 0]
         plan_df = plan_df[['price', output_unit, output_value]]
         plan_df.reset_index(inplace=True)
+        plan_df.rename(columns={
+            'ticker': 'Ticker',
+            'price': 'Market Price'
+            output_unit: 'Trade Sahres',
+            output_value: 'Trade Value',
+        }, inplace=True)
         plan_df.index += 1
+
 
         st.table(plan_df)
         
