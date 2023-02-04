@@ -74,7 +74,7 @@ if submitted:
     sum_target = 0
     ticker_list = []
     for step in range(items_length):
-        ticker = globals()['ticker%s' % step] #.upper()
+        ticker = globals()['ticker%s' % step].upper()
         target = globals()['target%s' % step]
         
         if ticker == '':
