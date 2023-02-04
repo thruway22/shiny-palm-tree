@@ -136,7 +136,7 @@ if submitted:
             algo_list.append(value)
         df['algo'] = algo_list
         
-        df['allocated_value'] = liquidity * (df['algo'] / df['algo'].sum())
+        df['allocated_value'] = liquidity * (df['algo'] / df[df.index.str.startswith('$')==False]['algo'].sum())
         df['allocated_unit'] = df['allocated_value'] / df['price']
         df['possible_unit'] = df['allocated_value'] // df['price']
         df['possible_value'] = df['possible_unit'] * df['price']
