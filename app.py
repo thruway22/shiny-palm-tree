@@ -175,7 +175,7 @@ if submitted:
         
         st.header('Plan:')
 
-        plan_df = df[df[output_unit] != 0]
+        plan_df = df.copy()
         plan_df = plan_df[['price', output_unit, output_value]]
         plan_df.reset_index(inplace=True)
         plan_df.rename(columns={
