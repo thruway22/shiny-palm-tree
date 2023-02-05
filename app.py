@@ -64,6 +64,7 @@ if csv_file is not None or ticker_count > 0:
 
 allow_selling = form.checkbox('Allow selling of current shares', value=False)
 allow_fractional = form.checkbox('Allow fractional shares', value=False)
+excess_cash_handling = form.checkbox('Keep all excess cash in the first cash account', value=False)
 
 submitted = form.form_submit_button("Submit")
 
@@ -98,7 +99,7 @@ if submitted:
         sum_target += target
         ticker_list.append(ticker)
 
-    prohibit_duplicates = True    
+    prohibit_duplicates = True # !important;  half-baked for later improvements
     if prohibit_duplicates and len(ticker_list) != len(set(ticker_list)):
         st.error('Duplicates are not allowed')
         st.stop()
@@ -133,8 +134,6 @@ if submitted:
             df['pre_trade_weight'] = 100 * df['market_value'] / df['market_value'].sum()
           
         st.success('Getting financial data successful!')
-
-        st.write('sum(market_value)', df.market_value.sum())
     
         contribution_cash = contribution_amount * get_currency_rate(contribution_currency, True)
         account_cash_dict = defaultdict(list)
@@ -148,8 +147,6 @@ if submitted:
                 account_cash_dict[idx_name].append(x)
                 df.iat[i, col_loc] = 0
         total_cash = contribution_cash + account_cash
-
-        st.write('account_cash', account_cash, 'total_cash', total_cash)
         
         algo_list = []
         for i in range(len(df)): 
@@ -161,17 +158,7 @@ if submitted:
         df['algo'] = algo_list
         
         df['allocated_value'] = total_cash * (df['algo'] / df['algo'].sum())
-        # df['allocated_unit'] = df['allocated_value'] / df['price']
-        # df['possible_unit'] = df['allocated_value'] // df['price']
         df['possible_value'] = (df['allocated_value'] // df['price']) * df['price']
-        output_value_col = 'allocated_value' if allow_fractional else 'possible_value'
-
-        # if allow_fractional == True:
-        #     output_value = 'allocated_value'
-        #     output_unit = 'allocated_unit'
-        # else:
-        #     output_value = 'possible_value'
-        #     output_unit = 'possible_unit'
 
         if allow_fractional == False:
             excess_cash = df['allocated_value'].sum() - df['possible_value'].sum()
