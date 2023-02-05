@@ -182,7 +182,7 @@ if submitted:
         if allow_fractional == False:
 
             cash_handling_dict = {
-                'label': ['total_cash', 'trade_cash', 'excess_cash']
+                'label': ['total_cash', 'trade_cash', 'excess_cash'],
                 'value': [total_cash, total_cash - excess_cash, excess_cash]
             }
 
