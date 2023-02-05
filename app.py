@@ -203,8 +203,14 @@ if submitted:
 
         st.write(inward_dict, outward_dict)
 
+
+
         flow_fig = go.Figure(data=[go.Sankey(
+            node = dict(label = inward_dict.keys()),
             link = dict(
+                source = [0, 0, 0, 1],
+                target = [1, 1, 1, 1],
+                value = [8, 4, 2, 8, 4, 2]
 
         ))])
 
