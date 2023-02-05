@@ -182,16 +182,16 @@ if submitted:
         if allow_fractional == False:
         
             cash_fig_dict = {
-                'names': ['total_cash', 'trade_cash', 'excess_cash'],
-                'parents': ['', 'total_cash', 'total_cash'],
+                'names': ['Available Cash', 'Tradable Cash', 'Excess Cash'],
+                'parents': ['', 'Available Cash', 'Available Cash'],
                 'values': [total_cash, total_cash - excess_cash, excess_cash]}
 
             cash_fig = px.icicle(cash_fig_dict, parents='parents', names='names', values='values')
             cash_fig.update_traces(
-                textinfo= 'label+value',
+                #textinfo= 'label+value',
                 branchvalues= 'total',
                 root_color='lightgrey',
-                texttemplate='%{label}%{value:$.2f}'
+                texttemplate='%{label}: %{value:$.2f}'
                 )
 
             cash_fig.update_layout(
