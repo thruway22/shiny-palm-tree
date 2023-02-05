@@ -205,7 +205,7 @@ if submitted:
         plan_fig.update_traces(
             #textinfo= 'label+value',
             branchvalues= 'total',
-            root_color='lightgrey',
+            root_color='#15428A',
             texttemplate='%{label}: %{value:$.2f}'
             )
 
