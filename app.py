@@ -163,8 +163,13 @@ if submitted:
 
         excess_cash = df['allocated_value'].sum() - df['possible_value'].sum()
         excess_cash_weighted = {k: excess_cash * (sum(v)/account_cash) for (k, v) in account_cash_dict.items()}
+
+        for i in df.index:
+            if i in excess_cash_weighted.keys():
+                df.at[i, 'allocated_value'] = excess_cash_weighted[i]
         
         st.write(excess_cash_weighted)
+        st.table(df)
 
         if allow_fractional == True:
             output_value = 'allocated_value'
