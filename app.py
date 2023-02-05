@@ -191,9 +191,11 @@ if submitted:
         fig = px.bar(df2, x=df.index, y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], barmode='group')
         st.plotly_chart(fig, use_container_width=True)
 
-        st.plotly_chart(px.bar(
-            plan_df, x=['ticker'], y=['allocated_value', output_value], barmode='group')
-            , use_container_width=True)                 
+        
+
+        allo = px.bar(df2, x=['ticker'], y=['allocated_value'], barmode='group')
+        allo.add_bar(x=['ticker'], y=plan_df[output_value])
+        st.plotly_chart(allo, use_container_width=True)                 
             
    
     
