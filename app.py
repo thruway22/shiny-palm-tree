@@ -184,7 +184,7 @@ if submitted:
 
         names_list = ['Available Cash', 'Tradable Cash', 'Excess Cash']
         parents_list = ['', 'Available Cash', 'Available Cash']
-        values_list = [total_cash, df['allocated_value'] - excess_cash, excess_cash]
+        values_list = [total_cash, df['output_value'].sum(), excess_cash]
 
         for i in df.index:
             if i.startswith('$'):
