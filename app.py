@@ -195,9 +195,9 @@ if submitted:
         # st.plotly_chart(fig, use_container_width=True)
 
         
-
+        df2 = df.reset_index()
         fig, ax = plt.subplots()
-        df[['pre_trade_weight', 'target_weight', 'post_trade_weight']].plot(x=df.index, kind="bar")
+        df2[['pre_trade_weight', 'target_weight', 'post_trade_weight']].plot(x='ticker', kind="bar")
         #ax = df.reset_index().plot(x='ticker', y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], kind="bar", rot=0)
         st.pyplot(fig)
                     
