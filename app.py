@@ -214,6 +214,8 @@ if submitted:
 
         ))])
 
+        st.plotly_chart(flow_fig, use_container_width=True)
+
         fig = go.Figure(data=[go.Sankey(
             node = dict(
             pad = 15,
