@@ -169,18 +169,23 @@ if submitted:
         #     output_value = 'possible_value'
         #     output_unit = 'possible_unit'
 
-        excess_cash = df['allocated_value'].sum() - df['possible_value'].sum()
-        excess_cash_weighted = {k: excess_cash * (sum(v)/account_cash) for (k, v) in account_cash_dict.items()}
+        if allow_fractional == False:
+            excess_cash = df['allocated_value'].sum() - df['possible_value'].sum()
+            excess_cash_weighted = {k: excess_cash * (sum(v)/account_cash) for (k, v) in account_cash_dict.items()}
 
-        df['output_value'] = 0
-        for i in df.index:
-            if i not in excess_cash_weighted.keys():
-                df.at[i, 'output_value'] = df.at[i, output_value_col] 
-            else:
-                df.at[i, 'output_value'] = df.at[i, output_value_col] + excess_cash_weighted[i]
+            df['output_value'] = 0
+            for i in df.index:
+                if i not in excess_cash_weighted.keys():
+                    df.at[i, 'output_value'] = df.at[i, 'possible_value'] 
+                else:
+                    df.at[i, 'output_value'] = df.at[i, 'possible_value'] + excess_cash_weighted[i]
 
-        df['output_unit'] = df['output_value'] / df['price']
-            
+            df['output_unit'] = df['output_value'] / df['price']
+
+        else:
+            df['output_value'] = df['allocated_value']
+        
+        df['output_unit'] = df['output_value'] / df['price'] 
         df['post_trade_weight'] = 100 * (df['market_value'] + df['output_value']) / (df['market_value'].sum() + df['output_value'].sum())
 
         # st.header('Plan:')
