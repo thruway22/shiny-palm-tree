@@ -180,25 +180,18 @@ if submitted:
         df['post_trade_weight'] = 100 * (df['market_value'] + df['output_value']) / (df['market_value'].sum() + df['output_value'].sum())
 
         if allow_fractional == False:
-
-            cash_handling_dict = {
-                'label': ['total_cash', 'trade_cash', 'excess_cash'],
-                'value': [total_cash, total_cash - excess_cash, excess_cash]
-            }
-
-            st.plotly_chart(
-                px.funnel(cash_handling_dict, x='value', y='label')
-            )
         
-            cash_handling_dict2 = {
+            cash_fig_dict = {
                 'level_a': ['total_cash', 'total_cash', 'total_cash'],
                 'level_b': ['', 'trade_cash', 'excess_cash'],
-                'values': [total_cash, total_cash - excess_cash, excess_cash]
-            }
+                'values': [total_cash, total_cash - excess_cash, excess_cash]}
 
-            st.plotly_chart(
-                px.icicle(cash_handling_dict2, parents='level_a', names='level_b', values='values', color='day')#.update_traces(root_color="lightgrey")
-            )
+            cash_fig = px.icicle(cash_handling_dict2, parents='level_a', names='level_b', values='values')
+            cash_fig.update_traces(
+                root_color='lightgrey'
+                texttemplate='%{value:.2}')
+
+            st.plotly_chart(cash_fig, use_container_width=True)
 
             st.write(
                 '''Your total available cash to trade is **\${:.2f}**,
