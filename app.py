@@ -189,6 +189,16 @@ if submitted:
             st.plotly_chart(
                 px.funnel(cash_handling_dict, x='value', y='label')
             )
+        
+            cash_handling_dict2 = {
+                'level_a': ['total_cash', 'total_cash'],
+                'level_b': ['trade_cash', 'excess_cash']
+                'values': [total_cash - excess_cash, excess_cash]
+            }
+
+            st.plotly_chart(
+                px.icicle(cash_handling_dict2, parents='level_a', names='level_b', values='values')
+            )
 
             st.write(
                 '''Your total available cash to trade is **\${:.2f}**,
