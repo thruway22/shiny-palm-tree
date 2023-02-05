@@ -208,8 +208,8 @@ if submitted:
         flow_fig = go.Figure(data=[go.Sankey(
             node = dict(label = list(inward_dict.keys())),
             link = dict(
-                source = [0, 0, 1, 0],
-                target = [1, 1, 2, 1],
+                source = [0, 0, 0, 1],
+                target = [1, 1, 1, 2],
                 value = [8, 4, 2, 8]
 
         ))])
