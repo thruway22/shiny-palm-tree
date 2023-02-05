@@ -179,28 +179,40 @@ if submitted:
         df['output_unit'] = df['output_value'] / df['price'] 
         df['post_trade_weight'] = 100 * (df['market_value'] + df['output_value']) / (df['market_value'].sum() + df['output_value'].sum())
 
-        if allow_fractional == False:
-        
-            cash_fig_dict = {
-                'names': ['Available Cash', 'Tradable Cash', 'Excess Cash'],
-                'parents': ['', 'Available Cash', 'Available Cash'],
-                'values': [total_cash, total_cash - excess_cash, excess_cash]}
 
-            cash_fig = px.icicle(cash_fig_dict, parents='parents', names='names', values='values')
-            cash_fig.update_traces(
-                #textinfo= 'label+value',
-                branchvalues= 'total',
-                root_color='lightgrey',
-                texttemplate='%{label}: %{value:$.2f}'
-                )
+        # creating output plan
 
-            cash_fig.update_layout(
-                #title_text="Type Of Admission (2019-Q2)",
-                margin = dict(t=50, l=0, r=0, b=0)
+        names_list = ['Available Cash', 'Tradable Cash', 'Excess Cash']
+        parents_list = ['', 'Available Cash', 'Available Cash']
+        values_list = [total_cash, total_cash - excess_cash, excess_cash]
+
+        for i in df.index:
+            if i not in excess_cash_weighted.keys():
+                names_list.append(i)
+                parents_list.append('Tradable Cash')
+                values_list.append(df.at[i, 'output_value'])
+
+        plan_dict = {
+            'names': names_list,
+            'parents': parents_list,
+            'values': values_list}
+
+        plan_fig = px.icicle(plan_dict, parents='parents', names='names', values='values')
+        plan_fig.update_traces(
+            #textinfo= 'label+value',
+            branchvalues= 'total',
+            root_color='lightgrey',
+            texttemplate='%{label}: %{value:$.2f}'
             )
 
-            st.plotly_chart(cash_fig, use_container_width=True)
+        plan_fig.update_layout(
+            #title_text="Type Of Admission (2019-Q2)",
+            margin = dict(t=50, l=0, r=0, b=0)
+        )
 
+        st.plotly_chart(plan_fig, use_container_width=True)
+        
+        if allow_fractional == False:
             st.write(
                 '''Your total available cash to trade is **\${:.2f}**,
                 but you can only trade **\${:.2f}** for complete (non-fractional) shares.
