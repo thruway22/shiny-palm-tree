@@ -133,6 +133,8 @@ if submitted:
             df['pre_trade_weight'] = 100 * df['market_value'] / df['market_value'].sum()
           
         st.success('Getting financial data successful!')
+
+        st.write('sum(market_value)', df.market_value.sum())
     
         contribution_cash = contribution_amount * get_currency_rate(contribution_currency, True)
         account_cash_dict = defaultdict(list)
@@ -147,7 +149,7 @@ if submitted:
                 df.iat[i, col_loc] = 0
         total_cash = contribution_cash + account_cash
 
-        st.write('account_cash', account_cash, 'total_cash', total_cash, 'sum(market_value)', df.market_value.sum())
+        st.write('account_cash', account_cash, 'total_cash', total_cash)
         
         algo_list = []
         for i in range(len(df)): 
