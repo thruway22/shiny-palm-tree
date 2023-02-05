@@ -174,11 +174,10 @@ if submitted:
 
         df['output_value'] = 0
         for i in df.index:
-            if i in excess_cash_weighted.keys():
-                df.at[i, 'output_value'] = excess_cash_weighted[i]
+            if i not in excess_cash_weighted.keys():
+                df.at[i, 'output_value'] = df.at[i, output_value_col] 
             else:
-                df.at[i, 'output_value'] = df.at[i,
-                    'allocated_value' if allow_fractional else 'possible_value']
+                df.at[i, 'output_value'] = df.at[i, output_value_col] + excess_cash_weighted[i]
 
         df['output_unit'] = df['output_value'] / df['price']
             
