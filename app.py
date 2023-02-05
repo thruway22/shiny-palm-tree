@@ -180,11 +180,23 @@ if submitted:
         df['post_trade_weight'] = 100 * (df['market_value'] + df['output_value']) / (df['market_value'].sum() + df['output_value'].sum())
 
         if allow_fractional == False:
+
+            cash_handling_dict = {
+                'label' = ['total_cash', 'trade_cash', 'excess_cash']
+                'value' = [total_cash, total_cash - excess_cash, excess_cash]
+            }
+
+            st.plotly_chart(
+                px.funnel(cash_handling_dict, x='value', y='label')
+            )
+
             st.write(
                 '''Your total available cash to trade is **\${:.2f}**,
                 but you can only trade **\${:.2f}** for complete (non-fractional) shares.
                 With excess cash of **\${:.2f}**, how would you like to distribute it?'''.format(total_cash, total_cash - excess_cash, excess_cash)
             )
+
+
 
         # st.header('Plan:')
 
