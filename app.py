@@ -179,33 +179,28 @@ if submitted:
             else:
                 df.at[i, 'output_value'] = df.at[i,
                     'allocated_value' if allow_fractional else 'possible_value']
-                    
+
         df['output_unit'] = df['output_value'] / df['price']
             
         df['post_trade_weight'] = 100 * (df['market_value'] + df['output_value']) / (df['market_value'].sum() + df['output_value'].sum())
 
-        st.table(df)
-        st.stop()
+        # st.header('Plan:')
 
-        st.header('Plan:')
-
-        plan_df = df.copy()
-        plan_df = plan_df[['price', output_unit, output_value]]
-        plan_df.reset_index(inplace=True)
-        plan_df.rename(columns={
-            'ticker': 'Ticker',
-            'price': 'Market Price',
-            output_unit: 'Trade Sahres',
-            output_value: 'Trade Value',
-        }, inplace=True)
-        plan_df.index += 1
+        # plan_df = df.copy()
+        # plan_df = plan_df[['price', output_unit, output_value]]
+        # plan_df.reset_index(inplace=True)
+        # plan_df.rename(columns={
+        #     'ticker': 'Ticker',
+        #     'price': 'Market Price',
+        #     output_unit: 'Trade Sahres',
+        #     output_value: 'Trade Value',
+        # }, inplace=True)
+        # plan_df.index += 1
         
         st.table(df)
-        st.table(plan_df.style.format(precision=2, na_rep='', thousands=','))
-
-        df2 = df.reset_index()
+        # st.table(plan_df.style.format(precision=2, na_rep='', thousands=','))
         
-        fig = px.bar(df2, x=df.index, y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], barmode='group')
+        fig = px.bar(df, x=df.index, y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], barmode='group')
         st.plotly_chart(fig, use_container_width=True)                 
             
    
