@@ -182,7 +182,7 @@ if submitted:
         df['output_unit'] = df['output_value'] / df['price']
 
         df['post_trade_weight'] = 100 * (df['market_value'] + df['output_value']) / (df['market_value'].sum() + df['output_value'].sum())
-
+        df['action'] = 'Sell' if df['output_value'] < 0 else 'Buy'
 
 
         fig = go.Figure(data=[go.Sankey(
@@ -200,6 +200,8 @@ if submitted:
         ))])
 
         st.plotly_chart(fig, use_container_width=True)
+
+
 
 
 
