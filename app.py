@@ -188,7 +188,7 @@ if submitted:
 
             cash_fig = px.icicle(cash_fig_dict, parents='parents', names='names', values='values')
             cash_fig.update_traces(
-                textinfo= 'label+value+percent entry',
+                textinfo= 'label+value',
                 root_color='lightgrey',
                 #texttemplate='%{y:$.2f}'
                 )
