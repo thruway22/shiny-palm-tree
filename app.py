@@ -188,7 +188,7 @@ if submitted:
 
             cash_fig = px.icicle(cash_handling_dict2, parents='level_a', names='level_b', values='values')
             cash_fig.update_traces(
-                root_color='lightgrey'
+                root_color='lightgrey',
                 texttemplate='%{value:.2}')
 
             st.plotly_chart(cash_fig, use_container_width=True)
