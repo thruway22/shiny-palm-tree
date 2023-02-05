@@ -197,12 +197,13 @@ if submitted:
 
         
         x = df.index
-        y = df['pre_trade_weight', 'target_weight', 'post_trade_weight']
+        y = df[['pre_trade_weight', 'target_weight', 'post_trade_weight']]
+        y1 = df['pre_trade_weight']
 
         fig, ax = plt.subplots()
         #df[['pre_trade_weight', 'target_weight', 'post_trade_weight']].plot(x='ticker', kind="bar")
         #ax = df.reset_index().plot(x='ticker', y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], kind="bar", rot=0)
-        bars = ax.bar(x, y, tick_label=x)
+        bars = ax.bar(x, y1, tick_label=x)
         st.pyplot(fig)
                     
             
