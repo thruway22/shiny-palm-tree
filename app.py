@@ -189,11 +189,11 @@ if submitted:
         for i in df.index:
             if i.startswith('$'):
                 names_list.append(i)
-                parents_list.append('Tradable Cash')
+                parents_list.append('Excess Cash')
                 values_list.append(df.at[i, 'output_value'])
             else:
                 names_list.append(i)
-                parents_list.append('Excess Cash')
+                parents_list.append('Tradable Cash')
                 values_list.append(df.at[i, 'output_value'])
 
         plan_dict = {
