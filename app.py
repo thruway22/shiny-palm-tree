@@ -194,9 +194,7 @@ if submitted:
                 tickmode = 'array',
                 tickvals = df2.index,
                 ticktext = df2.ticker))
-        st.plotly_chart(fig, use_container_width=True)
-        st.pyplot(fig)
-                    
+        st.plotly_chart(fig, use_container_width=True)                    
             
    
     
