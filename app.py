@@ -192,12 +192,12 @@ if submitted:
         for i in df.index:
             if df['output_value'][i] < 0:
                 df['action'][i] = 'Sell'
-                inward_dict[i] = df['output_value'][i]
+                inward_dict[i] = abs(df['output_value'][i])
             else:
                 df['action'][i] = 'Buy'
                 outward_dict[i] = df['output_value'][i]
 
-        st.write(inward_dict)
+        st.write(inward_dict, outward_dict)
 
         fig = go.Figure(data=[go.Sankey(
             node = dict(
