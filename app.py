@@ -209,7 +209,7 @@ if submitted:
             node = dict(label = list(inward_dict.keys())),
             link = dict(
                 source = [0, 1, 2, 3],
-                target = [4, 4, 4, 4],
+                target = [3, 3, 3, 3],
                 value = [8, 4, 2, 8]
 
         ))])
