@@ -187,14 +187,17 @@ if submitted:
         values_list = [total_cash, df['output_value'].sum(), excess_cash]
 
         for i in df.index:
-            if i.startswith('$'):
-                names_list.append(i)
-                parents_list.append('Excess Cash')
-                values_list.append(df.at[i, 'output_value'])
-            else:
-                names_list.append(i)
-                parents_list.append('Tradable Cash')
-                values_list.append(df.at[i, 'output_value'])
+            names_list.append(i)
+            parents_list.append('Tradable Cash')
+            values_list.append(df.at[i, 'output_value'])
+            # if i.startswith('$'):
+            #     names_list.append(i)
+            #     parents_list.append('Excess Cash')
+            #     values_list.append(df.at[i, 'output_value'])
+            # else:
+            #     names_list.append(i)
+            #     parents_list.append('Tradable Cash')
+            #     values_list.append(df.at[i, 'output_value'])
 
         plan_dict = {
             'names': names_list,
