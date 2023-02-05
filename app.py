@@ -191,9 +191,9 @@ if submitted:
             )
         
             cash_handling_dict2 = {
-                'level_a': ['total_cash', 'total_cash'],
-                'level_b': ['trade_cash', 'excess_cash'],
-                'values': [total_cash - excess_cash, excess_cash]
+                'level_a': ['total_cash', 'total_cash', 'total_cash'],
+                'level_b': ['', 'trade_cash', 'excess_cash'],
+                'values': [total_cash, total_cash - excess_cash, excess_cash]
             }
 
             st.plotly_chart(
