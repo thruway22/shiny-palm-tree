@@ -201,6 +201,7 @@ if submitted:
 
         inward_dict['available_cash'] = sum(inward_dict.values())
         inward_dict['tradable_cash'] = df['output_value'].sum()
+        inward_dict['excess_cash'] = excess_cash
 
         st.write(inward_dict, outward_dict)
 
@@ -209,9 +210,9 @@ if submitted:
         flow_fig = go.Figure(data=[go.Sankey(
             node = dict(label = list(inward_dict.keys())),
             link = dict(
-                source = [0, 1, 2, 3, 3],
-                target = [3, 3, 3, 3, 4],
-                value = [8, 4, 2, 0, 6]
+                source = [0, 1, 2, 3, 3, 3],
+                target = [3, 3, 3, 3, 4, 4],
+                value = [8, 4, 2, 0, 6, 2]
 
         ))])
 
