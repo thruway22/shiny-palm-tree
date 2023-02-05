@@ -157,28 +157,35 @@ if submitted:
         df['algo'] = algo_list
         
         df['allocated_value'] = total_cash * (df['algo'] / df['algo'].sum())
-        df['allocated_unit'] = df['allocated_value'] / df['price']
-        df['possible_unit'] = df['allocated_value'] // df['price']
-        df['possible_value'] = df['possible_unit'] * df['price']
+        # df['allocated_unit'] = df['allocated_value'] / df['price']
+        # df['possible_unit'] = df['allocated_value'] // df['price']
+        df['possible_value'] = (df['allocated_value'] // df['price']) * df['price']
+        output_value_col = 'allocated_value' if allow_fractional else 'possible_value'
+
+        # if allow_fractional == True:
+        #     output_value = 'allocated_value'
+        #     output_unit = 'allocated_unit'
+        # else:
+        #     output_value = 'possible_value'
+        #     output_unit = 'possible_unit'
 
         excess_cash = df['allocated_value'].sum() - df['possible_value'].sum()
         excess_cash_weighted = {k: excess_cash * (sum(v)/account_cash) for (k, v) in account_cash_dict.items()}
 
+        df['output_value'] = 0
         for i in df.index:
             if i in excess_cash_weighted.keys():
-                df.at[i, 'allocated_value'] = excess_cash_weighted[i]
-        
-        st.write(excess_cash_weighted)
-        st.table(df)
-
-        if allow_fractional == True:
-            output_value = 'allocated_value'
-            output_unit = 'allocated_unit'
-        else:
-            output_value = 'possible_value'
-            output_unit = 'possible_unit'
+                df.at[i, 'output_value'] = excess_cash_weighted[i]
+            else:
+                df.at[i, 'output_value'] = df.at[i,
+                    'allocated_value' if allow_fractional else 'possible_value']
+                    
+        df['output_unit'] = df['output_value'] / df['price']
             
-        df['post_trade_weight'] = 100 * (df['market_value'] + df[output_value]) / (df['market_value'].sum() + df[output_value].sum())
+        df['post_trade_weight'] = 100 * (df['market_value'] + df['output_value']) / (df['market_value'].sum() + df['output_value'].sum())
+
+        st.table(df)
+        st.stop()
 
         st.header('Plan:')
 
