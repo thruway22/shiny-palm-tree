@@ -3,6 +3,7 @@ import pandas as pd
 import yfinance as yf
 from collections import defaultdict
 import plotly.express as px
+import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 from ccy_dict import ccy_dict
 
@@ -170,14 +171,36 @@ if submitted:
                 else:
                     df.at[i, 'output_value'] = df.at[i, 'possible_value'] + excess_cash_weighted[i]
 
-            df['output_unit'] = df['output_value'] / df['price']
-
         else:
             excess_cash = 0
             df['output_value'] = df['allocated_value']
-        
-        df['output_unit'] = df['output_value'] / df['price'] 
+
+        # excess_cash = df['allocated_value'].sum() - df['possible_value'].sum()
+        # excess_cash_weighted = {k: excess_cash * (sum(v)/account_cash) for (k, v) in account_cash_dict.items()}
+        # df['output_value'] = df['allocated_value'] if allow_fractional else df['possible_value']
+
+        df['output_unit'] = df['output_value'] / df['price']
+
         df['post_trade_weight'] = 100 * (df['market_value'] + df['output_value']) / (df['market_value'].sum() + df['output_value'].sum())
+
+
+
+        fig = go.Figure(data=[go.Sankey(
+            node = dict(
+            pad = 15,
+            thickness = 20,
+            line = dict(color = "black", width = 0.5),
+            label = ["A1", "A2", "B1", "B2", "C1", "C2"],
+            color = "blue"
+            ),
+            link = dict(
+            source = [0, 1, 0, 2, 3, 3], # indices correspond to labels, eg A1, A2, A1, B1, ...
+            target = [2, 3, 3, 4, 4, 5],
+            value = [8, 4, 2, 8, 4, 2]
+        ))])
+
+        st.plotly_chart(fig, use_container_width=True)
+
 
 
         # creating output plan
@@ -187,17 +210,14 @@ if submitted:
         values_list = [total_cash, df['output_value'].sum(), excess_cash]
 
         for i in df.index:
-            names_list.append(i)
-            parents_list.append('Tradable Cash')
-            values_list.append(df.at[i, 'output_value'])
-            # if i.startswith('$'):
-            #     names_list.append(i)
-            #     parents_list.append('Excess Cash')
-            #     values_list.append(df.at[i, 'output_value'])
-            # else:
-            #     names_list.append(i)
-            #     parents_list.append('Tradable Cash')
-            #     values_list.append(df.at[i, 'output_value'])
+            if i.startswith('$'):
+                names_list.append(i)
+                parents_list.append('Excess Cash')
+                values_list.append(df.at[i, 'output_value'])
+            else:
+                names_list.append(i)
+                parents_list.append('Tradable Cash')
+                values_list.append(df.at[i, 'output_value'])
 
         plan_dict = {
             'names': names_list,
