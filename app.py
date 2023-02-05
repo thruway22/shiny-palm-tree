@@ -197,7 +197,7 @@ if submitted:
             }
 
             st.plotly_chart(
-                px.icicle(cash_handling_dict2, parents='level_a', names='level_b', values='values')
+                px.icicle(cash_handling_dict2, parents='level_a', names='level_b', values='values').update_traces(root_color="lightgrey")
             )
 
             st.write(
