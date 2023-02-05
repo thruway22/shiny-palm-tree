@@ -194,7 +194,7 @@ if submitted:
             xaxis = dict(
                 tickmode = 'array',
                 tickvals = df.index,
-                ticktext = 'ticker'))
+                ticktext = df.ticker))
         st.plotly_chart(fig, use_container_width=True)
         st.pyplot(fig)
                     
