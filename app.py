@@ -98,7 +98,7 @@ if submitted:
         sum_target += target
         ticker_list.append(ticker)
 
-    prohibit_duplicates = False    
+    prohibit_duplicates = True    
     if prohibit_duplicates and len(ticker_list) != len(set(ticker_list)):
         st.error('Duplicates are not allowed')
         st.stop()
@@ -188,13 +188,12 @@ if submitted:
 
         df2 = df.reset_index()
         
-        fig = px.bar(df2, x='ticker', y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], barmode='group')
-        fig.update_layout(
-            xaxis = dict(
-                tickmode = 'array',
-                tickvals = df2.index,
-                ticktext = df2.ticker))
-        st.plotly_chart(fig, use_container_width=True)                    
+        fig = px.bar(df2, x=df.index, y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], barmode='group')
+        st.plotly_chart(fig, use_container_width=True)
+
+        st.plotly_chart(px.bar(
+            df, x=df.index, y=['allocated_value', 'possible_value'], barmode='group')
+            , use_container_width=True)                 
             
    
     
