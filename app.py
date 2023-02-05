@@ -191,7 +191,7 @@ if submitted:
                 textinfo= 'label+value',
                 branchvalues= 'total',
                 root_color='lightgrey',
-                texttemplate='%{value:$.2f}'
+                texttemplate='label+%{value:$.2f}'
                 )
 
             cash_fig.update_layout(
