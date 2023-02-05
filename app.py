@@ -206,7 +206,7 @@ if submitted:
 
 
         flow_fig = go.Figure(data=[go.Sankey(
-            node = dict(label = inward_dict.keys()),
+            node = dict(label = list(inward_dict.keys())),
             link = dict(
                 source = [0, 0, 0, 1],
                 target = [1, 1, 1, 1],
