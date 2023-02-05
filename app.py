@@ -195,6 +195,7 @@ if submitted:
                 inward_dict[i] = df['output_value'][i]
             else:
                 df['action'][i] = 'Buy'
+                outward_dict[i] = df['output_value'][i]
 
         st.write(inward_dict)
 
