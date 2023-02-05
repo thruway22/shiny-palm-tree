@@ -179,7 +179,8 @@ if submitted:
         df['output_unit'] = df['output_value'] / df['price'] 
         df['post_trade_weight'] = 100 * (df['market_value'] + df['output_value']) / (df['market_value'].sum() + df['output_value'].sum())
 
-        st.write('sum(output_value)', df.output_value.sum())
+        if allow_fractional == False:
+            st.write('Your total available cash to trade is', ':.2f'.format(total_cash))
 
         # st.header('Plan:')
 
