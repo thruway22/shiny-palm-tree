@@ -210,7 +210,7 @@ if submitted:
             link = dict(
                 source = [0, 1, 2, 3],
                 target = [3, 3, 3, 3],
-                value = [8, 4, 2, 8]
+                value = [8, 4, 2]
 
         ))])
 
