@@ -160,7 +160,12 @@ if submitted:
         df['allocated_unit'] = df['allocated_value'] / df['price']
         df['possible_unit'] = df['allocated_value'] // df['price']
         df['possible_value'] = df['possible_unit'] * df['price']
+
+        excess_cash = df['allocated_value'].sum() - df['possible_value'].sum()
+        excess_cash_weighted = {k: excess_cash * (sum(v)/account_cash) for (k, v) in my_dict.items()}
         
+        st.write(excess_cash_weighted)
+
         if allow_fractional == True:
             output_value = 'allocated_value'
             output_unit = 'allocated_unit'
@@ -169,7 +174,7 @@ if submitted:
             output_unit = 'possible_unit'
             
         df['post_trade_weight'] = 100 * (df['market_value'] + df[output_value]) / (df['market_value'].sum() + df[output_value].sum())
-                
+
         st.header('Plan:')
 
         plan_df = df.copy()
