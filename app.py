@@ -182,8 +182,8 @@ if submitted:
         if allow_fractional == False:
             st.write(
                 '''Your total available cash to trade is **${:.2f}**,
-                but you can only trade **{:.2f}** for complete (non-fractional) shares.
-                With excess cash of **{:.2f}**, how would you like to distribute it?'''.format(total_cash, total_cash - excess_cash, excess_cash)
+                but you can only trade **${:.2f}** for complete (non-fractional) shares.
+                With excess cash of **${:.2f}**, how would you like to distribute it?'''.format(total_cash, total_cash - excess_cash, excess_cash)
             )
 
         # st.header('Plan:')
