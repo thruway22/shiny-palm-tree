@@ -183,7 +183,7 @@ if submitted:
         
             cash_fig_dict = {
                 'names': ['total_cash', 'trade_cash', 'excess_cash'],
-                'parents': ['total_cash', 'total_cash', 'total_cash'],
+                'parents': ['', 'total_cash', 'total_cash'],
                 'values': [total_cash, total_cash - excess_cash, excess_cash]}
 
             cash_fig = px.icicle(cash_fig_dict, parents='parents', names='names', values='values')
