@@ -196,6 +196,7 @@ if submitted:
 
         
         df2 = df.reset_index()
+        st.table(df2)
         fig, ax = plt.subplots()
         df2[['pre_trade_weight', 'target_weight', 'post_trade_weight']].plot(x='ticker', kind="bar")
         #ax = df.reset_index().plot(x='ticker', y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], kind="bar", rot=0)
