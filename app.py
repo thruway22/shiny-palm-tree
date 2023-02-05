@@ -188,7 +188,7 @@ if submitted:
 
         df2 = df.reset_index()
         
-        fig = px.bar(df2, x=df.index, y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], barmode='group')
+        fig = px.bar(df2, x='ticker', y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], barmode='group')
         fig.update_layout(
             xaxis = dict(
                 tickmode = 'array',
