@@ -186,24 +186,16 @@ if submitted:
         
         st.table(df)
         st.table(plan_df.style.format(precision=2, na_rep='', thousands=','))
-        
-        # fig = px.bar(df, x=df.index, y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], barmode='group')
-        # fig.update_layout(
-        #     xaxis = dict(
-        #         tickmode = 'array',
-        #         tickvals = ['pre_trade_weight', 'target_weight', 'post_trade_weight'],
-        #         ticktext = df.index))
-        # st.plotly_chart(fig, use_container_width=True)
 
+        df2 = df.reset_index()
         
-        x = df.index
-        y = df[['pre_trade_weight', 'target_weight', 'post_trade_weight']]
-        y1 = df['pre_trade_weight']
-
-        fig, ax = plt.subplots()
-        #df[['pre_trade_weight', 'target_weight', 'post_trade_weight']].plot(x='ticker', kind="bar")
-        #ax = df.reset_index().plot(x='ticker', y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], kind="bar", rot=0)
-        bars = ax.bar(x, y1, tick_label=x)
+        fig = px.bar(df, x=df.index, y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], barmode='group')
+        fig.update_layout(
+            xaxis = dict(
+                tickmode = 'array',
+                tickvals = df.index,
+                ticktext = 'ticker'))
+        st.plotly_chart(fig, use_container_width=True)
         st.pyplot(fig)
                     
             
