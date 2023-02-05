@@ -186,7 +186,7 @@ if submitted:
                 'level_b': ['', 'trade_cash', 'excess_cash'],
                 'values': [total_cash, total_cash - excess_cash, excess_cash]}
 
-            cash_fig = px.icicle(cash_handling_dict2, parents='level_a', names='level_b', values='values')
+            cash_fig = px.icicle(cash_fig_dict, parents='level_a', names='level_b', values='values')
             cash_fig.update_traces(
                 root_color='lightgrey',
                 texttemplate='%{value:.2}')
