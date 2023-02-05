@@ -192,7 +192,7 @@ if submitted:
         st.plotly_chart(fig, use_container_width=True)
 
         st.plotly_chart(px.bar(
-            df, x=df.index, y=['allocated_value', 'possible_value'], barmode='group')
+            plan_df, x=['ticker'], y=['allocated_value', output_value], barmode='group')
             , use_container_width=True)                 
             
    
