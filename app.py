@@ -189,13 +189,13 @@ if submitted:
             cash_fig = px.icicle(cash_fig_dict, parents='level_a', names='level_b', values='values')
             cash_fig.update_traces(
                 textinfo= 'label+value+percent entry',
-                #root_color='lightgrey',
+                root_color='lightgrey',
                 #texttemplate='%{y:$.2f}'
                 )
 
             cash_fig.update_layout(
                 #title_text="Type Of Admission (2019-Q2)",
-                margin = dict(t=0, l=0, r=0, b=0)
+                margin = dict(t=2, l=0, r=0, b=0)
             )
 
             st.plotly_chart(cash_fig, use_container_width=True)
