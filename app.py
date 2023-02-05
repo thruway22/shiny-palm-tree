@@ -160,8 +160,6 @@ if submitted:
         df['allocated_value'] = total_cash * (df['algo'] / df['algo'].sum())
         df['possible_value'] = (df['allocated_value'] // df['price']) * df['price']
 
-        excess_cash = 0
-
         if allow_fractional == False:
             excess_cash = df['allocated_value'].sum() - df['possible_value'].sum()
             excess_cash_weighted = {k: excess_cash * (sum(v)/account_cash) for (k, v) in account_cash_dict.items()}
@@ -175,6 +173,7 @@ if submitted:
             df['output_unit'] = df['output_value'] / df['price']
 
         else:
+            excess_cash = 0
             df['output_value'] = df['allocated_value']
         
         df['output_unit'] = df['output_value'] / df['price'] 
@@ -188,7 +187,7 @@ if submitted:
         values_list = [total_cash, total_cash - excess_cash, excess_cash]
 
         for i in df.index:
-            if i not in excess_cash_weighted.keys():
+            if i.startswith('$'):
                 names_list.append(i)
                 parents_list.append('Tradable Cash')
                 values_list.append(df.at[i, 'output_value'])
