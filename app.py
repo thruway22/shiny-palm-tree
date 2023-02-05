@@ -162,7 +162,7 @@ if submitted:
         df['possible_value'] = df['possible_unit'] * df['price']
 
         excess_cash = df['allocated_value'].sum() - df['possible_value'].sum()
-        excess_cash_weighted = {k: excess_cash * (sum(v)/account_cash) for (k, v) in my_dict.items()}
+        excess_cash_weighted = {k: excess_cash * (sum(v)/account_cash) for (k, v) in account_cash_dict.items()}
         
         st.write(excess_cash_weighted)
 
