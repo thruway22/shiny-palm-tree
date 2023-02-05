@@ -184,12 +184,19 @@ if submitted:
         df['post_trade_weight'] = 100 * (df['market_value'] + df['output_value']) / (df['market_value'].sum() + df['output_value'].sum())
         
         df['action'] = ''
+        inward_dict = {
+            'contribution': contribution_cash,
+            'account_cash': account_cash
+            }
+        outward_dict = {}
         for i in df.index:
             if df['output_value'][i] < 0:
                 df['action'][i] = 'Sell'
+                inward_dict[i] = df['output_value'][i]
             else:
                 df['action'][i] = 'Buy'
 
+        st.write(inward_dict)
 
         fig = go.Figure(data=[go.Sankey(
             node = dict(
