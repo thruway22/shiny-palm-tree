@@ -146,6 +146,8 @@ if submitted:
                 account_cash_dict[idx_name].append(x)
                 df.iat[i, col_loc] = 0
         total_cash = contribution_cash + account_cash
+
+        st.write(account_cash, total_cash, df.market_value.sum())
         
         algo_list = []
         for i in range(len(df)): 
@@ -187,6 +189,8 @@ if submitted:
         
         df['output_unit'] = df['output_value'] / df['price'] 
         df['post_trade_weight'] = 100 * (df['market_value'] + df['output_value']) / (df['market_value'].sum() + df['output_value'].sum())
+
+        st.write(df.output_value.sum())
 
         # st.header('Plan:')
 
