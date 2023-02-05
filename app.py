@@ -193,7 +193,7 @@ if submitted:
                 #texttemplate='%{y:$.2f}'
                 )
 
-            cash_fig= fig.update_layout(
+            cash_fig.update_layout(
                 #title_text="Type Of Admission (2019-Q2)",
                 margin = dict(t=0, l=0, r=0, b=0)
             )
