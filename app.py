@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
 import yfinance as yf
 from collections import defaultdict
 import plotly.express as px
@@ -189,12 +188,12 @@ if submitted:
 
         df2 = df.reset_index()
         
-        fig = px.bar(df, x=df.index, y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], barmode='group')
+        fig = px.bar(df2, x=df.index, y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], barmode='group')
         fig.update_layout(
             xaxis = dict(
                 tickmode = 'array',
-                tickvals = df.index,
-                ticktext = df.ticker))
+                tickvals = df2.index,
+                ticktext = df2.ticker))
         st.plotly_chart(fig, use_container_width=True)
         st.pyplot(fig)
                     
