@@ -195,7 +195,7 @@ if submitted:
 
             cash_fig.update_layout(
                 #title_text="Type Of Admission (2019-Q2)",
-                margin = dict(t=2, l=0, r=0, b=0)
+                margin = dict(t=50, l=0, r=0, b=0)
             )
 
             st.plotly_chart(cash_fig, use_container_width=True)
