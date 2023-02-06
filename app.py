@@ -206,7 +206,7 @@ if submitted:
         # flow_dict['excess_cash'] = excess_cash
 
         flow_fig = go.Figure(data=[go.Sankey(
-            node = dict(label = labels_list)),
+            node = dict(label = labels_list),
             link = dict(
                 source = sources_list,
                 target = targets_list,
