@@ -200,7 +200,18 @@ if submitted:
 
         sources_length = len(sources_list)
         sources_list.append(sources_length) # middle section
-        targets_list += (sources_length + 1) * [sources_length]
+        
+        sources_length = len(sources_list)
+        targets_list += (sources_length) * [sources_length]
+
+        # targets_length = len(targets_length)
+        # for i in df[df['output_value'] > 0].index:
+        #     labels_list.append(i)
+        #     values_list.append(abs(df['output_value'][i]))
+        #     sources_list.append(sources_length)
+        #     targets_list
+
+
         
         # flow_dict['tradable_cash'] = df['output_value'].sum()
         # flow_dict['excess_cash'] = excess_cash
