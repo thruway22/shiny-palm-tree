@@ -202,7 +202,7 @@ if submitted:
         
         flow_sources_length = len(flow_sources_list)
         flow_sources_list.append(flow_sources_length) # middle section
-        flow_targets_list +=  flow_sources_length * [flow_sources_length]
+        flow_targets_list +=  (flow_sources_length + 1) * [flow_sources_length]
 
         st.write(flow_dict, flow_sources_list, flow_targets_list)
         st.stop()
