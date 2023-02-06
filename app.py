@@ -200,24 +200,23 @@ if submitted:
 
         st.write('before', flow_sources_list)
         
+        flow_dict['available_cash'] = sum(flow_dict.values())
         flow_sources_length = len(flow_sources_list)
         flow_sources_list.append(flow_sources_length) # middle section
         flow_targets_list +=  (flow_sources_length + 1) * [flow_sources_length]
 
         st.write(flow_dict, flow_sources_list, flow_targets_list)
-        st.stop()
-
-        flow_dict['available_cash'] = sum(flow_dict.values())
-        flow_dict['tradable_cash'] = df['output_value'].sum()
-        flow_dict['excess_cash'] = excess_cash
+        
+        # flow_dict['tradable_cash'] = df['output_value'].sum()
+        # flow_dict['excess_cash'] = excess_cash
 
 
         flow_fig = go.Figure(data=[go.Sankey(
             node = dict(label = list(flow_dict.keys())),
             link = dict(
-                source = [0, 1, 2, 3, 3, 3],
-                target = [3, 3, 3, 3, 4, 5],
-                value = [8, 4, 2, 0, 10, 4]
+                source = flow_sources_list,
+                target = flow_targets_list,
+                value = [8, 4, 2, 0]
 
         ))])
 
