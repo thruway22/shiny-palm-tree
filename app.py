@@ -198,7 +198,7 @@ if submitted:
         labels_list.append('available_cash')
         values_list.append(0)
 
-        sources_length = len(flow_sources_list)
+        sources_length = len(sources_list)
         sources_list.append(sources_length) # middle section
         targets_list += (sources_length + 1) * [sources_length]
         
