@@ -184,31 +184,34 @@ if submitted:
         df['post_trade_weight'] = 100 * (df['market_value'] + df['output_value']) / (df['market_value'].sum() + df['output_value'].sum())
         
         df['action'] = ''
-        inward_dict = {
+        flow_dict = {
             'contribution': contribution_cash,
             'account_cash': account_cash
             }
-        outward_dict = {}
-        for i in df.index:
-            if df['output_value'][i] < 0:
+        flow_sources_list = [0, 1]
+        flow_targets_list = []
+        flow_values_list = []
+
+        for i, j in zip(df.index, range(2, len(df))):
+            if df['output_value'][i] < 0: ## sell
                 df['action'][i] = 'Sell'
-                inward_dict[i] = abs(df['output_value'][i])
-            else:
-                df['action'][i] = 'Buy'
-                outward_dict[i] = df['output_value'][i]
+                flow_dict[i] = abs(df['output_value'][i])
+                flow_sources_list.append(j)
+        
+        flow_sources_length = len(flow_sources_list)
+        flow_sources_list.append(flow_sources_length)
+        flow_targets_list +=  flow_sources_length * [flow_sources_length]
 
-        st.write(inward_dict, outward_dict)
+        st.write(flow_dict, flow_sources_list, flow_targets_list)
+        st.stop()
 
-        inward_dict['available_cash'] = sum(inward_dict.values())
-        inward_dict['tradable_cash'] = df['output_value'].sum()
-        inward_dict['excess_cash'] = excess_cash
-
-        st.write(inward_dict, outward_dict)
-
+        flow_dict['available_cash'] = sum(flow_dict.values())
+        flow_dict['tradable_cash'] = df['output_value'].sum()
+        flow_dict['excess_cash'] = excess_cash
 
 
         flow_fig = go.Figure(data=[go.Sankey(
-            node = dict(label = list(inward_dict.keys())),
+            node = dict(label = list(flow_dict.keys())),
             link = dict(
                 source = [0, 1, 2, 3, 3, 3],
                 target = [3, 3, 3, 3, 4, 5],
@@ -240,39 +243,39 @@ if submitted:
 
         # creating output plan
 
-        names_list = ['Available Cash', 'Tradable Cash', 'Excess Cash']
-        parents_list = ['', 'Available Cash', 'Available Cash']
-        values_list = [total_cash, df['output_value'].sum(), excess_cash]
+        # names_list = ['Available Cash', 'Tradable Cash', 'Excess Cash']
+        # parents_list = ['', 'Available Cash', 'Available Cash']
+        # values_list = [total_cash, df['output_value'].sum(), excess_cash]
 
-        for i in df.index:
-            if i.startswith('$'):
-                names_list.append(i)
-                parents_list.append('Excess Cash')
-                values_list.append(df.at[i, 'output_value'])
-            else:
-                names_list.append(i)
-                parents_list.append('Tradable Cash')
-                values_list.append(df.at[i, 'output_value'])
+        # for i in df.index:
+        #     if i.startswith('$'):
+        #         names_list.append(i)
+        #         parents_list.append('Excess Cash')
+        #         values_list.append(df.at[i, 'output_value'])
+        #     else:
+        #         names_list.append(i)
+        #         parents_list.append('Tradable Cash')
+        #         values_list.append(df.at[i, 'output_value'])
 
-        plan_dict = {
-            'names': names_list,
-            'parents': parents_list,
-            'values': values_list}
+        # plan_dict = {
+        #     'names': names_list,
+        #     'parents': parents_list,
+        #     'values': values_list}
 
-        plan_fig = px.icicle(plan_dict, parents='parents', names='names', values='values')
-        plan_fig.update_traces(
-            #textinfo= 'label+value',
-            branchvalues= 'total',
-            root_color='#1A4B9A',
-            texttemplate='%{label}: %{value:$.2f}'
-            )
+        # plan_fig = px.icicle(plan_dict, parents='parents', names='names', values='values')
+        # plan_fig.update_traces(
+        #     #textinfo= 'label+value',
+        #     branchvalues= 'total',
+        #     root_color='#1A4B9A',
+        #     texttemplate='%{label}: %{value:$.2f}'
+        #     )
 
-        plan_fig.update_layout(
-            #title_text="Type Of Admission (2019-Q2)",
-            margin = dict(t=50, l=0, r=0, b=0)
-        )
+        # plan_fig.update_layout(
+        #     #title_text="Type Of Admission (2019-Q2)",
+        #     margin = dict(t=50, l=0, r=0, b=0)
+        # )
 
-        st.plotly_chart(plan_fig, use_container_width=True)
+        # st.plotly_chart(plan_fig, use_container_width=True)
         
         if allow_fractional == False:
             st.write(
