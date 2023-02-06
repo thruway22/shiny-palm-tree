@@ -200,9 +200,7 @@ if submitted:
 
         sources_length = len(sources_list)
         sources_list.append(sources_length) # middle section
-        
-        sources_length = len(sources_list)
-        targets_list += (sources_length) * [sources_length]
+        targets_list += (sources_length + 1) * [sources_length]
 
         targets_length = len(targets_list)
         for i in df[df['output_value'] > 0].index:
