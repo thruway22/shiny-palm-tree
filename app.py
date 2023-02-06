@@ -183,7 +183,7 @@ if submitted:
 
         df['post_trade_weight'] = 100 * (df['market_value'] + df['output_value']) / (df['market_value'].sum() + df['output_value'].sum())
         
-        df['action'] = ''
+        # df['action'] = ''
         flow_dict = {
             'contribution': contribution_cash,
             'account_cash': account_cash
@@ -192,11 +192,10 @@ if submitted:
         flow_targets_list = []
         flow_values_list = []
 
-        for i, j in zip(df.index, range(2, len(df))):
-            if df['output_value'][i] < 0: ## sell
-                df['action'][i] = 'Sell'
-                flow_dict[i] = abs(df['output_value'][i])
-                flow_sources_list.append(j)
+        for i in df[df['output_value'] < 0].index: #sell portion
+            # df['action'][i] = 'Sell'
+            flow_dict[i] = abs(df['output_value'][i])
+            flow_sources_list[-1] += 1
         
         flow_sources_length = len(flow_sources_list)
         flow_sources_list.append(flow_sources_length)
