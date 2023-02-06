@@ -202,7 +202,7 @@ if submitted:
         sources_list.append(sources_length) # middle section
         targets_list += (sources_length + 1) * [sources_length]
 
-        targets_length = len(targets_list)
+        targets_length = len(targets_list) - 1
         for i in df[df['output_value'] > 0].index:
             labels_list.append(i)
             values_list.append(abs(df['output_value'][i]))
