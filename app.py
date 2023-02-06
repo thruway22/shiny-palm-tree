@@ -209,8 +209,6 @@ if submitted:
             sources_list.append(sources_length)
             targets_length += 1
             targets_list.append(targets_length)
-
-        st.write(labels_list, sources_list, targets_list, values_list)
         
         # flow_dict['tradable_cash'] = df['output_value'].sum()
         # flow_dict['excess_cash'] = excess_cash
