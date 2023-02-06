@@ -197,6 +197,8 @@ if submitted:
             flow_dict[i] = abs(df['output_value'][i])
             flow_sources_length += 1
             flow_sources_list.append(flow_sources_length)
+
+        st.write('before', flow_sources_list)
         
         flow_sources_length = len(flow_sources_list)
         flow_sources_list.append(flow_sources_length) # middle section
