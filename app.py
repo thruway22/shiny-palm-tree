@@ -183,41 +183,34 @@ if submitted:
 
         df['post_trade_weight'] = 100 * (df['market_value'] + df['output_value']) / (df['market_value'].sum() + df['output_value'].sum())
         
-        # df['action'] = ''
-        flow_dict = {
-            'contribution': contribution_cash,
-            'account_cash': account_cash
-            }
-        flow_sources_list = [0, 1]
-        flow_targets_list = []
-        flow_values_list = []
-        flow_sources_length = len(flow_sources_list) - 1
+        labels_list = ['contribution', 'account_cash']
+        values_list = [contribution_cash, account_cash]
+        sources_list = [0, 1]
+        targets_list = []
+
+        sources_length = len(sources_list) - 1
         for i in df[df['output_value'] < 0].index: #sell portion
-            # df['action'][i] = 'Sell'
-            flow_dict[i] = abs(df['output_value'][i])
-            flow_sources_length += 1
-            flow_sources_list.append(flow_sources_length)
-
-        st.write('before', flow_sources_list)
+            labels_list.append(i)
+            values_list.append(abs(df['output_value'][i]))
+            sources_length += 1
+            sources_list.append(sources_length)
         
-        flow_dict['available_cash'] = 0 # sum(flow_dict.values())
-        flow_sources_length = len(flow_sources_list)
-        flow_sources_list.append(flow_sources_length) # middle section
-        flow_targets_list +=  (flow_sources_length + 1) * [flow_sources_length]
+        labels_list.append('available_cash')
+        values_list.append(0)
 
-        st.write(flow_dict, flow_sources_list, flow_targets_list)
+        sources_length = len(flow_sources_list)
+        sources_list.append(sources_length) # middle section
+        targets_list += (sources_length + 1) * [sources_length]
         
         # flow_dict['tradable_cash'] = df['output_value'].sum()
         # flow_dict['excess_cash'] = excess_cash
 
-
         flow_fig = go.Figure(data=[go.Sankey(
-            node = dict(label = list(flow_dict.keys())),
+            node = dict(label = labels_list)),
             link = dict(
-                source = flow_sources_list,
-                target = flow_targets_list,
-                value = list(flow_dict.values())
-
+                source = sources_list,
+                target = targets_list,
+                value = values_list
         ))])
 
         st.plotly_chart(flow_fig, use_container_width=True)
