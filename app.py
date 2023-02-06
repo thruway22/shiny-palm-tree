@@ -216,7 +216,7 @@ if submitted:
             link = dict(
                 source = flow_sources_list,
                 target = flow_targets_list,
-                value = flow_dict.values()
+                value = list(flow_dict.values())
 
         ))])
 
