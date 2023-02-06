@@ -200,7 +200,7 @@ if submitted:
 
         st.write('before', flow_sources_list)
         
-        flow_dict['available_cash'] = sum(flow_dict.values())
+        flow_dict['available_cash'] = 0 # sum(flow_dict.values())
         flow_sources_length = len(flow_sources_list)
         flow_sources_list.append(flow_sources_length) # middle section
         flow_targets_list +=  (flow_sources_length + 1) * [flow_sources_length]
@@ -216,7 +216,7 @@ if submitted:
             link = dict(
                 source = flow_sources_list,
                 target = flow_targets_list,
-                value = [8, 4, 2, 0]
+                value = flow_dict.values()
 
         ))])
 
