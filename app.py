@@ -191,7 +191,7 @@ if submitted:
         flow_sources_list = [0, 1]
         flow_targets_list = []
         flow_values_list = []
-        flow_sources_length = len(flow_sources_list)
+        flow_sources_length = len(flow_sources_list) - 1
         for i in df[df['output_value'] < 0].index: #sell portion
             # df['action'][i] = 'Sell'
             flow_dict[i] = abs(df['output_value'][i])
