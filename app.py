@@ -211,7 +211,7 @@ if submitted:
             targets_list.append(targets_length)
 
         flow_fig = go.Figure(data=[go.Sankey(
-            valueformat = ".0f",
+            valueformat = "$.0f",
             node = dict(label=labels_list),
             link = dict(
                 source = sources_list,
