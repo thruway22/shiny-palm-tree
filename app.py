@@ -245,62 +245,6 @@ if submitted:
         ))])
 
         st.plotly_chart(flow_fig, use_container_width=True)
-
-        fig = go.Figure(data=[go.Sankey(
-            node = dict(
-            pad = 15,
-            thickness = 20,
-            line = dict(color = "black", width = 0.5),
-            label = ["A1", "A2", "B1", "B2", "C1", "C2"],
-            color = "blue"
-            ),
-            link = dict(
-            source = [0, 1, 0, 2, 3, 3], # indices correspond to labels, eg A1, A2, A1, B1, ...
-            target = [2, 3, 3, 4, 4, 5],
-            value = [8, 4, 2, 8, 4, 2]
-        ))])
-
-        st.plotly_chart(fig, use_container_width=True)
-
-
-
-
-
-        # creating output plan
-
-        # names_list = ['Available Cash', 'Tradable Cash', 'Excess Cash']
-        # parents_list = ['', 'Available Cash', 'Available Cash']
-        # values_list = [total_cash, df['output_value'].sum(), excess_cash]
-
-        # for i in df.index:
-        #     if i.startswith('$'):
-        #         names_list.append(i)
-        #         parents_list.append('Excess Cash')
-        #         values_list.append(df.at[i, 'output_value'])
-        #     else:
-        #         names_list.append(i)
-        #         parents_list.append('Tradable Cash')
-        #         values_list.append(df.at[i, 'output_value'])
-
-        # plan_dict = {
-        #     'names': names_list,
-        #     'parents': parents_list,
-        #     'values': values_list}
-
-        # plan_fig = px.icicle(plan_dict, parents='parents', names='names', values='values')
-        # plan_fig.update_traces(
-        #     #textinfo= 'label+value',
-        #     branchvalues= 'total',
-        #     root_color='#1A4B9A',
-        #     texttemplate='%{label}: %{value:$.2f}'
-        #     )
-
-        # plan_fig.update_layout(
-        #     #title_text="Type Of Admission (2019-Q2)",
-        #     margin = dict(t=50, l=0, r=0, b=0)
-        # )
-
-        # st.plotly_chart(plan_fig, use_container_width=True)
         
         if allow_fractional == False:
             st.write(
