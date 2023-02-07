@@ -11,16 +11,16 @@ def display_input_widgets(stride, values_df=None):
     '''
     Displays the input widgets for user interaction.
     Default values are either empty/zeros for manual intraction,
-    or obtained from passed dataframe with correct column names
+    or obtained from passed dataframe with correct column order
 
     agrs:
-        stride(int): stepper
+        stride (int): stepper
         values_df (pd.dataframe): 
     '''
     
     ticker_value = '' if values_df is None else df.index[stride]
-    shares_value = 0.0 if values_df is None else df.iloc[:, 0][stride].astype(float) #df['current_shares'][stride].astype(float)
-    target_value = 0.0 if values_df is None else df.iloc[:, 1][stride].astype(float) #df['target_weight'][stride].astype(float)
+    shares_value = 0.0 if values_df is None else df.iloc[:, 0][stride].astype(float)
+    target_value = 0.0 if values_df is None else df.iloc[:, 1][stride].astype(float)
     
     locals()['col%s0' % stride], locals()['col%s1' % stride], locals()['col%s2' % stride] = form.columns(3)
     locals()['ticker%s' % stride] = locals()['col%s0' % stride].text_input('ticker%s' % stride, value=ticker_value, label_visibility='collapsed')
@@ -29,16 +29,24 @@ def display_input_widgets(stride, values_df=None):
     
     globals().update(locals())
     
-def get_currency_rate(input, bypass=False):
-    
-    if bypass == False:
+def get_currency_rate(ticker=None, currency=None):
+    '''
+    Gets the currency exchnage rate from a ticker or currency code
+
+    args:
+        ticker (str): ticker (AAPL, VTI...)
+        currency (str): currency code (USD, EUR...)
+
+    returns (float): exchnage rate
+    '''
+    if ticker != None:
         base = yf.Ticker(input)
         base_currency = '' if base.fast_info['currency'] == 'USD' else base.fast_info['currency']
-    else:
+
+    if currency != None:
         base_currency = input
-        
+
     rate = yf.Ticker('{}USD=X'.format(base_currency)).fast_info['last_price']
-        
     return rate 
 
 st.title('NextTrade')
@@ -95,7 +103,7 @@ if submitted:
 
         if ticker.startswith('$'):
             try:
-                currency_recognized = get_currency_rate(ticker[1:], True)
+                currency_recognized = get_currency_rate(currency=ticker[1:])
             except:
                 st.error("Could not recognize currency '{}'".format(ticker))
                 st.stop()
@@ -129,10 +137,10 @@ if submitted:
                 target = globals()['target%s' % step]
 
                 if ticker.startswith('$'):
-                    price = get_currency_rate(ticker[1:], True)
+                    price = get_currency_rate(currency=ticker[1:])
                     #cash = df['current_shares'][i] * price
                 else:
-                    price = yf.Ticker(ticker).history()['Close'][-1] * get_currency_rate(ticker)
+                    price = yf.Ticker(ticker).history()['Close'][-1] * get_currency_rate(ticker=ticker)
 
                 df = pd.concat([df, pd.DataFrame([{
                     'ticker': ticker, 'current_shares': shares, 'target_weight': target, 'price': price
@@ -145,7 +153,7 @@ if submitted:
           
         st.success('Getting financial data successful!')
     
-        contribution_cash = contribution_amount * get_currency_rate(contribution_currency, True)
+        contribution_cash = contribution_amount * get_currency_rate(currency=contribution_currency)
         account_cash_dict = defaultdict(list)
         account_cash = 0
         for i in range(len(df)):
