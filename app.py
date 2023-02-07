@@ -264,7 +264,7 @@ if submitted:
 
         st.header('Plan:')
 
-        plan_df = df[['price', 'output_unit', 'output_value']].reset_index().rename(columns={
+        plan_df = df[['price', 'output_unit', 'output_value']].reset_index().sort_values('output_value').rename(columns={
             'ticker': 'Ticker',
             'price': 'Market Price',
             'output_unit': 'Trade Shares',
