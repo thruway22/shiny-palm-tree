@@ -214,8 +214,9 @@ if submitted:
             valueformat = "$.0f",
             node = dict(
                 label=labels_list,
-                # pad = 30,
+                pad = 20,
                 thickness = 20,
+                color = 'lightgrey',
             ),
             link = dict(
                 source = sources_list,
