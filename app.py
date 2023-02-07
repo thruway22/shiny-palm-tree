@@ -188,8 +188,8 @@ if submitted:
         sources_list = [0, 1]
         targets_list = []
 
-        sources_length = len(sources_list) - 1
-        for i in df[df['output_value'] < 0].index: #sell portion
+        sources_length = len(sources_list) - 1 # left-section: selling
+        for i in df[df['output_value'] < 0].index:
             labels_list.append(i)
             values_list.append(abs(df['output_value'][i]))
             sources_length += 1
@@ -199,21 +199,19 @@ if submitted:
         values_list.append(0)
 
         sources_length = len(sources_list)
-        sources_list.append(sources_length) # middle section
+        sources_list.append(sources_length) # mid-section: available_cash 
         targets_list += (sources_length + 1) * [sources_length]
 
-        targets_length = len(targets_list) - 1
+        targets_length = len(targets_list) - 1 # right_section: buying
         for i in df[df['output_value'] > 0].index:
             labels_list.append(i)
             values_list.append(abs(df['output_value'][i]))
             sources_list.append(sources_length)
             targets_length += 1
             targets_list.append(targets_length)
-        
-        # flow_dict['tradable_cash'] = df['output_value'].sum()
-        # flow_dict['excess_cash'] = excess_cash
 
         flow_fig = go.Figure(data=[go.Sankey(
+            valueformat = ".0f",
             node = dict(label=labels_list),
             link = dict(
                 source = sources_list,
