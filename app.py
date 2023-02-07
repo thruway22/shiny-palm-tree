@@ -184,6 +184,7 @@ if submitted:
             for i in df.index:
                 if not bool(account_cash_dict): # if empty
                     df.loc['$USD'] = 0
+                    df.at['$USD', 'price'] = 1.0
                     df.at['$USD', 'market_value'] = excess_cash
                     df.at['$USD', 'output_value'] = excess_cash
 
