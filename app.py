@@ -262,7 +262,13 @@ if submitted:
                 with excess cash of **\${:.2f}**.'''.format(inflow_cash, inflow_cash - excess_cash, excess_cash)
             )
 
+        st.header('Plan:')
+        for i in df.index:
+            if df['output_value'][i] < 0:
+                st.write('Sell', df['output_unit'][i], 'of', i, 'for approximately', df['output_value'][i].abs())
 
+            if df['output_value'][i] > 0:
+                st.write('Buy', df['output_unit'][i], 'of', i, 'for approximately', df['output_value'][i].abs())
 
         # st.header('Plan:')
 
