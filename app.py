@@ -29,24 +29,23 @@ def display_input_widgets(stride, values_df=None):
     
     globals().update(locals())
     
-def get_currency_rate(ticker=None, currency=None):
+def get_currency_rate(input, bypass=False):
     '''
-    Gets the currency exchnage rate from a ticker or currency code
+    Gets the currency exchnage rate
 
     args:
-        ticker (str): ticker (AAPL, VTI...)
-        currency (str): currency code (USD, EUR...)
-
-    returns (float): exchnage rate
+        input (str): ticker (AAPL, VTI...) or currency code (USD, EUR...)
+        bypass (bool): Must be True if passed input is currency code 
     '''
-    if ticker != None:
+    
+    if bypass == False:
         base = yf.Ticker(input)
         base_currency = '' if base.fast_info['currency'] == 'USD' else base.fast_info['currency']
-
-    if currency != None:
+    else:
         base_currency = input
-
+        
     rate = yf.Ticker('{}USD=X'.format(base_currency)).fast_info['last_price']
+        
     return rate 
 
 st.title('NextTrade')
@@ -103,7 +102,7 @@ if submitted:
 
         if ticker.startswith('$'):
             try:
-                currency_recognized = get_currency_rate(currency=ticker[1:])
+                currency_recognized = get_currency_rate(ticker[1:], True)
             except:
                 st.error("Could not recognize currency '{}'".format(ticker))
                 st.stop()
@@ -137,10 +136,10 @@ if submitted:
                 target = globals()['target%s' % step]
 
                 if ticker.startswith('$'):
-                    price = get_currency_rate(currency=ticker[1:])
+                    price = get_currency_rate(ticker[1:], True)
                     #cash = df['current_shares'][i] * price
                 else:
-                    price = yf.Ticker(ticker).history()['Close'][-1] * get_currency_rate(ticker=ticker)
+                    price = yf.Ticker(ticker).history()['Close'][-1] * get_currency_rate(ticker)
 
                 df = pd.concat([df, pd.DataFrame([{
                     'ticker': ticker, 'current_shares': shares, 'target_weight': target, 'price': price
@@ -153,7 +152,7 @@ if submitted:
           
         st.success('Getting financial data successful!')
     
-        contribution_cash = contribution_amount * get_currency_rate(currency=contribution_currency)
+        contribution_cash = contribution_amount * get_currency_rate(contribution_currency, True)
         account_cash_dict = defaultdict(list)
         account_cash = 0
         for i in range(len(df)):
