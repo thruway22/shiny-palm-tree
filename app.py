@@ -8,10 +8,19 @@ import matplotlib.pyplot as plt
 from ccy_dict import ccy_dict
 
 def display_input_widgets(stride, values_df=None):
+    '''
+    Displays the input widgets for user interaction.
+    Default values are either empty/zeros for manual intraction,
+    or obtained from passed dataframe with correct column names
+
+    agrs:
+        stride(int): stepper
+        values_df (pd.dataframe): 
+    '''
     
     ticker_value = '' if values_df is None else df.index[stride]
-    shares_value = 0.0 if values_df is None else df['current_shares'][stride].astype(float)
-    target_value = 0.0 if values_df is None else df['target_weight'][stride].astype(float)
+    shares_value = 0.0 if values_df is None else df.iloc[:, 0][stride].astype(float) #df['current_shares'][stride].astype(float)
+    target_value = 0.0 if values_df is None else df.iloc[:, 1][stride].astype(float) #df['target_weight'][stride].astype(float)
     
     locals()['col%s0' % stride], locals()['col%s1' % stride], locals()['col%s2' % stride] = form.columns(3)
     locals()['ticker%s' % stride] = locals()['col%s0' % stride].text_input('ticker%s' % stride, value=ticker_value, label_visibility='collapsed')
@@ -174,10 +183,6 @@ if submitted:
         else:
             excess_cash = 0
             df['output_value'] = df['allocated_value']
-
-        # excess_cash = df['allocated_value'].sum() - df['possible_value'].sum()
-        # excess_cash_weighted = {k: excess_cash * (sum(v)/account_cash) for (k, v) in account_cash_dict.items()}
-        # df['output_value'] = df['allocated_value'] if allow_fractional else df['possible_value']
 
         df['output_unit'] = df['output_value'] / df['price']
 
