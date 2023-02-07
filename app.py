@@ -70,6 +70,9 @@ if csv_file is not None or ticker_count > 0:
     colc.write('Target Weight (%)')
     if csv_file is not None:
         df = pd.read_csv(csv_file, names=['ticker', 'current_shares', 'target_weight'])
+        if len(df.columns) != 3:
+            st.error('Error in csv file format. Please Check')
+            st.stop
         df = df.set_index('ticker')
         items_length = len(df)
         for step in range(len(df)):
