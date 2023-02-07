@@ -202,10 +202,17 @@ if submitted:
 
         df['post_trade_weight'] = 100 * (df['market_value'] + df['output_value']) / (df['market_value'].sum() + df['output_value'].sum())
         
-        labels_list = ['contribution', 'account_cash']
-        values_list = [contribution_cash, account_cash]
-        sources_list = [0, 1]
+        labels_list = ['contribution'] #, 'account_cash']
+        values_list = [contribution_cash] #, account_cash]
+        sources_list = [0] #, 1]
         targets_list = []
+
+        sources_length = len(sources_list) - 1
+        for k, v in account_cash_dict.items():
+            labels_list.append(k)
+            values_list.append(abs(v.sum()))
+            sources_length += 1
+            sources_list.append(sources_length)
 
         sources_length = len(sources_list) - 1 # left-section: selling
         for i in df[df['output_value'] < 0].index:
