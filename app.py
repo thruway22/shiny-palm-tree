@@ -202,8 +202,8 @@ if submitted:
 
         df['post_trade_weight'] = 100 * (df['market_value'] + df['output_value']) / (df['market_value'].sum() + df['output_value'].sum())
         
-        labels_list = ['contribution'] #, 'account_cash']
-        values_list = [contribution_cash] #, account_cash]
+        labels_list = ['Contribution Cash']
+        values_list = [contribution_cash]
         sources_list = [0] #, 1]
         targets_list = []
 
@@ -221,7 +221,7 @@ if submitted:
             sources_length += 1
             sources_list.append(sources_length)
         
-        labels_list.append('available_cash')
+        labels_list.append('Available Cash')
         values_list.append(0)
 
         sources_length = len(sources_list)
