@@ -182,16 +182,17 @@ if submitted:
             excess_cash_weighted = {k: excess_cash * (sum(v)/account_cash) for (k, v) in account_cash_dict.items()}
             df['output_value'] = 0
             for i in df.index:
-                if i not in excess_cash_weighted.keys():
-                    df.at[i, 'output_value'] = df.at[i, 'possible_value'] 
-                else:
-                    if not bool(excess_cash_weighted):
-                        df.at[i, 'output_value'] = df.at[i, 'possible_value'] + excess_cash_weighted[i]
-                    else:
-                        df.loc['$USD'] = 0
-                        df.at[i, 'market_value'] = excess_cash
-                        df.at[i, 'output_value'] = excess_cash
+                if not bool(account_cash_dict): # if empty
+                    df.loc['$USD'] = 0
+                    df.at[i, 'market_value'] = excess_cash
+                    df.at[i, 'output_value'] = excess_cash
 
+                elif i not in excess_cash_weighted.keys(): # if not empty but currency not in dict
+                    df.at[i, 'output_value'] = df.at[i, 'possible_value']
+
+                else:
+                    df.at[i, 'output_value'] = df.at[i, 'possible_value'] + excess_cash_weighted[i]
+                        
         else:
             excess_cash = 0
             df['output_value'] = df['allocated_value']
