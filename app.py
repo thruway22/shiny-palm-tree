@@ -216,7 +216,7 @@ if submitted:
                 label=labels_list,
                 pad = 20,
                 thickness = 20,
-                color = 'lightgrey',
+                #color = 'lightgrey',
             ),
             link = dict(
                 source = sources_list,
