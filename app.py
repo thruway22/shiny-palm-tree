@@ -212,7 +212,11 @@ if submitted:
 
         flow_fig = go.Figure(data=[go.Sankey(
             valueformat = "$.0f",
-            node = dict(label=labels_list),
+            node = dict(
+                label=labels_list
+                pad = 30,
+                thickness = 30,
+            ),
             link = dict(
                 source = sources_list,
                 target = targets_list,
