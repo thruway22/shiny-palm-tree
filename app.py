@@ -265,10 +265,10 @@ if submitted:
         st.header('Plan:')
         for i in df.index:
             if df['output_value'][i] < 0:
-                st.write('Sell', df['output_unit'][i], 'of', i, 'for approximately', df['output_value'][i].abs())
+                st.write('Sell', df['output_unit'][i], 'of', i, 'for approximately', abs(df['output_value'][i]))
 
             if df['output_value'][i] > 0:
-                st.write('Buy', df['output_unit'][i], 'of', i, 'for approximately', df['output_value'][i].abs())
+                st.write('Buy', df['output_unit'][i], 'of', i, 'for approximately', abs(df['output_value'][i]))
 
         # st.header('Plan:')
 
