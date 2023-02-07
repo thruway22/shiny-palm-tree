@@ -221,7 +221,8 @@ if submitted:
             link = dict(
                 source = sources_list,
                 target = targets_list,
-                value = values_list
+                value = values_list,
+                color = '#F5F5F5'
         ))])
 
         st.plotly_chart(flow_fig, use_container_width=True)
