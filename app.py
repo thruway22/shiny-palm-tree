@@ -185,7 +185,7 @@ if submitted:
                 if i not in excess_cash_weighted.keys():
                     df.at[i, 'output_value'] = df.at[i, 'possible_value'] 
                 else:
-                    if bool(excess_cash_weighted):
+                    if not bool(excess_cash_weighted):
                         df.at[i, 'output_value'] = df.at[i, 'possible_value'] + excess_cash_weighted[i]
                     else:
                         df.loc['$USD'] = 0
