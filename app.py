@@ -210,7 +210,7 @@ if submitted:
         sources_length = len(sources_list) - 1
         for k, v in account_cash_dict.items():
             labels_list.append(k)
-            values_list.append(abs(v))
+            values_list.append(abs(sum(v)))
             sources_length += 1
             sources_list.append(sources_length)
 
