@@ -263,28 +263,16 @@ if submitted:
             )
 
         st.header('Plan:')
-        for i in df.index:
-            if df['output_value'][i] < 0:
-                st.write('Sell', df['output_unit'][i], 'of', i, 'for approximately', abs(df['output_value'][i]))
 
-            if df['output_value'][i] > 0:
-                st.write('Buy', df['output_unit'][i], 'of', i, 'for approximately', abs(df['output_value'][i]))
-
-        # st.header('Plan:')
-
-        # plan_df = df.copy()
-        # plan_df = plan_df[['price', output_unit, output_value]]
-        # plan_df.reset_index(inplace=True)
-        # plan_df.rename(columns={
-        #     'ticker': 'Ticker',
-        #     'price': 'Market Price',
-        #     output_unit: 'Trade Sahres',
-        #     output_value: 'Trade Value',
-        # }, inplace=True)
-        # plan_df.index += 1
+        plan_df = df[['price', 'output_unit', 'output_value']].reset_index().rename(columns={
+            'ticker': 'Ticker',
+            'price': 'Market Price',
+            'output_unit': 'Trade Shares',
+            'output_value': 'Trade Value'})
+        plan_df.index += 1
         
-        st.table(df)
-        # st.table(plan_df.style.format(precision=2, na_rep='', thousands=','))
+        #st.table(df)
+        st.table(plan_df.style.format(precision=2, na_rep='', thousands=','))
         
         fig = px.bar(df, x=df.index, y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], barmode='group')
         st.plotly_chart(fig, use_container_width=True)                 
