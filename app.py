@@ -10,7 +10,7 @@ from ccy_dict import ccy_dict
 #####  #####  #####  #####  #####  #####  #####
 #####  #####  #####  #####  #####  #####  #####
 
-def display_input_widgets(stride, values_df=None):
+def display_input_widgets(stride, df=None):
     '''
     Displays the input widgets for user interaction.
     Default values are either empty/zeros for manual intraction,
@@ -18,12 +18,12 @@ def display_input_widgets(stride, values_df=None):
 
     agrs:
         stride (int): stepper
-        values_df (pd.dataframe): 
+        df (pd.dataframe): 
     '''
     
-    ticker_value = '' if values_df is None else df.index[stride]
-    shares_value = 0.0 if values_df is None else df.iloc[:, 0][stride].astype(float)
-    target_value = 0.0 if values_df is None else df.iloc[:, 1][stride].astype(float)
+    ticker_value = '' if df is None else df.index[stride]
+    shares_value = 0.0 if df is None else df.iloc[:, 0][stride].astype(float)
+    target_value = 0.0 if df is None else df.iloc[:, 1][stride].astype(float)
     
     locals()['col%s0' % stride], locals()['col%s1' % stride], locals()['col%s2' % stride] = form.columns(3)
     locals()['ticker%s' % stride] = locals()['col%s0' % stride].text_input('ticker%s' % stride, value=ticker_value, label_visibility='collapsed')
