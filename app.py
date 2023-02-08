@@ -251,7 +251,7 @@ if submitted:
                 color = '#F5F5F5'
         ))])
 
-        fig.update_layout(title_text='Cash Flow Diagram')
+        flow_fig.update_layout(title_text='Cash Flow Diagram')
 
         st.plotly_chart(flow_fig, use_container_width=True)
 
