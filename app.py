@@ -278,6 +278,7 @@ if submitted:
         dist_fig = px.bar(df, x=df.index, y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], barmode='group')
         dist_fig.update_xaxes(tickangle=-45)
         dist_fig.update_layout(
+            title='Weight Distribution'
             xaxis_title='Ticker',
             yaxis_title='Weight (%)',
             legend=dict(
