@@ -280,8 +280,8 @@ if submitted:
             orientation="h",
             yanchor="bottom",
             y=1.02,
-            xanchor="center",
-            x=1
+            xanchor="right",
+            x=0.5
         ))
         st.plotly_chart(dist_fig, use_container_width=True)                 
             
