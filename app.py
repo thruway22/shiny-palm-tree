@@ -42,7 +42,7 @@ def get_currency_rate(ticker=None, currency=None):
         base = yf.Ticker(ticker)
         base_currency = '' if base.fast_info['currency'] == 'USD' else base.fast_info['currency']
 
-    if bool(currency)
+    if bool(currency):
         base_currency = currency
 
     rate = yf.Ticker('{}USD=X'.format(base_currency)).fast_info['last_price']
