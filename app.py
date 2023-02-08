@@ -276,13 +276,16 @@ if submitted:
         st.table(plan_df.style.format(precision=2, na_rep='', thousands=','))
         
         dist_fig = px.bar(df, x=df.index, y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], barmode='group')
-        dist_fig.update_layout(legend=dict(
-            title='',
-            orientation="h",
-            yanchor="bottom",
-            y=1.02,
-            xanchor="left",
-            x=0
+        dist_fig.update_layout(
+            xaxis_title='Ticker',
+            yaxis_title='Weight (%)',
+            legend=dict(
+                title='',
+                orientation="h",
+                yanchor="bottom",
+                y=1.02,
+                xanchor="left",
+                x=0
         ))
         st.plotly_chart(dist_fig, use_container_width=True)                 
             
