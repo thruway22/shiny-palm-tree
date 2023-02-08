@@ -68,21 +68,20 @@ inputs_length = 0
 if csv_file is None:
     widgets_length = st.number_input('or choose number of stocks to input manually', value=0, min_value=0)
 
-
-
 if csv_file is not None or widgets_length > 0:
     form = st.form('input_form')
-
     right, middle, left = form.columns(3)
     right.write('Ticker')
     middle.write('Current Shares (x)')
     left.write('Target Weight (%)')
+
     if csv_file is not None:
-        df = pd.read_csv(csv_file, names=['ticker', 'current_shares', 'target_weight'])
-        df = df.set_index('ticker')
-        inputs_length = len(df)
-        for step in range(len(df)):
-            display_input_widgets(step, df)
+        inputs_df = pd.read_csv(csv_file, names=['ticker', 'current_shares', 'target_weight'])
+        inputs_df = df.set_index('ticker')
+        inputs_length = len(inputs_df)
+        for step in range(len(inputs_df)):
+            display_input_widgets(step, inputs_df)
+
     if widgets_length > 0:
         inputs_length = widgets_length
         for step in range(widgets_length):
@@ -127,7 +126,7 @@ if csv_file is not None or widgets_length > 0:
             sum_target += target
             ticker_list.append(ticker)
 
-        prohibit_duplicates = True # !important;  half-baked for later improvements
+        prohibit_duplicates = True # !important;  half-baked needs improvements
         if prohibit_duplicates and len(ticker_list) != len(set(ticker_list)):
             st.error('Duplicates are not allowed')
             st.stop()
