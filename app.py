@@ -281,7 +281,7 @@ if submitted:
             yanchor="bottom",
             y=1.02,
             xanchor="right",
-            x=0.5
+            x=0
         ))
         st.plotly_chart(dist_fig, use_container_width=True)                 
             
