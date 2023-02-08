@@ -285,8 +285,8 @@ if submitted:
                 orientation="h",
                 yanchor="bottom",
                 y=1.02,
-                xanchor="left",
-                x=-10
+                xanchor="center",
+                x=0.5
         ))
 
         variable_names = ['Pre-Trade Weight', 'Target Weight', 'Post-Trade Weight']
