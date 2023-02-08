@@ -72,9 +72,7 @@ if csv_file is None:
 
 if csv_file is not None or widgets_length > 0:
     form = st.form('input_form')
-    right, left = form.columns([3, 1])
-    contribution_amount = right.number_input('Contribution', min_value=0.0, step=0.1, format='%.1f')
-    contribution_currency = left.selectbox('Currency', ccy_dict.keys(), index=list(ccy_dict).index('USD'))
+
     right, middle, left = form.columns(3)
     right.write('Ticker')
     middle.write('Current Shares (x)')
@@ -90,6 +88,9 @@ if csv_file is not None or widgets_length > 0:
         for step in range(widgets_length):
             display_input_widgets(step) 
 
+    right, left = form.columns([3, 1])
+    contribution_amount = right.number_input('Contribution', min_value=0.0, step=0.1, format='%.1f')
+    contribution_currency = left.selectbox('Currency', ccy_dict.keys(), index=list(ccy_dict).index('USD'))
     allow_selling = form.checkbox('Allow selling of current shares', value=False)
     allow_fractional = form.checkbox('Allow fractional shares', value=False)
 
