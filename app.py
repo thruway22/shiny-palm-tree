@@ -116,8 +116,9 @@ if csv_file is not None or widgets_length > 0:
         target_sum = 0
         ticker_list = []
         for step in range(inputs_length):
-            ticker = globals()['ticker%s' % step].upper()
-            target = globals()['target%s' % step]
+            ticker, shares, target = call_input_widgets(step, ticker=True, target=True)
+            #ticker = globals()['ticker%s' % step].upper()
+            #target = globals()['target%s' % step]
             
             if ticker == '':
                 st.error('You cannot leave ticker empty')
