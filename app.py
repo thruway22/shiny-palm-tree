@@ -36,7 +36,7 @@ def display_input_widgets(stride, df=None):
 
 def call_input_widgets(stride):
     ticker = globals()['ticker%s' % stride].upper()
-    shares = globuals()['share%s' % stride]
+    shares = globals()['share%s' % stride]
     target = globals()['target%s' % stride]
 
     return ticker, shares, target
