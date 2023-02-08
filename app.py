@@ -58,7 +58,7 @@ def get_currency_rate(ticker=None, currency=None):
 #####  #####  #####  #####  #####  #####  #####
 
 st.title('NextTrade')
-csv_file = st.file_uploader('upload a file', type='CSV')
+csv_file = st.file_uploader('Upload a file', type='CSV', )
 
 # initialize variables for error checks
 widgets_length = 0
@@ -68,12 +68,13 @@ inputs_length = 0
 if csv_file is None:
     widgets_length = st.number_input('or choose number of stocks to input manually', value=0, min_value=0)
 
-form = st.form('input_form')
-right, left = form.columns([3, 1])
-contribution_amount = right.number_input('Contribution', min_value=0.0, step=0.1, format='%.1f')
-contribution_currency = left.selectbox('Currency', ccy_dict.keys(), index=list(ccy_dict).index('USD'))
+
 
 if csv_file is not None or widgets_length > 0:
+    form = st.form('input_form')
+    right, left = form.columns([3, 1])
+    contribution_amount = right.number_input('Contribution', min_value=0.0, step=0.1, format='%.1f')
+    contribution_currency = left.selectbox('Currency', ccy_dict.keys(), index=list(ccy_dict).index('USD'))
     right, middle, left = form.columns(3)
     right.write('Ticker')
     middle.write('Current Shares (x)')
@@ -89,10 +90,10 @@ if csv_file is not None or widgets_length > 0:
         for step in range(widgets_length):
             display_input_widgets(step) 
 
-allow_selling = form.checkbox('Allow selling of current shares', value=False)
-allow_fractional = form.checkbox('Allow fractional shares', value=False)
+    allow_selling = form.checkbox('Allow selling of current shares', value=False)
+    allow_fractional = form.checkbox('Allow fractional shares', value=False)
 
-submitted = form.form_submit_button("Submit")
+    submitted = form.form_submit_button("Submit")
 
 if submitted:
     if inputs_length == 0:
