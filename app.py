@@ -81,7 +81,6 @@ if csv_file is not None or ticker_count > 0:
 
 allow_selling = form.checkbox('Allow selling of current shares', value=False)
 allow_fractional = form.checkbox('Allow fractional shares', value=False)
-excess_cash_handling = form.checkbox('Keep all excess cash in the first cash account', value=False)
 
 submitted = form.form_submit_button("Submit")
 
@@ -276,8 +275,11 @@ if submitted:
         #st.table(df)
         st.table(plan_df.style.format(precision=2, na_rep='', thousands=','))
         
-        fig = px.bar(df, x=df.index, y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], barmode='group')
-        st.plotly_chart(fig, use_container_width=True)                 
+        dist_fig = px.bar(df, x=df.index, y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], barmode='group')
+        fig.update_layout(legend=dict(
+            orientation="h",
+        ))
+        st.plotly_chart(dist_fig, use_container_width=True)                 
             
    
     
