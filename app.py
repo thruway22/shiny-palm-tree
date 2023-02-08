@@ -161,8 +161,7 @@ if csv_file is not None or widgets_length > 0:
                         'ticker': ticker, 'current_shares': shares, 'target_weight': target, 'price': price
                     }])])
 
-                #df['ticker'] = df['ticker'].str.upper()
-                df.set_index('ticker', inplace=True)    
+                df = df.set_index('ticker')  
                 df['market_value'] = df['current_shares'] * df['price']
                 df['pre_trade_weight'] = 100 * df['market_value'] / df['market_value'].sum()
             
@@ -220,10 +219,10 @@ if csv_file is not None or widgets_length > 0:
             
             labels_list = ['Contribution Cash']
             values_list = [contribution_cash]
-            sources_list = [0] #, 1]
+            sources_list = [0]
             targets_list = []
 
-            sources_length = len(sources_list) - 1
+            sources_length = len(sources_list) - 1 # left-section: account cash
             for k, v in account_cash_dict.items():
                 labels_list.append(k)
                 values_list.append(abs(sum(v)))
