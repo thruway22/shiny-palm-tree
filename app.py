@@ -286,7 +286,7 @@ if submitted:
                 yanchor="bottom",
                 y=1.02,
                 xanchor="left",
-                x=0
+                x=-10
         ))
 
         variable_names = ['Pre-Trade Weight', 'Target Weight', 'Post-Trade Weight']
