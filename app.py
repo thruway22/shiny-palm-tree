@@ -7,6 +7,9 @@ import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 from ccy_dict import ccy_dict
 
+#####  #####  #####  #####  #####  #####  #####
+#####  #####  #####  #####  #####  #####  #####
+
 def display_input_widgets(stride, values_df=None):
     '''
     Displays the input widgets for user interaction.
@@ -28,64 +31,62 @@ def display_input_widgets(stride, values_df=None):
     locals()['target%s' % stride] = locals()['col%s2' % stride].number_input('target%s' % stride, value=target_value, min_value=0.0, step=0.1, format='%.1f', label_visibility='collapsed')
     
     globals().update(locals())
+
+#####  #####  #####  #####  #####  #####  #####
     
 def get_currency_rate(ticker=None, currency=None):
     '''
     Gets the currency exchnage rate
 
     args:
-        input (str): ticker (AAPL, VTI...) or currency code (USD, EUR...)
-        bypass (bool): Must be True if passed input is currency code 
+        ticker (str): ticker (AAPL, VTI...)
+        currency (str): currency code (USD, EUR...)
     '''
 
-    if bool(ticker):
+    if ticker is not None:
         base = yf.Ticker(ticker)
         base_currency = '' if base.fast_info['currency'] == 'USD' else base.fast_info['currency']
 
-    if bool(currency):
+    if currency is not None:
         base_currency = currency
 
     rate = yf.Ticker('{}USD=X'.format(base_currency)).fast_info['last_price']
-    
-    # if bypass == False:
-    #     base = yf.Ticker(input)
-    #     base_currency = '' if base.fast_info['currency'] == 'USD' else base.fast_info['currency']
-    # else:
-    #     base_currency = input
-        
-    # rate = yf.Ticker('{}USD=X'.format(base_currency)).fast_info['last_price']
         
     return rate 
 
+#####  #####  #####  #####  #####  #####  #####
+#####  #####  #####  #####  #####  #####  #####
+
 st.title('NextTrade')
 csv_file = st.file_uploader('upload a file', type='CSV')
-ticker_count = 0
-items_length = 0
 
+# initialize variables for error checks
+widgets_length = 0
+inputs_length = 0
+
+# show option to enter inputs manually only if no file is uploaded
 if csv_file is None:
-    ticker_count = st.number_input('or choose number of stocks to input manually', value=0, min_value=0)
+    widgets_length = st.number_input('or choose number of stocks to input manually', value=0, min_value=0)
 
 form = st.form('input_form')
-
 right, left = form.columns([3, 1])
 contribution_amount = right.number_input('Contribution', min_value=0.0, step=0.1, format='%.1f')
-#cash = middle.number_input('In-Account Cash', min_value=0.0, step=0.1, format='%.1f')
 contribution_currency = left.selectbox('Currency', ccy_dict.keys(), index=list(ccy_dict).index('USD'))
 
-if csv_file is not None or ticker_count > 0:
-    cola, colb, colc = form.columns(3)
-    cola.write('Ticker')
-    colb.write('Current Shares (x)')
-    colc.write('Target Weight (%)')
+if csv_file is not None or widgets_length > 0:
+    right, middle, left = form.columns(3)
+    right.write('Ticker')
+    middle.write('Current Shares (x)')
+    left.write('Target Weight (%)')
     if csv_file is not None:
         df = pd.read_csv(csv_file, names=['ticker', 'current_shares', 'target_weight'])
         df = df.set_index('ticker')
-        items_length = len(df)
+        inputs_length = len(df)
         for step in range(len(df)):
             display_input_widgets(step, df)
-    if ticker_count > 0:
-        items_length = ticker_count
-        for step in range(ticker_count):
+    if widgets_length > 0:
+        inputs_length = widgets_length
+        for step in range(widgets_length):
             display_input_widgets(step) 
 
 allow_selling = form.checkbox('Allow selling of current shares', value=False)
@@ -94,13 +95,13 @@ allow_fractional = form.checkbox('Allow fractional shares', value=False)
 submitted = form.form_submit_button("Submit")
 
 if submitted:
-    if items_length == 0:
+    if inputs_length == 0:
         st.error('No tickers were entered')
         st.stop()
     
     sum_target = 0
     ticker_list = []
-    for step in range(items_length):
+    for step in range(inputs_length):
         ticker = globals()['ticker%s' % step].upper()
         target = globals()['target%s' % step]
         
@@ -138,7 +139,7 @@ if submitted:
         
         with st.spinner('Getting ticker data from Yahoo! Finance...'):
             df = pd.DataFrame({'ticker': [], 'current_shares': [], 'target_weight': [], 'price': []})
-            for step in range(items_length):
+            for step in range(inputs_length):
                 ticker = globals()['ticker%s' % step]
                 shares = globals()['share%s' % step]
                 target = globals()['target%s' % step]
