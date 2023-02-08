@@ -32,6 +32,19 @@ def display_input_widgets(stride, df=None):
     
     globals().update(locals())
 
+def call_input_widgets(stride, ticker=False, shares=False, target=False):
+    if ticker:
+        ticker = globals()['ticker%s' % stride].upper()
+
+    if shares:
+        shares = globals()['share%s' % stride]
+
+    if target:
+        target = globals()['target%s' % stride]
+
+    return ticker, shares, target
+        
+
 #####  #####  #####  #####  #####  #####  #####
     
 def get_currency_rate(ticker=None, currency=None):
@@ -43,11 +56,11 @@ def get_currency_rate(ticker=None, currency=None):
         currency (str): currency code (USD, EUR...)
     '''
 
-    if ticker is not None:
+    if ticker:
         base = yf.Ticker(ticker)
         base_currency = '' if base.fast_info['currency'] == 'USD' else base.fast_info['currency']
 
-    if currency is not None:
+    if currency:
         base_currency = currency
 
     rate = yf.Ticker('{}USD=X'.format(base_currency)).fast_info['last_price']
@@ -100,7 +113,7 @@ if csv_file is not None or widgets_length > 0:
             st.error('No tickers were entered')
             st.stop()
         
-        sum_target = 0
+        target_sum = 0
         ticker_list = []
         for step in range(inputs_length):
             ticker = globals()['ticker%s' % step].upper()
@@ -123,7 +136,7 @@ if csv_file is not None or widgets_length > 0:
                     st.error("Could not recognize ticker '{}'".format(ticker))
                     st.stop()        
             
-            sum_target += target
+            target_sum += target
             ticker_list.append(ticker)
 
         prohibit_duplicates = True # !important;  half-baked needs improvements
@@ -131,7 +144,7 @@ if csv_file is not None or widgets_length > 0:
             st.error('Duplicates are not allowed')
             st.stop()
 
-        elif sum_target != 100:
+        elif target_sum != 100:
             st.error('Sum of target weights must equal 100%')
             st.stop()
 
