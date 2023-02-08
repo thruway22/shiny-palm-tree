@@ -276,7 +276,7 @@ if submitted:
         st.table(plan_df.style.format(precision=2, na_rep='', thousands=','))
         
         dist_fig = px.bar(df, x=df.index, y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], barmode='group')
-        fig.update_layout(legend=dict(
+        dist_fig.update_layout(legend=dict(
             orientation="h",
         ))
         st.plotly_chart(dist_fig, use_container_width=True)                 
