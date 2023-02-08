@@ -32,14 +32,11 @@ def display_input_widgets(stride, df=None):
     
     globals().update(locals())
 
-def call_input_widgets(stride, ticker=False, shares=False, target=False):
-    if ticker:
+#####  #####  #####  #####  #####  #####  #####
+
+def call_input_widgets(stride):
         ticker = globals()['ticker%s' % stride].upper()
-
-    if shares:
         shares = globals()['share%s' % stride]
-
-    if target:
         target = globals()['target%s' % stride]
 
     return ticker, shares, target
@@ -116,9 +113,7 @@ if csv_file is not None or widgets_length > 0:
         target_sum = 0
         ticker_list = []
         for step in range(inputs_length):
-            ticker, shares, target = call_input_widgets(step, ticker=True, target=True)
-            #ticker = globals()['ticker%s' % step].upper()
-            #target = globals()['target%s' % step]
+            ticker, shares, target = call_input_widgets(step)
             
             if ticker == '':
                 st.error('You cannot leave ticker empty')
@@ -155,13 +150,10 @@ if csv_file is not None or widgets_length > 0:
             with st.spinner('Getting ticker data from Yahoo! Finance...'):
                 df = pd.DataFrame({'ticker': [], 'current_shares': [], 'target_weight': [], 'price': []})
                 for step in range(inputs_length):
-                    ticker = globals()['ticker%s' % step]
-                    shares = globals()['share%s' % step]
-                    target = globals()['target%s' % step]
+                    ticker, shares, target = call_input_widgets(step)
 
                     if ticker.startswith('$'):
                         price = get_currency_rate(currency=ticker[1:])
-                        #cash = df['current_shares'][i] * price
                     else:
                         price = yf.Ticker(ticker).history()['Close'][-1] * get_currency_rate(ticker=ticker)
 
@@ -169,7 +161,7 @@ if csv_file is not None or widgets_length > 0:
                         'ticker': ticker, 'current_shares': shares, 'target_weight': target, 'price': price
                     }])])
 
-                df['ticker'] = df['ticker'].str.upper()
+                #df['ticker'] = df['ticker'].str.upper()
                 df.set_index('ticker', inplace=True)    
                 df['market_value'] = df['current_shares'] * df['price']
                 df['pre_trade_weight'] = 100 * df['market_value'] / df['market_value'].sum()
