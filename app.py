@@ -278,6 +278,10 @@ if submitted:
         dist_fig = px.bar(df, x=df.index, y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], barmode='group')
         dist_fig.update_layout(legend=dict(
             orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="center",
+            #x=1
         ))
         st.plotly_chart(dist_fig, use_container_width=True)                 
             
