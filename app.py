@@ -292,7 +292,7 @@ if submitted:
         variable_names = ['Pre-Trade Weight', 'Target Weight', 'Post-Trade Weight']
         for idx, name in enumerate(variable_names):
             dist_fig.data[idx].name = name
-            dist_fig.data[idx].hovertemplate = name
+            #dist_fig.data[idx].hovertemplate = name
         # test    
 
         st.plotly_chart(dist_fig, use_container_width=True)                 
