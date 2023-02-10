@@ -93,6 +93,7 @@ if csv_file is not None or widgets_length > 0:
             try:
                 display_input_widgets(step, inputs_df)
             except:
+                submitted = form.form_submit_button('Submit', disabled=True)
                 st.error('Something went wrong. Please check file format.')
                 st.stop() 
 
@@ -107,7 +108,7 @@ if csv_file is not None or widgets_length > 0:
     allow_selling = form.checkbox('Allow selling of current shares', value=False)
     allow_fractional = form.checkbox('Allow fractional shares', value=False)
 
-    submitted = form.form_submit_button("Submit")
+    submitted = form.form_submit_button('Submit')
 
     if submitted:
         if inputs_length == 0:
@@ -256,7 +257,7 @@ if csv_file is not None or widgets_length > 0:
                 targets_list.append(targets_length)
 
             flow_fig = go.Figure(data=[go.Sankey(
-                valueformat = "$.2f",
+                valueformat = '$.2f',
                 node = dict(
                     label=labels_list,
                     pad = 20,
@@ -303,10 +304,10 @@ if csv_file is not None or widgets_length > 0:
                 yaxis_title='Weight (%)',
                 legend=dict(
                     title='',
-                    orientation="h",
-                    yanchor="bottom",
+                    orientation='h',
+                    yanchor='bottom',
                     y=1.02,
-                    xanchor="center",
+                    xanchor='center',
                     x=0.5
             ))
 
