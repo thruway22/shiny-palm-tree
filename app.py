@@ -86,18 +86,15 @@ if csv_file is not None or widgets_length > 0:
     left.write('Target Weight (%)')
 
     if csv_file is not None:
-        try:
-            inputs_df = pd.read_csv(csv_file, names=['ticker', 'current_shares', 'target_weight'], thousands=',')
-        :
-            st.error('Something went wrong. Please check file format.')
-            st.stop()
+        inputs_df = pd.read_csv(csv_file, names=['ticker', 'current_shares', 'target_weight'], thousands=',')    
         inputs_df = inputs_df.fillna(0).set_index('ticker')
         inputs_length = len(inputs_df)
         for step in range(len(inputs_df)):
             try:
                 display_input_widgets(step, inputs_df)
             except:
-                
+                st.error('Something went wrong. Please check file format.')
+                st.stop() 
 
     if widgets_length > 0:
         inputs_length = widgets_length
