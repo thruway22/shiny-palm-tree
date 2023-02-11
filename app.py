@@ -128,9 +128,10 @@ if csv_file is not None or widgets_length > 0:
                 st.error('You cannot leave ticker empty')
                 st.stop()
 
-            if ticker.startswith('$'):
+            if ticker.startswith('$') or ticker.startswith('!'):
+                currency = ticker[1:] if ticker.startswith('$') else ticker[2:]
                 try:
-                    currency_recognized = get_currency_rate(currency=ticker[1:])
+                    currency_recognized = get_currency_rate(currency=currency)
                 except:
                     st.error("Could not recognize currency '{}'".format(ticker))
                     st.stop()
@@ -163,6 +164,10 @@ if csv_file is not None or widgets_length > 0:
 
                     if ticker.startswith('$'):
                         price = get_currency_rate(currency=ticker[1:])
+                    elif ticker.startswith('!'):
+                        price = get_currency_rate(currency=ticker[2:])
+                        currency_priority = ticker[1:]
+                        df.rename(index={ticker:currency_priority}, inplace=True)
                     else:
                         price = yf.Ticker(ticker).history()['Close'][-1] * get_currency_rate(ticker=ticker)
 
@@ -208,6 +213,9 @@ if csv_file is not None or widgets_length > 0:
                 for i in df.index:
                     if i not in excess_cash_weighted.keys(): # for tickers
                         df.at[i, 'output_value'] = df.at[i, 'possible_value']
+
+                    elif 'currency_priority' in globals():
+                        df.at[i, 'output_value'] = df.at[i, 'possible_value'] + excess_cash
 
                     else:
                         df.at[i, 'output_value'] = df.at[i, 'possible_value'] + excess_cash_weighted[i]
