@@ -166,7 +166,7 @@ if csv_file is not None or widgets_length > 0:
                         price = get_currency_rate(currency=ticker[1:])
                     elif ticker.startswith('!'):
                         price = get_currency_rate(currency=ticker[2:])
-                        currency_priority = ticker[1:]
+                        currency_priority = ticker[2:]
                         df.rename(index={ticker:currency_priority}, inplace=True)
                     else:
                         price = yf.Ticker(ticker).history()['Close'][-1] * get_currency_rate(ticker=ticker)
