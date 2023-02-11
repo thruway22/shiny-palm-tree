@@ -207,25 +207,26 @@ if csv_file is not None or widgets_length > 0:
             df['possible_value'] = (df['allocated_value'] // df['price']) * df['price']
 
             if allow_fractional == False:
+                df['output_value'] = 0
                 excess_cash = df['allocated_value'].sum() - df['possible_value'].sum()
                 excess_cash_weighted = {k: excess_cash * (sum(v)/account_cash) for (k, v) in account_cash_dict.items()}
-                df['output_value'] = 0
+
                 for i in df.index:
-                    if i not in excess_cash_weighted.keys(): # for tickers
+                    if i.startswith('$'):
+                        if 'currency_priority' in globals():
+                            if i == currency_priority:
+                                df.at[i, 'output_value'] = df.at[i, 'possible_value'] + excess_cash
+                        else:
+                            df.at[i, 'output_value'] = df.at[i, 'possible_value'] + excess_cash_weighted[i]
+                    else:
                         df.at[i, 'output_value'] = df.at[i, 'possible_value']
 
-                    elif 'currency_priority' in globals():
-                        df.at[i, 'output_value'] = df.at[i, 'possible_value'] + excess_cash
-
-                    else:
-                        df.at[i, 'output_value'] = df.at[i, 'possible_value'] + excess_cash_weighted[i]
-
-                    if not bool(account_cash_dict): # if empty
-                        currency_injected = '$' + contribution_currency
-                        df.loc[currency_injected] = 0
-                        df.at[currency_injected, 'price'] = 1.0
-                        df.at[currency_injected, 'market_value'] = excess_cash
-                        df.at[currency_injected, 'output_value'] = excess_cash
+                if not bool(account_cash_dict): # if empty
+                    currency_injected = '$' + contribution_currency
+                    df.loc[currency_injected] = 0
+                    df.at[currency_injected, 'price'] = 1.0
+                    df.at[currency_injected, 'market_value'] = excess_cash
+                    df.at[currency_injected, 'output_value'] = excess_cash
                             
             else:
                 excess_cash = 0
