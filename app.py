@@ -134,7 +134,7 @@ if csv_file is not None or widgets_length > 0:
                     currency = ticker[1:]
                 if ticker.startswith('!$'):
                     currency = ticker[2:]
-                    important_currency.append(currency)
+                    important_currency.append(ticker)
                 try:
                     currency_recognized = get_currency_rate(currency=currency)
                 except:
