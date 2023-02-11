@@ -121,7 +121,6 @@ if csv_file is not None or widgets_length > 0:
         
         target_sum = 0
         ticker_list = []
-        important_currency = []
         for step in range(inputs_length):
             ticker, shares, target = call_input_widgets(step)
             
@@ -129,14 +128,9 @@ if csv_file is not None or widgets_length > 0:
                 st.error('You cannot leave ticker empty')
                 st.stop()
 
-            if ticker.startswith('$') or ticker.startswith('!$'):
-                if ticker.startswith('$'):
-                    currency = ticker[1:]
-                if ticker.startswith('!$'):
-                    currency = ticker[2:]
-                    important_currency.append(currency)
+            if ticker.startswith('$'):
                 try:
-                    currency_recognized = get_currency_rate(currency=currency)
+                    currency_recognized = get_currency_rate(currency=ticker[1:])
                 except:
                     st.error("Could not recognize currency '{}'".format(ticker))
                     st.stop()
@@ -155,10 +149,6 @@ if csv_file is not None or widgets_length > 0:
             st.error('Duplicates are not allowed')
             st.stop()
 
-        elif len(important_currency) != 1:
-            st.error('More than one main account is not allowed')
-            st.stop()
-
         elif target_sum != 100:
             st.error('Sum of target weights must equal 100%')
             st.stop()
@@ -173,10 +163,6 @@ if csv_file is not None or widgets_length > 0:
 
                     if ticker.startswith('$'):
                         price = get_currency_rate(currency=ticker[1:])
-                    elif ticker.startswith('!$'):
-                        price = get_currency_rate(currency=ticker[2:])
-                        currency_priority = ticker[1:]
-                        ticker = currency_priority
                     else:
                         price = yf.Ticker(ticker).history()['Close'][-1] * get_currency_rate(ticker=ticker)
 
@@ -216,26 +202,22 @@ if csv_file is not None or widgets_length > 0:
             df['possible_value'] = (df['allocated_value'] // df['price']) * df['price']
 
             if allow_fractional == False:
-                df['output_value'] = 0
                 excess_cash = df['allocated_value'].sum() - df['possible_value'].sum()
                 excess_cash_weighted = {k: excess_cash * (sum(v)/account_cash) for (k, v) in account_cash_dict.items()}
-
+                df['output_value'] = 0
                 for i in df.index:
-                    if i.startswith('$'):
-                        if 'currency_priority' in globals():
-                            if i == currency_priority:
-                                df.at[i, 'output_value'] = df.at[i, 'possible_value'] + excess_cash
-                        else:
-                            df.at[i, 'output_value'] = df.at[i, 'possible_value'] + excess_cash_weighted[i]
-                    else:
+                    if i not in excess_cash_weighted.keys(): # for tickers
                         df.at[i, 'output_value'] = df.at[i, 'possible_value']
 
-                if not bool(account_cash_dict): # if empty
-                    currency_injected = '$' + contribution_currency
-                    df.loc[currency_injected] = 0
-                    df.at[currency_injected, 'price'] = 1.0
-                    df.at[currency_injected, 'market_value'] = excess_cash
-                    df.at[currency_injected, 'output_value'] = excess_cash
+                    else:
+                        df.at[i, 'output_value'] = df.at[i, 'possible_value'] + excess_cash_weighted[i]
+
+                    if not bool(account_cash_dict): # if empty
+                        currency_injected = '$' + contribution_currency
+                        df.loc[currency_injected] = 0
+                        df.at[currency_injected, 'price'] = 1.0
+                        df.at[currency_injected, 'market_value'] = excess_cash
+                        df.at[currency_injected, 'output_value'] = excess_cash
                             
             else:
                 excess_cash = 0
