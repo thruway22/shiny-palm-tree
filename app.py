@@ -186,7 +186,7 @@ if csv_file is not None or widgets_length > 0:
             account_cash = 0
             for i in range(len(df)):
                 idx_name = df.iloc[i].name
-                if idx_name.startswith('$') or ticker.startswith('!$'):
+                if idx_name.startswith('$'):
                     col_loc = df.columns.get_loc('market_value')
                     x = df.iat[i, col_loc]
                     account_cash += x
