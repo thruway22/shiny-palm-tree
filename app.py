@@ -164,9 +164,9 @@ if csv_file is not None or widgets_length > 0:
 
                     if ticker.startswith('$'):
                         price = get_currency_rate(currency=ticker[1:])
-                    elif ticker.startswith('!'):
+                    elif ticker.startswith('!$'):
                         price = get_currency_rate(currency=ticker[2:])
-                        currency_priority = ticker[2:]
+                        currency_priority = ticker[1:]
                         df.rename(index={ticker:currency_priority}, inplace=True)
                     else:
                         price = yf.Ticker(ticker).history()['Close'][-1] * get_currency_rate(ticker=ticker)
@@ -186,7 +186,7 @@ if csv_file is not None or widgets_length > 0:
             account_cash = 0
             for i in range(len(df)):
                 idx_name = df.iloc[i].name
-                if idx_name.startswith('$'):
+                if idx_name.startswith('$') or ticker.startswith('!$'):
                     col_loc = df.columns.get_loc('market_value')
                     x = df.iat[i, col_loc]
                     account_cash += x
