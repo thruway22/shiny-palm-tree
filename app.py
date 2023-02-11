@@ -49,17 +49,12 @@ def call_input_widgets(stride):
     target = globals()['target%s' % stride]
 
     return ticker, shares, target
-        
 
 #####  #####  #####  #####  #####  #####  #####
     
 def get_currency_rate(**kwargs):
     '''
     Gets the currency exchnage rate
-
-    args:
-        ticker (str): ticker (AAPL, VTI...)
-        currency (str): currency code (USD, EUR...)
     '''
 
     if 'ticker' in kwargs:
@@ -103,7 +98,7 @@ if csv_file is not None or widgets_length > 0:
                 display_input_widgets(step, inputs_df)
             except:
                 submitted = form.form_submit_button('Submit', disabled=True)
-                st.error('Something went wrong. Please check file format.')
+                st.error('Something went wrong. Please check the uploaded file.')
                 st.stop() 
 
     if widgets_length > 0:
