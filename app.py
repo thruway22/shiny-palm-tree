@@ -168,6 +168,7 @@ if csv_file is not None or widgets_length > 0:
             
             with st.spinner('Getting ticker data from Yahoo! Finance...'):
                 df = pd.DataFrame({'ticker': [], 'current_shares': [], 'target_weight': [], 'price': []})
+                currency_priority = False
                 for step in range(inputs_length):
                     ticker, shares, target = call_input_widgets(step)
 
@@ -175,8 +176,8 @@ if csv_file is not None or widgets_length > 0:
                         price = get_currency_rate(currency=ticker[1:])
                     elif ticker.startswith('!$'):
                         price = get_currency_rate(currency=ticker[2:])
-                        currency_priority = ticker[1:]
-                        ticker = currency_priority
+                        currency_priority = True
+                        #ticker = currency_priority
                     else:
                         price = yf.Ticker(ticker).history()['Close'][-1] * get_currency_rate(ticker=ticker)
 
@@ -195,7 +196,7 @@ if csv_file is not None or widgets_length > 0:
             account_cash = 0
             for i in range(len(df)):
                 idx_name = df.iloc[i].name
-                if idx_name.startswith('$'):
+                if idx_name.startswith('$') or ticker.startswith('!$'):
                     col_loc = df.columns.get_loc('market_value')
                     x = df.iat[i, col_loc]
                     account_cash += x
@@ -218,17 +219,29 @@ if csv_file is not None or widgets_length > 0:
             if allow_fractional == False:
                 df['output_value'] = 0
                 excess_cash = df['allocated_value'].sum() - df['possible_value'].sum()
-                excess_cash_weighted = {k: excess_cash * (sum(v)/account_cash) for (k, v) in account_cash_dict.items()}
 
-                for i in df.index:
-                    if i.startswith('$'):
-                        if 'currency_priority' in globals():
-                            if i == currency_priority:
-                                df.at[i, 'output_value'] = df.at[i, 'possible_value'] + excess_cash
-                        else:
-                            df.at[i, 'output_value'] = df.at[i, 'possible_value'] + excess_cash_weighted[i]
-                    else:
+                if currency_priority:
+                    for i in df.index:
                         df.at[i, 'output_value'] = df.at[i, 'possible_value']
+                    df.at[important_currency[0], 'output_value'] = df.at[important_currency[0], 'possible_value'] + excess_cash
+                else:
+                    excess_cash_weighted = {k: excess_cash * (sum(v)/account_cash) for (k, v) in account_cash_dict.items()}
+                    for i in df.index:
+                        if i.startswith('$'):
+                            df.at[i, 'output_value'] = df.at[i, 'possible_value'] + excess_cash_weighted[i]
+                        else:
+                            df.at[i, 'output_value'] = df.at[i, 'possible_value']
+
+                # excess_cash_weighted = {k: excess_cash * (sum(v)/account_cash) for (k, v) in account_cash_dict.items()}
+                # for i in df.index:
+                #     if i.startswith('$'):
+                #         if 'currency_priority' in globals():
+                #             if i == currency_priority:
+                #                 df.at[i, 'output_value'] = df.at[i, 'possible_value'] + excess_cash
+                #         else:
+                #             df.at[i, 'output_value'] = df.at[i, 'possible_value'] + excess_cash_weighted[i]
+                #     else:
+                #         df.at[i, 'output_value'] = df.at[i, 'possible_value']
 
                 if not bool(account_cash_dict): # if empty
                     currency_injected = '$' + contribution_currency
