@@ -121,6 +121,7 @@ if csv_file is not None or widgets_length > 0:
         
         target_sum = 0
         ticker_list = []
+        important_currency = []
         for step in range(inputs_length):
             ticker, shares, target = call_input_widgets(step)
             
@@ -128,8 +129,12 @@ if csv_file is not None or widgets_length > 0:
                 st.error('You cannot leave ticker empty')
                 st.stop()
 
-            if ticker.startswith('$') or ticker.startswith('!'):
-                currency = ticker[1:] if ticker.startswith('$') else ticker[2:]
+            if ticker.startswith('$') or ticker.startswith('!$'):
+                if ticker.startswith('$'):
+                    currency = ticker[1:]
+                if ticker.startswith('!$'):
+                    currency = ticker[2:]
+                    important_currency.append(currency)
                 try:
                     currency_recognized = get_currency_rate(currency=currency)
                 except:
@@ -148,6 +153,10 @@ if csv_file is not None or widgets_length > 0:
         prohibit_duplicates = True # !important;  half-baked needs improvements
         if prohibit_duplicates and len(ticker_list) != len(set(ticker_list)):
             st.error('Duplicates are not allowed')
+            st.stop()
+
+        elif len(important_currency) != 1:
+            st.error('More than one main account is not allowed')
             st.stop()
 
         elif target_sum != 100:
