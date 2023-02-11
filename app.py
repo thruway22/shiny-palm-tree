@@ -213,10 +213,11 @@ if csv_file is not None or widgets_length > 0:
                         df.at[i, 'output_value'] = df.at[i, 'possible_value'] + excess_cash_weighted[i]
 
                     if not bool(account_cash_dict): # if empty
-                        df.loc['$USD'] = 0
-                        df.at['$USD', 'price'] = 1.0
-                        df.at['$USD', 'market_value'] = excess_cash
-                        df.at['$USD', 'output_value'] = excess_cash
+                        currency_injected = '$' + contribution_currency
+                        df.loc[currency_injected] = 0
+                        df.at[currency_injected, 'price'] = 1.0
+                        df.at[currency_injected, 'market_value'] = excess_cash
+                        df.at[currency_injected, 'output_value'] = excess_cash
                             
             else:
                 excess_cash = 0
