@@ -43,6 +43,7 @@ def display_input_widgets(stride, df=None):
 #####  #####  #####  #####  #####  #####  #####
 
 def call_input_widgets(stride):
+
     ticker = globals()['ticker%s' % stride].upper()
     shares = globals()['share%s' % stride]
     target = globals()['target%s' % stride]
@@ -52,7 +53,7 @@ def call_input_widgets(stride):
 
 #####  #####  #####  #####  #####  #####  #####
     
-def get_currency_rate(ticker=None, currency=None):
+def get_currency_rate(**kwargs):
     '''
     Gets the currency exchnage rate
 
@@ -61,12 +62,12 @@ def get_currency_rate(ticker=None, currency=None):
         currency (str): currency code (USD, EUR...)
     '''
 
-    if ticker:
-        base = yf.Ticker(ticker)
+    if 'ticker' in kwargs:
+        base = yf.Ticker(kwargs.get('ticker'))
         base_currency = '' if base.fast_info['currency'] == 'USD' else base.fast_info['currency']
 
-    if currency:
-        base_currency = currency
+    if 'currency' in kwargs:
+        base_currency = kwargs.get('currency')
 
     rate = yf.Ticker('{}USD=X'.format(base_currency)).fast_info['last_price']
         
