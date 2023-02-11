@@ -220,28 +220,28 @@ if csv_file is not None or widgets_length > 0:
                 df['output_value'] = 0
                 excess_cash = df['allocated_value'].sum() - df['possible_value'].sum()
 
-                if currency_priority:
-                    for i in df.index:
-                        df.at[i, 'output_value'] = df.at[i, 'possible_value']
-                    df.at[important_currency[0], 'output_value'] = df.at[important_currency[0], 'possible_value'] + excess_cash
-                else:
-                    excess_cash_weighted = {k: excess_cash * (sum(v)/account_cash) for (k, v) in account_cash_dict.items()}
-                    for i in df.index:
-                        if i.startswith('$'):
-                            df.at[i, 'output_value'] = df.at[i, 'possible_value'] + excess_cash_weighted[i]
-                        else:
-                            df.at[i, 'output_value'] = df.at[i, 'possible_value']
-
-                # excess_cash_weighted = {k: excess_cash * (sum(v)/account_cash) for (k, v) in account_cash_dict.items()}
-                # for i in df.index:
-                #     if i.startswith('$'):
-                #         if 'currency_priority' in globals():
-                #             if i == currency_priority:
-                #                 df.at[i, 'output_value'] = df.at[i, 'possible_value'] + excess_cash
-                #         else:
-                #             df.at[i, 'output_value'] = df.at[i, 'possible_value'] + excess_cash_weighted[i]
-                #     else:
+                # if currency_priority:
+                #     for i in df.index:
                 #         df.at[i, 'output_value'] = df.at[i, 'possible_value']
+                #     df.at[important_currency[0], 'output_value'] = df.at[important_currency[0], 'possible_value'] + excess_cash
+                # else:
+                #     excess_cash_weighted = {k: excess_cash * (sum(v)/account_cash) for (k, v) in account_cash_dict.items()}
+                #     for i in df.index:
+                #         if i.startswith('$'):
+                #             df.at[i, 'output_value'] = df.at[i, 'possible_value'] + excess_cash_weighted[i]
+                #         else:
+                #             df.at[i, 'output_value'] = df.at[i, 'possible_value']
+
+                excess_cash_weighted = {k: excess_cash * (sum(v)/account_cash) for (k, v) in account_cash_dict.items()}
+                for i in df.index:
+                    if i.startswith('$'):
+                        if 'currency_priority' in globals():
+                            if i == currency_priority:
+                                df.at[i, 'output_value'] = df.at[i, 'possible_value'] + excess_cash
+                        else:
+                            df.at[i, 'output_value'] = df.at[i, 'possible_value'] + excess_cash_weighted[i]
+                    else:
+                        df.at[i, 'output_value'] = df.at[i, 'possible_value']
 
                 if not bool(account_cash_dict): # if empty
                     currency_injected = '$' + contribution_currency
