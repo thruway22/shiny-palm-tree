@@ -222,7 +222,7 @@ if csv_file is not None or widgets_length > 0:
                 excess_cash_weighted = {k: excess_cash * (sum(v)/account_cash) for (k, v) in account_cash_dict_aux.items()}
                 df['output_value'] = 0
                 for i in df.index:
-                    if i not in excess_cash_weighted.keys(): # for tickers
+                    if i not in account_cash_dict.keys(): # for tickers
                         df.at[i, 'output_value'] = df.at[i, 'possible_value']
 
                     else:
