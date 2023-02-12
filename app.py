@@ -215,10 +215,11 @@ if csv_file is not None or widgets_length > 0:
 
             if allow_fractional == False:
                 excess_cash = df['allocated_value'].sum() - df['possible_value'].sum()
+                account_cash_dict_aux = account_cash_dict
                 if important_currency_checkbox:
-                    for k in account_cash_dict.keys():
-                        account_cash_dict[k] = [account_cash] if k == important_currency else [0]
-                excess_cash_weighted = {k: excess_cash * (sum(v)/account_cash) for (k, v) in account_cash_dict.items()}
+                    for k in account_cash_dict_aux.keys():
+                        account_cash_dict_aux[k] = [account_cash] if k == important_currency else [0]
+                excess_cash_weighted = {k: excess_cash * (sum(v)/account_cash) for (k, v) in account_cash_dict_aux.items()}
                 df['output_value'] = 0
                 for i in df.index:
                     if i not in excess_cash_weighted.keys(): # for tickers
