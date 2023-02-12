@@ -219,7 +219,7 @@ if csv_file is not None or widgets_length > 0:
                 # if important_currency_checkbox:
                 #     for k in account_cash_dict_aux.keys():
                 #         account_cash_dict_aux[k] = [account_cash] if k == important_currency else [0]
-                excess_cash_weighted = {k: excess_cash * (sum(v)/account_cash) for (k, v) in account_cash_dict_aux.items()}
+                excess_cash_weighted = {k: excess_cash * (sum(v)/account_cash) for (k, v) in account_cash_dict.items()}
                 df['output_value'] = 0
                 for i in df.index:
                     if i not in account_cash_dict.keys(): # for tickers
