@@ -164,14 +164,16 @@ if csv_file is not None or widgets_length > 0:
             
             with st.spinner('Getting ticker data from Yahoo! Finance...'):
                 df = pd.DataFrame({'ticker': [], 'current_shares': [], 'target_weight': [], 'price': []})
+                important_currency_checkbox = False
                 for step in range(inputs_length):
                     ticker, shares, target = call_input_widgets(step)
 
                     if ticker.startswith('$'):
                         price = get_currency_rate(currency=ticker[1:])
                     elif ticker.startswith('!$'): #############################
+                        important_currency_checkbox = True
                         important_currency = ticker[1:]
-                        ticker = important_currency
+                        ticker = important_currency # remove the '!'
                         price = get_currency_rate(currency=ticker[1:])
                     else:
                         price = yf.Ticker(ticker).history()['Close'][-1] * get_currency_rate(ticker=ticker)
@@ -213,6 +215,9 @@ if csv_file is not None or widgets_length > 0:
 
             if allow_fractional == False:
                 excess_cash = df['allocated_value'].sum() - df['possible_value'].sum()
+                if important_currency_checkbox:
+                    for k in account_cash_dict.keys():
+                        account_cash_dict2[k] = [account_cash] if k == important_currency else [0]
                 excess_cash_weighted = {k: excess_cash * (sum(v)/account_cash) for (k, v) in account_cash_dict.items()}
                 df['output_value'] = 0
                 for i in df.index:
