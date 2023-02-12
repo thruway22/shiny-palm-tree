@@ -121,6 +121,7 @@ if csv_file is not None or widgets_length > 0:
         
         target_sum = 0
         ticker_list = []
+        important_currency_list = []
         for step in range(inputs_length):
             ticker, shares, target = call_input_widgets(step)
             
@@ -128,9 +129,14 @@ if csv_file is not None or widgets_length > 0:
                 st.error('You cannot leave ticker empty')
                 st.stop()
 
-            if ticker.startswith('$'):
+            if ticker.startswith('$') or ticker.startswith('!$'):
+                if ticker.startswith('$'):
+                    ticker_adj = ticker[1:]
+                if ticker.startswith('!$'):
+                    ticker_adj = ticker[1:]
+                    important_currency_list.append(ticker_adj)
                 try:
-                    currency_recognized = get_currency_rate(currency=ticker[1:])
+                    currency_recognized = get_currency_rate(currency=ticker_adj)
                 except:
                     st.error("Could not recognize currency '{}'".format(ticker))
                     st.stop()
@@ -162,6 +168,10 @@ if csv_file is not None or widgets_length > 0:
                     ticker, shares, target = call_input_widgets(step)
 
                     if ticker.startswith('$'):
+                        price = get_currency_rate(currency=ticker[1:])
+                    elif ticker.startswith('!$'): #############################
+                        important_currency = ticker[1:]
+                        ticker = important_currency
                         price = get_currency_rate(currency=ticker[1:])
                     else:
                         price = yf.Ticker(ticker).history()['Close'][-1] * get_currency_rate(ticker=ticker)
