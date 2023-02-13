@@ -347,7 +347,7 @@ if csv_file is not None or widgets_length > 0:
 
             #fig = px.sunburst(df, path=['sex', 'day', 'time'], values='total_bill', color='day')
             account_list = []
-            for i in df.index:
+            for i in df[df.index.str.startswith('$') != False].index:
                 ticker = yf.Ticker(i)
                 account_list.append(ticker.fast_info['currency'])
             df['account'] = account_list
