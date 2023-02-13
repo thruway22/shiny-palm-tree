@@ -349,10 +349,14 @@ if csv_file is not None or widgets_length > 0:
 
             #fig = px.sunburst(df, path=['sex', 'day', 'time'], values='total_bill', color='day')
             account_list = []
-            for i in df[df.index.str.startswith('$') == False].index:
-                ticker = yf.Ticker(i)
-                account_list.append(ticker.fast_info['currency'])
+            for i in df.index:
+                if i.str.startswith('$'):
+                    account_list.append(i[1:])
+                else:
+                    ticker = yf.Ticker(i)
+                    account_list.append(ticker.fast_info['currency'])
             df['account'] = account_list
+            st.table(df)
             pie_fig = px.sunburst(df, path='price', values='post_trade_weight', color='account')
             st.plotly_chart(pie_fig, use_container_width=True, config= {'displayModeBar': False})   
                 
