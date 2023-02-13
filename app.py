@@ -345,7 +345,7 @@ if csv_file is not None or widgets_length > 0:
             dist_fig.update_yaxes(fixedrange=True)
             st.plotly_chart(dist_fig, use_container_width=True, config= {'displayModeBar': False})
 
-            st.table(df.reset_index())
+            st.table(df[df.index.str.startswith('$') != False])
 
             #fig = px.sunburst(df, path=['sex', 'day', 'time'], values='total_bill', color='day')
             account_list = []
