@@ -343,7 +343,7 @@ if csv_file is not None or widgets_length > 0:
             dist_config = {
                 'modeBarButtonsToRemove': ['zoom', 'pan']
             }
-            st.plotly_chart(dist_fig, use_container_width=True **{'config': dist_config})                 
+            st.plotly_chart(dist_fig, use_container_width=True, config= dist_config)                 
                 
     
         
