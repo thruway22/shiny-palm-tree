@@ -355,8 +355,11 @@ if csv_file is not None or widgets_length > 0:
                     ticker = yf.Ticker(i)
                     account_list.append(ticker.fast_info['currency'])
             df['account'] = account_list
-            left, right = st.columns(2)
+            left, middle, right = st.columns(3)
             left.plotly_chart(
+                px.sunburst(df.reset_index(), path=['account', 'ticker'], values='pre_trade_weight', color='account'),
+                use_container_width=True, config= {'displayModeBar': False})
+            middle.plotly_chart(
                 px.sunburst(df.reset_index(), path=['account', 'ticker'], values='target_weight', color='account'),
                 use_container_width=True, config= {'displayModeBar': False})
             right.plotly_chart(
