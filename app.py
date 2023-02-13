@@ -350,7 +350,7 @@ if csv_file is not None or widgets_length > 0:
             #fig = px.sunburst(df, path=['sex', 'day', 'time'], values='total_bill', color='day')
             account_list = []
             for i in df.index:
-                if i.str.startswith('$'):
+                if i.startswith('$'):
                     account_list.append(i[1:])
                 else:
                     ticker = yf.Ticker(i)
