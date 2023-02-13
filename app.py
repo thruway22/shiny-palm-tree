@@ -346,6 +346,8 @@ if csv_file is not None or widgets_length > 0:
                 'scrollZoom': False,
                 'displayModeBar': False
             }
+            dist_fig.update_xaxes(fixedrange=True)
+            dist_fig.update_yaxes(fixedrange=True)
             st.plotly_chart(dist_fig, use_container_width=True, config= dist_config)                 
                 
     
