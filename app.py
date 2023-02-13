@@ -340,8 +340,10 @@ if csv_file is not None or widgets_length > 0:
                 dist_fig.data[idx].name = name
                 #dist_fig.data[idx].hovertemplate = name
             # test    
-
-            st.plotly_chart(dist_fig, use_container_width=True)                 
+            dist_config = {
+                'modeBarButtonsToRemove': ['zoom', 'pan']
+            }
+            st.plotly_chart(dist_fig, use_container_width=True **{'config': dist_config})                 
                 
     
         
