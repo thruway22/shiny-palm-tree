@@ -343,7 +343,7 @@ if csv_file is not None or widgets_length > 0:
             dist_config = {
                 'modeBarButtonsToRemove': ['lasso2d', 'zoom', 'pan', 'select', 'zoomIn', 'zoomOut', 'autoScale', 'resetScale'],
                 'displaylogo': False,
-                'scrollZoom': True,
+                'scrollZoom': False,
                 'displayModeBar': False
             }
             st.plotly_chart(dist_fig, use_container_width=True, config= dist_config)                 
