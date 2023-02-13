@@ -345,11 +345,11 @@ if csv_file is not None or widgets_length > 0:
             dist_fig.update_yaxes(fixedrange=True)
             st.plotly_chart(dist_fig, use_container_width=True, config= {'displayModeBar': False})
 
-            st.table(df[df.index.str.startswith('$') != False])
+            st.table(df[df.index.str.startswith('$') == False])
 
             #fig = px.sunburst(df, path=['sex', 'day', 'time'], values='total_bill', color='day')
             account_list = []
-            for i in df[df.index.str.startswith('$') != False].index:
+            for i in df[df.index.str.startswith('$') == False].index:
                 ticker = yf.Ticker(i)
                 account_list.append(ticker.fast_info['currency'])
             df['account'] = account_list
