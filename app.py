@@ -339,16 +339,10 @@ if csv_file is not None or widgets_length > 0:
             for idx, name in enumerate(variable_names):
                 dist_fig.data[idx].name = name
                 #dist_fig.data[idx].hovertemplate = name
-            # test    
-            dist_config = {
-                'modeBarButtonsToRemove': ['lasso2d', 'zoom', 'pan', 'select', 'zoomIn', 'zoomOut', 'autoScale', 'resetScale'],
-                'displaylogo': False,
-                'scrollZoom': False,
-                'displayModeBar': False
-            }
+
             dist_fig.update_xaxes(fixedrange=True)
             dist_fig.update_yaxes(fixedrange=True)
-            st.plotly_chart(dist_fig, use_container_width=True, config= dist_config)                 
+            st.plotly_chart(dist_fig, use_container_width=True, config= {'displayModeBar': False})                 
                 
     
         
