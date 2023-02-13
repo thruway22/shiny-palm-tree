@@ -347,7 +347,7 @@ if csv_file is not None or widgets_length > 0:
 
             for i in df[df.index.str.startswith('$') != False].index:
                 ticker = yf.Ticker(i)
-                for story in tikcer.news:
+                for story in ticker.news:
                     st.write(story['title'])
                     st.write(story['link'])         
                 
