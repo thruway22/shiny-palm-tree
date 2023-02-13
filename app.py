@@ -296,8 +296,8 @@ if csv_file is not None or widgets_length > 0:
             ))])
 
             flow_fig.update_layout(title_text='Cash Flow Diagram')
-            dist_fig.update_xaxes(fixedrange=True)
-            dist_fig.update_yaxes(fixedrange=True)
+            flow_fig.update_xaxes(fixedrange=True)
+            flow_fig.update_yaxes(fixedrange=True)
             st.plotly_chart(flow_fig, use_container_width=True, config= {'displayModeBar': False})
 
                     
