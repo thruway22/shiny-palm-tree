@@ -343,7 +343,13 @@ if csv_file is not None or widgets_length > 0:
 
             dist_fig.update_xaxes(fixedrange=True)
             dist_fig.update_yaxes(fixedrange=True)
-            st.plotly_chart(dist_fig, use_container_width=True, config= {'displayModeBar': False})                 
+            st.plotly_chart(dist_fig, use_container_width=True, config= {'displayModeBar': False})
+
+            for i in df[df.index.str.startswith($ != False)].index:
+                ticker = yf.Ticker(i)
+                for story in tikcer.news:
+                    st.write(story['title'])
+                    st.write(story['link'])         
                 
     
         
