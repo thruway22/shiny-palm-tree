@@ -358,7 +358,7 @@ if csv_file is not None or widgets_length > 0:
             left, right = st.columns(2)
             left.plotly_chart(
                 px.sunburst(df.reset_index(), path=['account', 'ticker'], values='target_weight', color='account'),
-                use_container_width=True, config= {'displayModeBar': False})
+                use_container_width=True, theme=None, config= {'displayModeBar': False})
             right.plotly_chart(
                 px.sunburst(df.reset_index(), path=['account', 'ticker'], values='post_trade_weight', color='account'),
                 use_container_width=True, config= {'displayModeBar': False})   
