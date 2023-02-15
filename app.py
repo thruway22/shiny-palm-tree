@@ -183,7 +183,7 @@ if csv_file is not None or widgets_length > 0:
                         account = engine.fast_info['currency']
 
                     df = pd.concat([df, pd.DataFrame([{
-                        'ticker': ticker, 'current_shares': shares, 'target_weight': target, 'price': price, 'account' = account 
+                        'ticker': ticker, 'current_shares': shares, 'target_weight': target, 'price': price, 'account': account 
                     }])])
 
                 df = df.set_index('ticker')  
