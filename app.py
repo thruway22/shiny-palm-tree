@@ -163,23 +163,27 @@ if csv_file is not None or widgets_length > 0:
             st.success('Setting target weights successful!')
             
             with st.spinner('Getting ticker data from Yahoo! Finance...'):
-                df = pd.DataFrame({'ticker': [], 'current_shares': [], 'target_weight': [], 'price': []})
+                df = pd.DataFrame({'ticker': [], 'current_shares': [], 'target_weight': [], 'price': [], 'account'= []})
                 important_currency_checkbox = False
                 for step in range(inputs_length):
                     ticker, shares, target = call_input_widgets(step)
 
                     if ticker.startswith('$'):
                         price = get_currency_rate(currency=ticker[1:])
-                    elif ticker.startswith('!$'): #############################
+                        account = ticker[1:]
+                    elif ticker.startswith('!$'):
                         important_currency_checkbox = True
                         important_currency = ticker[1:]
                         ticker = important_currency # remove the '!'
                         price = get_currency_rate(currency=ticker[1:])
+                        account = ticker[1:]
                     else:
-                        price = yf.Ticker(ticker).history()['Close'][-1] * get_currency_rate(ticker=ticker)
+                        engine = yf.Ticker(ticker)
+                        price = engine.history()['Close'][-1] * get_currency_rate(ticker=ticker)
+                        account = engine.fast_info['currency']
 
                     df = pd.concat([df, pd.DataFrame([{
-                        'ticker': ticker, 'current_shares': shares, 'target_weight': target, 'price': price
+                        'ticker': ticker, 'current_shares': shares, 'target_weight': target, 'price': price, 'account' = account 
                     }])])
 
                 df = df.set_index('ticker')  
@@ -347,14 +351,14 @@ if csv_file is not None or widgets_length > 0:
 
             #fig = px.sunburst(df, path=['sex', 'day', 'time'], values='total_bill', color='day')
             
-            account_list = []
-            for i in df.index:
-                if i.startswith('$'):
-                    account_list.append(i[1:])
-                else:
-                    ticker = yf.Ticker(i)
-                    account_list.append(ticker.fast_info['currency'])
-            df['account'] = account_list
+            # account_list = []
+            # for i in df.index:
+            #     if i.startswith('$'):
+            #         account_list.append(i[1:])
+            #     else:
+            #         ticker = yf.Ticker(i)
+            #         account_list.append(ticker.fast_info['currency'])
+            # df['account'] = account_list
             left, right = st.columns(2)
             left.plotly_chart(
                 px.sunburst(df.reset_index(), path=['account', 'ticker'], values='target_weight', color='account'),
