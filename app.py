@@ -163,7 +163,7 @@ if csv_file is not None or widgets_length > 0:
             st.success('Setting target weights successful!')
             
             with st.spinner('Getting ticker data from Yahoo! Finance...'):
-                df = pd.DataFrame({'ticker': [], 'current_shares': [], 'target_weight': [], 'price': [], 'account'= []})
+                df = pd.DataFrame({'ticker': [], 'current_shares': [], 'target_weight': [], 'price': [], 'account': []})
                 important_currency_checkbox = False
                 for step in range(inputs_length):
                     ticker, shares, target = call_input_widgets(step)
