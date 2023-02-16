@@ -262,7 +262,7 @@ if csv_file is not None or widgets_length > 0:
                 values_list.append(abs(sum(v)))
                 sources_length += 1
                 sources_list.append(sources_length)
-                #cash_df
+                cash_df.loc[k] = [abs(sum(v))]
 
             sources_length = len(sources_list) - 1 # left-section: selling
             for i in df[df['output_value'] < 0].index:
