@@ -321,8 +321,9 @@ if csv_file is not None or widgets_length > 0:
 
 
             cash_df.loc['Total'] = [cash_df['Amount'].sum()]
+            cash_df = cash_df.reset_index()
             cash_df.index += 1
-            st.table(cash_df.reset_index().style.format(precision=2, na_rep='', thousands=','))
+            st.table(cash_df.style.format(precision=2, na_rep='', thousands=','))
 
             plan_df = df[df['output_value'] != 0][['price', 'output_unit', 'output_value']].sort_values('output_value').reset_index().rename(columns={
                 'ticker': 'Ticker',
