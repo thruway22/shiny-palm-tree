@@ -308,15 +308,6 @@ if csv_file is not None or widgets_length > 0:
             flow_fig.update_yaxes(fixedrange=True)
             st.plotly_chart(flow_fig, use_container_width=True, config= {'displayModeBar': False})
 
-                    
-            if allow_fractional == False:
-                inflow_cash = total_cash + df[df['output_value'] < 0]['output_value'].abs().sum()
-                st.write(
-                    '''Your total available cash to trade is **\${:.2f}**,
-                    but you can only trade **\${:.2f}** for complete (non-fractional) shares 
-                    with excess cash of **\${:.2f}**.'''.format(inflow_cash, inflow_cash - excess_cash, excess_cash)
-                )
-
             st.header('Plan:')
 
 
@@ -324,6 +315,13 @@ if csv_file is not None or widgets_length > 0:
             cash_df = cash_df.reset_index()
             cash_df.index += 1
             st.table(cash_df.style.format(precision=2, na_rep='', thousands=','))
+            if allow_fractional == False:
+                inflow_cash = total_cash + df[df['output_value'] < 0]['output_value'].abs().sum()
+                st.write(
+                    '''Your total available cash to trade is **\${:.2f}**,
+                    but you can only trade **\${:.2f}** for complete (non-fractional) shares 
+                    with excess cash of **\${:.2f}**.'''.format(inflow_cash, inflow_cash - excess_cash, excess_cash)
+                )
 
             plan_df = df[df['output_value'] != 0][['price', 'output_unit', 'output_value']].sort_values('output_value').reset_index().rename(columns={
                 'ticker': 'Ticker',
