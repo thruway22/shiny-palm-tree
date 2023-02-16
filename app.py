@@ -319,7 +319,7 @@ if csv_file is not None or widgets_length > 0:
 
             st.header('Plan:')
 
-            cash_df.loc['Total'] = [df['Amount'].sum()]
+            cash_df.loc['Total'] = [cash_df['Amount'].sum()]
             st.table(cash_df)
 
             plan_df = df[df['output_value'] != 0][['price', 'output_unit', 'output_value']].sort_values('output_value').reset_index().rename(columns={
