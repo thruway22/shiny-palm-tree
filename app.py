@@ -316,7 +316,7 @@ if csv_file is not None or widgets_length > 0:
 
             st.header('Plan:')
 
-            st.table(cash_df)
+            st.table(cash_df.style.hide_index())
 
             plan_df = df[df['output_value'] != 0][['price', 'output_unit', 'output_value']].sort_values('output_value').reset_index().rename(columns={
                 'ticker': 'Ticker',
