@@ -322,7 +322,6 @@ if csv_file is not None or widgets_length > 0:
                 'output_value': 'Trade Value'})
             plan_df.index += 1
             
-            #st.table(df)
             st.table(plan_df.style.format(precision=2, na_rep='', thousands=','))
             
             dist_fig = px.bar(df, x=df.index, y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], barmode='group')
@@ -349,16 +348,6 @@ if csv_file is not None or widgets_length > 0:
             dist_fig.update_yaxes(fixedrange=True)
             st.plotly_chart(dist_fig, use_container_width=True, config= {'displayModeBar': False})
 
-            #fig = px.sunburst(df, path=['sex', 'day', 'time'], values='total_bill', color='day')
-            
-            # account_list = []
-            # for i in df.index:
-            #     if i.startswith('$'):
-            #         account_list.append(i[1:])
-            #     else:
-            #         ticker = yf.Ticker(i)
-            #         account_list.append(ticker.fast_info['currency'])
-            # df['account'] = account_list
             left, right = st.columns(2)
             left.plotly_chart(
                 px.sunburst(df.reset_index(), path=['account', 'ticker'], values='target_weight', color='account'),
