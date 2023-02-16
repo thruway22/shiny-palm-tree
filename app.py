@@ -254,7 +254,7 @@ if csv_file is not None or widgets_length > 0:
             values_list = [contribution_cash]
             sources_list = [0]
             targets_list = []
-            cash_df = pd.DataFrame({'Item': labels_list, 'Value': values_list}).set_index('Item')
+            cash_df = pd.DataFrame({'Item': labels_list, 'Initial Value': values_list}).set_index('Item')
 
             sources_length = len(sources_list) - 1 # left-section: account cash
             for k, v in account_cash_dict.items():
