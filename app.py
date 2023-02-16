@@ -310,18 +310,22 @@ if csv_file is not None or widgets_length > 0:
 
             st.subheader('Cash Inflow:')
 
+            inflow_cash = total_cash + df[df['output_value'] < 0]['output_value'].abs().sum()
 
             cash_df.loc['Total'] = [cash_df['Amount'].sum()]
             cash_df = cash_df.reset_index()
             cash_df.index += 1
             st.table(cash_df.style.format(precision=2, na_rep='', thousands=','))
-            if allow_fractional == False:
-                inflow_cash = total_cash + df[df['output_value'] < 0]['output_value'].abs().sum()
-                st.write(
-                    '''Your total available cash to trade is **\${:.2f}**,
-                    but you can only trade **\${:.2f}** for complete (non-fractional) shares 
-                    with excess cash of **\${:.2f}**.'''.format(inflow_cash, inflow_cash - excess_cash, excess_cash)
-                )
+            left, middle, right = st.columns(3)
+            left.metric(label='Available Cash', value=inflow_cash)
+
+            # if allow_fractional == False:
+            #     inflow_cash = total_cash + df[df['output_value'] < 0]['output_value'].abs().sum()
+            #     st.write(
+            #         '''Your total available cash to trade is **\${:.2f}**,
+            #         but you can only trade **\${:.2f}** for complete (non-fractional) shares 
+            #         with excess cash of **\${:.2f}**.'''.format(inflow_cash, inflow_cash - excess_cash, excess_cash)
+            #     )
 
             plan_df = df[df['output_value'] != 0][['price', 'output_unit', 'output_value']].sort_values('output_value').reset_index().rename(columns={
                 'ticker': 'Ticker',
