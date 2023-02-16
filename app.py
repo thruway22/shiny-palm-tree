@@ -254,6 +254,7 @@ if csv_file is not None or widgets_length > 0:
             values_list = [contribution_cash]
             sources_list = [0]
             targets_list = []
+            cash_df = pd.DataFrame({'Item': labels_list, 'Value': values_list})
 
             sources_length = len(sources_list) - 1 # left-section: account cash
             for k, v in account_cash_dict.items():
@@ -314,6 +315,8 @@ if csv_file is not None or widgets_length > 0:
                 )
 
             st.header('Plan:')
+
+            st.table(cash_df)
 
             plan_df = df[df['output_value'] != 0][['price', 'output_unit', 'output_value']].sort_values('output_value').reset_index().rename(columns={
                 'ticker': 'Ticker',
