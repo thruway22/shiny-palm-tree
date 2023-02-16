@@ -270,7 +270,7 @@ if csv_file is not None or widgets_length > 0:
                 values_list.append(abs(df['output_value'][i]))
                 sources_length += 1
                 sources_list.append(sources_length)
-                cash_df.loc[i] = [df['output_value'][i]]
+                cash_df.loc[i] = [abs(df['output_value'][i])]
 
             
             labels_list.append('Available Cash')
