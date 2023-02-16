@@ -308,7 +308,7 @@ if csv_file is not None or widgets_length > 0:
             flow_fig.update_yaxes(fixedrange=True)
             st.plotly_chart(flow_fig, use_container_width=True, config= {'displayModeBar': False})
 
-            st.header('Plan:')
+            st.subheader('Plan:')
 
 
             cash_df.loc['Total'] = [cash_df['Amount'].sum()]
