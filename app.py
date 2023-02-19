@@ -306,7 +306,7 @@ if csv_file is not None or widgets_length > 0:
                     color = '#F5F5F5'
             ))])
 
-            flow_fig.update_layout(title_text='Cash Flow Diagram')
+            #flow_fig.update_layout(title_text='Cash Flow Diagram')
             flow_fig.update_xaxes(fixedrange=True)
             flow_fig.update_yaxes(fixedrange=True)
 
