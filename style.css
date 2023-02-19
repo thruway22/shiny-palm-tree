@@ -8,13 +8,9 @@
     position: relative;
     left: 50%;
     transform: translateX(-50%);
-    border-radius: 5px;
-    padding: 5px;
     text-align:center;
     font-family: sans-serif;
-    margin-bottom: 3px;
     font-size:32px;
-    background-color: #E7EFF8;
   }
   
   #metric_label{
