@@ -310,17 +310,6 @@ if csv_file is not None or widgets_length > 0:
             flow_fig.update_xaxes(fixedrange=True)
             flow_fig.update_yaxes(fixedrange=True)
 
-
-            # output = f'''<div id="metric_block">
-            #       <p id="metric_value">{metric1:.2f}{fmt_dict[metric1_fmt]}</p>
-            #       <p id="metric_label">{texts.loc[metric1_label].value}</p>
-            #       <p id="metric_value">{metric2:.2f}{fmt_dict[metric2_fmt]}</p>
-            #       <p id="metric_label">{texts.loc[metric2_label].value}</p>
-            #       <p id="metric_value">{metric3:.2f}{fmt_dict[metric3_fmt]}</p>
-            #       <p id="metric_label">{texts.loc[metric3_label].value}</p>
-            #       </div>'''
-            # return st.markdown(output, unsafe_allow_html=True)
-
             inflow_cash = total_cash + df[df['output_value'] < 0]['output_value'].abs().sum()
 
             metrics_block = '''<div id="metric_block">
@@ -339,26 +328,6 @@ if csv_file is not None or widgets_length > 0:
             cash_df = cash_df.reset_index()
             cash_df.index += 1
             st.table(cash_df.style.format(precision=2, na_rep='', thousands=','))
-
-            # output_text = 'Your total available cash to trade is **\${:.2f}**'.format(inflow_cash)
-            # if allow_fractional == False:
-            #     output_text += ', but you can only trade **\${:.2f}** for complete (non-fractional) shares with excess cash of **\${:.2f}**.'.format(inflow_cash - excess_cash, excess_cash)
-            # else:
-            #     output_text += '.'
-            # st.write(output_text)
-
-            left, middle, right = st.columns(3)
-            left.metric(label='Available Cash', value='${:.2f}'.format(inflow_cash))
-            middle.metric(label='Tradable Cash', value='${:.2f}'.format(inflow_cash - excess_cash))
-            right.metric(label='Excess Cash', value='${:.2f}'.format(excess_cash))
-
-            # if allow_fractional == False:
-            #     inflow_cash = total_cash + df[df['output_value'] < 0]['output_value'].abs().sum()
-            #     st.write(
-            #         '''Your total available cash to trade is **\${:.2f}**,
-            #         but you can only trade **\${:.2f}** for complete (non-fractional) shares 
-            #         with excess cash of **\${:.2f}**.'''.format(inflow_cash, inflow_cash - excess_cash, excess_cash)
-            #     )
 
             plan_df = df[df['output_value'] != 0][['price', 'output_unit', 'output_value']].sort_values('output_value').reset_index().rename(columns={
                 'ticker': 'Ticker',
