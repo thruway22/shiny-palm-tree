@@ -308,18 +308,25 @@ if csv_file is not None or widgets_length > 0:
             flow_fig.update_yaxes(fixedrange=True)
             st.plotly_chart(flow_fig, use_container_width=True, config= {'displayModeBar': False})
 
-            st.subheader('Cash Inflow:')
+            st.header('Detailed Transactions Flow')
 
+            st.subheader('Inflows:')
             inflow_cash = total_cash + df[df['output_value'] < 0]['output_value'].abs().sum()
 
             cash_df.loc['Total'] = [cash_df['Amount'].sum()]
             cash_df = cash_df.reset_index()
             cash_df.index += 1
             st.table(cash_df.style.format(precision=2, na_rep='', thousands=','))
-            left, middle, right = st.columns(3)
-            left.metric(label='Available Cash', value='${:.2f}'.format(inflow_cash))
-            middle.metric(label='Tradable Cash', value='${:.2f}'.format(inflow_cash - excess_cash))
-            right.metric(label='Excess Cash', value='${:.2f}'.format(excess_cash))
+
+            output_text = 'Your total available cash to trade is **\${:.2f}**'.format(inflow_cash)
+            if allow_fractional == False:
+                output_text += ', but you can only trade **\${:.2f}** for complete (non-fractional) shares with excess cash of **\${:.2f}**.'.format(inflow_cash - excess_cash, excess_cash)
+            st.write(output_text)
+
+            # left, middle, right = st.columns(3)
+            # left.metric(label='Available Cash', value='${:.2f}'.format(inflow_cash))
+            # middle.metric(label='Tradable Cash', value='${:.2f}'.format(inflow_cash - excess_cash))
+            # right.metric(label='Excess Cash', value='${:.2f}'.format(excess_cash))
 
             # if allow_fractional == False:
             #     inflow_cash = total_cash + df[df['output_value'] < 0]['output_value'].abs().sum()
