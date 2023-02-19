@@ -257,7 +257,7 @@ if csv_file is not None or widgets_length > 0:
             values_list = [contribution_cash]
             sources_list = [0]
             targets_list = []
-            cash_df = pd.DataFrame({'Item': labels_list, 'Amount ($)': values_list}).set_index('Item')
+            cash_df = pd.DataFrame({'item': labels_list, 'amount': values_list}).set_index('item')
 
             sources_length = len(sources_list) - 1 # left-section: account cash
             for k, v in account_cash_dict.items():
@@ -324,7 +324,7 @@ if csv_file is not None or widgets_length > 0:
             st.markdown(metrics_block, unsafe_allow_html=True)
             st.plotly_chart(flow_fig, use_container_width=True, config= {'displayModeBar': False})
 
-            cash_df.loc['Total'] = [cash_df['Amount ($)'].sum()]
+            #cash_df.loc['Total'] = [cash_df['Amount ($)'].sum()]
             cash_df = cash_df.reset_index()
             cash_df.index += 1
             st.table(cash_df.style.format(precision=2, na_rep='', thousands=','))
