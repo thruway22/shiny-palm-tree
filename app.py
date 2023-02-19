@@ -313,7 +313,7 @@ if csv_file is not None or widgets_length > 0:
             st.subheader('Inflows:')
             inflow_cash = total_cash + df[df['output_value'] < 0]['output_value'].abs().sum()
 
-            cash_df.loc['Total'] = [cash_df['Amount (USD)'].sum()]
+            cash_df.loc['Total'] = [cash_df['Amount'].sum()]
             cash_df = cash_df.reset_index()
             cash_df.index += 1
             st.table(cash_df.style.format(precision=2, na_rep='', thousands=','))
