@@ -7,6 +7,9 @@ import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 from ccy_dict import ccy_dict
 
+with open('style.css') as f:
+    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
 #####  #####  #####  #####  #####  #####  #####
 #####  #####  #####  #####  #####  #####  #####
 
