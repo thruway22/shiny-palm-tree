@@ -331,13 +331,15 @@ if csv_file is not None or widgets_length > 0:
             cash_df = cash_df.rename(columns={'item': 'Item', 'amount': 'Amount ($)'})
             st.table(cash_df.style.format(precision=2, na_rep='', thousands=','))
 
-            plan_df = df[df['output_value'] != 0][['price', 'output_unit', 'output_value']].sort_values('output_value').reset_index().rename(columns={
-                'ticker': 'Ticker',
-                'price': 'Market Price',
-                'output_unit': 'Trade Shares',
-                'output_value': 'Trade Value'})
+            plan_df = df[df['output_value'] != 0 and df.index.startswith('$') == False]
+            plan_df = plan_df[['price', 'output_unit', 'output_value']].sort_values('output_value').reset_index()
             plan_df.index += 1
-            
+            plan_df.loc[''] = ['Total', '', '', plan_df['output_value'].sum()]
+            plan_df = plan_df.rename(columns={
+                'ticker': 'Ticker',
+                'price': 'Market Price ($)',
+                'output_unit': 'Trade Shares (x)',
+                'output_value': 'Trade Amount ($)'})            
             st.table(plan_df.style.format(precision=2, na_rep='', thousands=','))
             
             dist_fig = px.bar(df, x=df.index, y=['pre_trade_weight', 'target_weight', 'post_trade_weight'], barmode='group')
