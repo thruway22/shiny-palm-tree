@@ -321,6 +321,8 @@ if csv_file is not None or widgets_length > 0:
             output_text = 'Your total available cash to trade is **\${:.2f}**'.format(inflow_cash)
             if allow_fractional == False:
                 output_text += ', but you can only trade **\${:.2f}** for complete (non-fractional) shares with excess cash of **\${:.2f}**.'.format(inflow_cash - excess_cash, excess_cash)
+            else:
+                output_text += '.'
             st.write(output_text)
 
             left, middle, right = st.columns(3)
