@@ -324,9 +324,11 @@ if csv_file is not None or widgets_length > 0:
             st.markdown(metrics_block, unsafe_allow_html=True)
             st.plotly_chart(flow_fig, use_container_width=True, config= {'displayModeBar': False})
 
-            #cash_df.loc['Total'] = [cash_df['Amount ($)'].sum()]
-            cash_df = cash_df.reset_index().rename(columns={'item': 'Item', 'amount': 'Amount ($)'})
+            
+            cash_df = cash_df.reset_index()
             cash_df.index += 1
+            cash_df.loc[''] = ['Total', cash_df['amount'].sum()]
+            cash_df = cash_df.rename(columns={'item': 'Item', 'amount': 'Amount ($)'})
             st.table(cash_df.style.format(precision=2, na_rep='', thousands=','))
 
             plan_df = df[df['output_value'] != 0][['price', 'output_unit', 'output_value']].sort_values('output_value').reset_index().rename(columns={
