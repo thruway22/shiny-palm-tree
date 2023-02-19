@@ -323,10 +323,10 @@ if csv_file is not None or widgets_length > 0:
                 output_text += ', but you can only trade **\${:.2f}** for complete (non-fractional) shares with excess cash of **\${:.2f}**.'.format(inflow_cash - excess_cash, excess_cash)
             st.write(output_text)
 
-            # left, middle, right = st.columns(3)
-            # left.metric(label='Available Cash', value='${:.2f}'.format(inflow_cash))
-            # middle.metric(label='Tradable Cash', value='${:.2f}'.format(inflow_cash - excess_cash))
-            # right.metric(label='Excess Cash', value='${:.2f}'.format(excess_cash))
+            left, middle, right = st.columns(3)
+            left.metric(label='Available Cash', value='${:.2f}'.format(inflow_cash))
+            middle.metric(label='Tradable Cash', value='${:.2f}'.format(inflow_cash - excess_cash))
+            right.metric(label='Excess Cash', value='${:.2f}'.format(excess_cash))
 
             # if allow_fractional == False:
             #     inflow_cash = total_cash + df[df['output_value'] < 0]['output_value'].abs().sum()
