@@ -1,0 +1,27 @@
+#metric_block{
+    column-count: 3;
+  }
+  
+  #metric_value {
+    column-span: 1;
+    display: inline-block;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 5px;
+    background-color: #E7EFF8;
+    padding: 5px;
+    direction: rtl;
+    text-align:center;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    margin-bottom: 3px;
+    font-weight: bold;
+  }
+  
+  #metric_label{
+    column-span: 1;
+    direction: rtl;
+    text-align:center;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size:10px;
+  }
